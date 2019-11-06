@@ -1,0 +1,77 @@
+﻿@model LightBlog.Services.InDto.UserSingUpInDto
+
+@{
+    ViewData["Title"] = "SignUp";
+}
+<style>
+
+    .container .login-panel {
+        margin: auto;
+        width: 400px;
+        padding: 3rem;
+        border-radius: 1rem;
+    }
+
+    .panel-header {
+        text-align: center;
+        margin-bottom: 10%;
+    }
+
+    .login-remember {
+        display: flex;
+        align-items: center;
+    }
+
+    .remember-me {
+        font-weight: 400;
+        font-size: 10px;
+        margin: .25rem;
+    }
+
+    .login-message {
+        color: #dc3545;
+        font-size: 2px;
+    }
+</style>
+<hr />
+
+<div class="container">
+    <div class="login-panel">
+        <div class="panel-header">
+            <h3>用户注册</h3>
+        </div>
+        <div class="panel-body">
+            <form asp-action="SignUp">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                @{
+                    if (ViewBag.LoginInfor != "")
+                    {
+                        var infor = (string)ViewBag.LoginInfor;
+                        <div class="form-group login-message">
+                            <label>*@Html.Raw(Model.InvalidInfo)</label>
+                        </div>
+                    }
+                }
+                <div class="form-group">
+                    <input type="submit" value="注册" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+
+    </div>
+</div>
+

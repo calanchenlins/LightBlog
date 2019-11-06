@@ -1,0 +1,46 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
+
+# Copy Released Dll To '$(build.artifactstagingdirectory)'
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)'
+    Contents: '**/bin/Release/**/?(*.exe|*.dll)'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+    flattenFolders: true
+
+- task: CmdLine@2
+  inputs:
+    script: |
+      echo 'Copied Files List In build.artifactstagingdirectory:'
+      cd $(build.artifactstagingdirectory)
+      ls -R
+      echo 'End'
+    workingDirectory: '$(Build.ArtifactStagingDirectory)'
+
+# Publish Files To Artifact In Azure Pipeline
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'LightBlog Build Artifact'
+    publishLocation: 'Container'
+
+# build Kane.Blake.util by cake
+#- task: Bash@3
+#  inputs:
+#    filePath: '$(System.DefaultWorkingDirectory)/build.sh'

@@ -1,0 +1,207 @@
+﻿@model LightBlog.Models.PostDetailViewModel
+@using System.Text.Encodings.Web;
+@using LightBlog.Infrastruct.Entities;
+@using LightBlog.Services;
+@inject IUserService<User> UserService
+@inject JavaScriptEncoder encoder;
+
+@{
+    ViewData["Title"] = "PostDetail";
+    var AuthFlag = UserService.IsAuthenticated()==true?1:0;
+    Layout = "_BlogLayout";
+}
+<link rel="stylesheet" href="~/lib/markdown/highlight/styles/default.css">
+<link href="https://cdn.bootcss.com/element-ui/2.11.1/theme-chalk/index.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
+<script src="https://cdn.bootcss.com/qs/6.8.0/qs.js"></script>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+<script src="https://cdn.bootcss.com/element-ui/2.11.1/index.js"></script>
+<style>
+    body {
+        background-color: #f0eef5;
+    }
+
+    .bodyRule {
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+        border-top: 1px solid rgb(0, 0, 0);
+    }
+
+    .postContainer {
+        background-color: #fff;
+    }
+
+    .postTitle {
+        margin-bottom: 20px;
+    }
+
+    .postDetail {
+        overflow: hidden;
+        padding: 20px;
+        /*border: 1px solid #dedede;*/
+        border: 1px solid #c6cbd0;
+        box-shadow: 0 0 10rem rgba(0,0,0,0.1);
+    }
+
+    .post-entry {
+        width: 100%;
+        word-break: break-all;
+        color: #999;
+    }
+
+    .post-comment {
+        margin: 10px;
+        border-bottom: 1px dotted #5b6a6d;
+    }
+
+    .comment-content {
+        margin: 2px;
+        text-indent: 1em;
+    }
+</style>
+
+<hr class="bodyRule" />
+@{
+    var postUrl = "/blog/" + Model.AuthorName + "/" + Model.PostId;
+    var blogUrl = "/blog/" + Model.AuthorName;
+    var title = Model.Title;
+    var mdInstance = Model;
+}
+<div id="post-detail-view"></div>
+@*<div class="postContainer">
+        <div class="postDetail">
+            <div class="postTitle">
+                <h1>
+                    <a href="@postUrl">@title</a>
+                </h1>
+            </div>
+            <div id="postContent"></div>
+            <hr />
+            <div class="post-entry">
+                <a href="@blogUrl" class="">@mdInstance.AuthorName</a>&nbsp;&nbsp;发布于 @mdInstance.Published
+                <span class="">
+                    <a href="" title="0001-01-01 08:05" class="gray">
+                        评论(@mdInstance.Comments.Count)
+                    </a>
+                </span>
+                <span class="">阅读(@mdInstance.PostViews)</span>
+            </div>
+        </div>
+    </div>*@
+
+
+<script type="text/x-template" id="post-detail-view-template">
+    <div class="postContainer" v-loading.fullscreen.lock="loading">
+        <div class="postDetail">
+            <div class="postTitle">
+                <h1>
+                    <a :href="'/blog/'+Model.AuthorName+'/'+Model.PostId">{{Model.Title}}</a>
+                </h1>
+            </div>
+            <div id="postContent"></div>
+            <hr />
+            <div class="post-entry">
+                <a :href="'/blog/'+Model.AuthorName" class="">{{Model.AuthorName}}</a>&nbsp;&nbsp;发布于 {{new Date(Model.Published).toLocaleString()}}
+                <span class="">
+                    <a href="" title="0001-01-01 08:05" class="gray">
+                        评论({{Model.Comments.length}})
+                    </a>
+                </span>
+                <span class="">阅读({{Model.PostViews}})</span>
+            </div>
+            <hr class="bodyRule" />
+            <div class="post-comments">
+                <div class="post-comment" v-for="comment in Model.Comments">
+                    <div>{{comment.CommentatorName}} 评论于：{{new Date(comment.CreatedTime).toLocaleString()}}</div>
+                    <div class="comment-content">{{comment.Content}}</div>
+                </div>
+                <div v-if="authFlag" style="width:50%">
+                    <el-input type="textarea"
+                              :autosize="{ minRows: 2, maxRows: 4}"
+                              placeholder="请输入内容"
+                              v-model="draftComment"
+                              maxlength="200"
+                              show-word-limit>
+                    </el-input>
+                    <el-button type="info" v-on:click="PubComment">提交评论</el-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</script>
+<script src="~/lib/markdown/highlight/highlight.pack.js"></script>
+<script src="~/lib/markdown/marked/marked.min.js"></script>
+<script>
+    var postId ='@Html.Raw(Model.PostId)';
+    var user = {
+        id:'@Html.Raw(UserService.UserId)',
+        name:'@Html.Raw(UserService.UserName)'
+    }
+    debugger
+    var authFlag =@AuthFlag;
+    var postContent = '@encoder.Encode(Model.Content)';
+    var modelData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+    var rendererMD = new marked.Renderer();
+    const service = axios.create({
+        baseURL: '/',
+        timeout: 5000
+    })
+    marked.setOptions({
+        renderer: rendererMD,
+        gfm: true,
+        tables: true,
+        breaks: false,
+        pedantic: false,
+        sanitize: false,
+        smartLists: true,
+        smartypants: false
+    });
+    var component = {
+        template: '#post-detail-view-template',
+        data() {
+            return {
+                Model: modelData,
+                loading: false,
+                authFlag,
+                draftComment:''
+            }
+        },
+        mounted: function () {
+            this.$nextTick(function () {
+                document.getElementById('postContent').innerHTML =
+                    marked(modelData.Content);
+                hljs.initHighlightingOnLoad();
+            })
+        },
+        methods: {
+            PubComment() {
+                if (this.draftComment.trim() === '') {
+                    return;
+                }
+                this.loading = true;
+                service({
+                    url: 'pm/CommentPost',
+                    method: 'post',
+                    data: {
+                        BlogId: postId,
+                        Content: this.draftComment
+                    }
+                }).then((response) => {
+                    modelData.Comments.push({
+                        CommentatorName: user.name,
+                        Content: this.draftComment,
+                        CreatedTime: Date()
+                    });
+                    this.draftComment=''
+                    this.loading = false;
+                }).catch((error) => {
+                    this.loading = false;
+                })
+            }
+        }
+    };
+    var Ctor = Vue.extend(component);
+    var postsView = new Ctor();
+    postsView.$mount('#post-detail-view');
+</script>

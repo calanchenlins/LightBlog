@@ -1,0 +1,15 @@
+﻿using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace LightBlog.Common.Logging.File
+{
+    public class FileLoggerOptions
+    {
+        public LogLevel LogLevel { get; set; } = LogLevel.None;
+
+        public string FileName { get; set; }
+    }
+}

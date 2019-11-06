@@ -1,0 +1,119 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+              crossorigin="anonymous"
+              integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" />
+    </environment>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        body, html {
+            background-color: #f4f4f4;
+            height: 100%;
+        }
+        .container {
+            display: flex;
+            height: 100%;
+        }
+        .container .login-panel {
+            background-color: #fff;
+            margin: auto;
+            width: 400px;
+            padding: 3rem;
+            border-radius: 1rem;
+            box-shadow: 0 0 10rem rgba(0,0,0,0.1);
+        }
+        .panel-header {
+            text-align: center;
+            margin-bottom: 10%;
+        }
+        .login-remember {
+            display: flex;
+            align-items: center;
+        }
+        .remember-me {
+            font-weight: 400;
+            font-size: 10px;
+            margin: .25rem;
+        }
+        .login-message {
+            color: #dc3545;
+            font-size:2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-panel">
+            <div class="panel-header">
+                <h3>用户登录</h3>
+            </div>
+            <div class="panel-body">
+
+                <form action="" method="post">
+                    <input type="hidden" id="ReturnUrl" name="ReturnUrl" value="@ViewBag.ReturnUrl">
+
+                    <fieldset>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="demo" autofocus="" type="text" data-val="true" data-val-required="The Username field is required." id="Username" name="Username" value="">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" placeholder="demo" autocomplete="off" data-val="true" data-val-required="The Password field is required." id="Password" name="Password">
+                        </div>
+                        <div class="form-group login-remember">
+                            <input type="checkbox" data-val="true" data-val-required="The RememberLogin field is required." id="RememberLogin" name="RememberLogin" value="true">
+                            <label for="RememberLogin" class="remember-me">记住登陆</label>
+                        </div>
+                        @{
+                            if (ViewBag.LoginInfor != null)
+                            {
+                                var infor = (string)ViewBag.LoginInfor;
+                                <div class="form-group login-message">
+                                    <label>*@infor</label>
+                                </div>
+                            }
+                        }
+                        <div class="form-group" align="center">
+                            <button class="btn btn-primary" name="button" value="login">登陆</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha256-E/V4cWE4qvAeO5MOhjtGtqDzPndRO1LBk8lJ/PR7CA4=">
+        </script>
+    </environment>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>

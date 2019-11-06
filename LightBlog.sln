@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29209.152
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0329A478-7696-4489-9F01-61CA6ECB014B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightBlog", "src\LightBlog\LightBlog.csproj", "{287CABFF-5F9A-4B6A-9D61-A54247C0AC91}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "KaneBlake", "KaneBlake", "{DE736364-2FF7-4E76-9F3F-BCCA2DF7C67F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{564BE833-421C-4882-AA38-CBBAF1D30213}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
+		build\build.cake = build\build.cake
+		build.ps1 = build.ps1
+		build.sh = build.sh
+		build\BuildParams.cake = build\BuildParams.cake
+		build\index.cake = build\index.cake
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C8A8EC3C-A0FA-475B-8A75-8EFBA4BEE016}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{D5DC9524-538E-4D91-80EB-C0A33B10E99F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaneBlake.Basis", "src\KaneBlake\Basis\KaneBlake.Basis.csproj", "{7CB78B26-E23F-48E7-B515-E6C7F914552B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{287CABFF-5F9A-4B6A-9D61-A54247C0AC91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{287CABFF-5F9A-4B6A-9D61-A54247C0AC91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{287CABFF-5F9A-4B6A-9D61-A54247C0AC91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{287CABFF-5F9A-4B6A-9D61-A54247C0AC91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CB78B26-E23F-48E7-B515-E6C7F914552B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CB78B26-E23F-48E7-B515-E6C7F914552B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CB78B26-E23F-48E7-B515-E6C7F914552B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CB78B26-E23F-48E7-B515-E6C7F914552B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{287CABFF-5F9A-4B6A-9D61-A54247C0AC91} = {0329A478-7696-4489-9F01-61CA6ECB014B}
+		{DE736364-2FF7-4E76-9F3F-BCCA2DF7C67F} = {0329A478-7696-4489-9F01-61CA6ECB014B}
+		{7CB78B26-E23F-48E7-B515-E6C7F914552B} = {DE736364-2FF7-4E76-9F3F-BCCA2DF7C67F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {40B31C11-0E2F-4F50-8684-4C275C88FEB8}
+	EndGlobalSection
+EndGlobal

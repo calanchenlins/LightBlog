@@ -35,8 +35,12 @@ namespace LightBlog.Common.Logging.File
             {
                 return;
             }
+            var StackTrace = exception==null ?"": $@"
+            *************************************************************************************
+            {exception.StackTrace ?? ""}
+            *************************************************************************************";
             var message = formatter(state, exception);
-            _fileLoggerProcess.EnqueueMessage($@"{logLevel}[{_categoryName}]{message}");
+            _fileLoggerProcess.EnqueueMessage($@"{logLevel}[{_categoryName}]{message}{StackTrace}");
         }
     }
 }

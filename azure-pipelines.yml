@@ -20,7 +20,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)'
-    Contents: '**/bin/Release/netcoreapp3.0/publish/**/?(*.exe|*.dll)'
+    Contents: '**/bin/Release/netcoreapp3.0/**/?(*.exe|*.dll)'
     TargetFolder: '$(build.artifactstagingdirectory)'
     flattenFolders: true
 

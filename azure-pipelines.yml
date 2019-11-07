@@ -13,14 +13,16 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+#- script: dotnet build --configuration $(buildConfiguration)
+#  displayName: 'dotnet build $(buildConfiguration)'
+- script: dotnet publish --configuration $(buildConfiguration) --self-contained false -r linux-x64
+  displayName: 'dotnet publish --configuration $(buildConfiguration) --self-contained false -r linux-x64'
 
 # Copy Released Dll To '$(build.artifactstagingdirectory)'
 - task: CopyFiles@2
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)'
-    Contents: '**/bin/Release/netcoreapp3.0/?(*.exe|*.dll)'
+    Contents: '**/bin/$(buildConfiguration)/**/publish/?(*.exe|*.dll)'
     #Contents: '**/bin/Release/netcoreapp3.0/**/?(*.exe|*.dll)'
     TargetFolder: '$(build.artifactstagingdirectory)'
     flattenFolders: true

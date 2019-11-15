@@ -8,6 +8,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Extras.DynamicProxy;
 using AutoMapper;
+using KaneBlake.Basis.Diagnostics.Abstractions;
 using KaneBlake.Basis.Domain.Repositories;
 using LightBlog.Common.AOP.CommonCache;
 using LightBlog.Common.Diagnostics;
@@ -77,6 +78,9 @@ namespace LightBlog
 
             services.AddSingleton<IHomeCacheService, HomeCacheServiceV2>();
 
+
+            services.AddSingleton<IDiagnosticProcessor, HomeCacheDiagnosticProcessor>();
+
             services.AddTransient<IRepository<Post, int>, PostRepository>();
 
             //services.AddSingleton<IHomeCacheService, HomeCacheService>(sp=> {
@@ -105,7 +109,7 @@ namespace LightBlog
                       options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                   });
 
-            services.AddSingleton<DiagnosticProcessorObserver>();
+            
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -158,7 +162,7 @@ namespace LightBlog
             });
 
 
-            DiagnosticListener.AllListeners.Subscribe(app.ApplicationServices.GetRequiredService<DiagnosticProcessorObserver>());
+            //DiagnosticListener.AllListeners.Subscribe(app.ApplicationServices.GetRequiredService<DiagnosticProcessorObserver>());
         }
     }
 }

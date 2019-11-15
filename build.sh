@@ -8,4 +8,4 @@ dotnet tool install --global cake.tool
 export PATH="$PATH:$HOME/.dotnet/tools"
 
 # Start Cake
-dotnet cake $SCRIPT
+dotnet cake $SCRIPT "$@"

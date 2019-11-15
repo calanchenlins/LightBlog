@@ -35,6 +35,10 @@ namespace LightBlog.Common.Logging.File
             {
                 return;
             }
+            if (exception != null)
+            {
+                var t = "";
+            }
             var StackTrace = exception==null ?"": $@"
             *************************************************************************************
             {exception.StackTrace ?? ""}

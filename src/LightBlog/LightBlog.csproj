@@ -25,4 +25,7 @@
     <ProjectReference Include="..\KaneBlake\Basis\KaneBlake.Basis.csproj" />
   </ItemGroup>
 
+
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
 </Project>

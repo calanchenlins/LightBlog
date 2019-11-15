@@ -1,10 +1,13 @@
-#load "./build/index.cake"
+#load "./index.cake"
 
 ///////////////////////////////////////////////////////////////////////////////
 // ARGUMENTS
 ///////////////////////////////////////////////////////////////////////////////
-var build = BuildParameters.Create(Context);
-var target = Argument("target", "Default");//需要执行的目标任务
+var rootPath = "../";   //根目录
+var build = BuildParameters.Create(Context,rootPath);
+var target = Argument("target", "Default");//指定默认执行的目标任务 
+// usage: dotnet cake ./build/build.cake -target=Restore
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // SETUP / TEARDOWN
@@ -29,9 +32,9 @@ Teardown(ctx =>
 Task("Clean")
 	.Does(() =>
 {
-	if (DirectoryExists("./artifacts"))
+	if (DirectoryExists($"{rootPath}artifacts"))
 	{
-		DeleteDirectory("./artifacts", new DeleteDirectorySettings(){
+		DeleteDirectory($"{rootPath}artifacts", new DeleteDirectorySettings(){
             Force = true,
             Recursive = true
         });
@@ -42,7 +45,11 @@ Task("Restore")
 	.IsDependentOn("Clean")
 	.Does(() =>
 {
-	DotNetCoreRestore();
+	foreach (var solution in build.SolutionFiles)
+	{
+		Information($"Restore solution: {solution.FullPath}");
+		DotNetCoreRestore(solution.FullPath);
+	}
 });
 
 Task("Build")
@@ -55,6 +62,7 @@ Task("Build")
          //OutputDirectory = "./artifacts/"
     };
 
+	Information($"*************************build.Configuration: {build.Configuration}");
     // DotNetCoreBuild("./Kane.Blake.sln", settings);
     // DotNetCoreBuild("./src/utils/Kane.Blake.Utils.Logging/Kane.Blake.Utils.Logging.csproj", settings);
     foreach (var project in build.ProjectFiles)
@@ -87,7 +95,7 @@ Task("Pack")
 	{
 		Configuration = build.Configuration,
 		IncludeSymbols = true,
-		OutputDirectory = "./artifacts/packages"
+		OutputDirectory = $"{rootPath}artifacts/packages"
 	};
 	foreach (var project in build.ProjectFiles)
 	{

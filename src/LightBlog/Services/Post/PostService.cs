@@ -26,8 +26,11 @@ namespace LightBlog.Services
 
         private readonly IHttpContextAccessor _httpContextAccessor;
 
+        /// <summary>
+        /// Diagnostics 的优势在于可以修改传递的对象
+        /// </summary>
         private static readonly DiagnosticListener s_diagnosticListener =
-    new DiagnosticListener(DiagnosticListenerName.PostServiceDiagnosticListenerName);
+    new DiagnosticListener(LightBlogDiagnosticListenerExtensions.DiagnosticListenerName);
 
         public PostService(IRepository<Post, int> postRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
@@ -64,7 +67,7 @@ namespace LightBlog.Services
             {
                 post.AddComment(input.Content, user.UserId, user.UserName);
                 _postRepository.Complete();
-                s_diagnosticListener.Write("AddComment", post.Id);
+                s_diagnosticListener.WriteAddPostCommentAfter(post.Id);
                 return ServiceHelp<bool>.SetSuccessResponse(true);
             }
             return ServiceHelp<bool>.SetSuccessResponse(false);
@@ -79,7 +82,7 @@ namespace LightBlog.Services
                 post.SetAuthor(user.UserId, user.UserName);
                 _postRepository.Add(post);
                 _postRepository.Complete();
-                s_diagnosticListener.Write("AddOrUpdate", post);
+                s_diagnosticListener.WriteAddOrUpdatePostAfter(post);
                 return ServiceHelp<bool>.SetSuccessResponse(true);
             }
             return ServiceHelp<bool>.SetBadResponse();
@@ -95,7 +98,7 @@ namespace LightBlog.Services
             {
                 _postRepository.Remove(post);
                 _postRepository.Complete();
-                s_diagnosticListener.Write("Delete", post.Id);
+                s_diagnosticListener.WriteDeletePostAfter(post.Id);
             }
             return ServiceHelp<bool>.SetSuccessResponse(true);
         }
@@ -110,7 +113,7 @@ namespace LightBlog.Services
             {
                 post?.Edit(input.Title, input.EntryName, input.Content, input.Excerpt);
                 _postRepository.Complete();
-                s_diagnosticListener.Write("AddOrUpdate", post);
+                s_diagnosticListener.WriteAddOrUpdatePostAfter(post);
             }
             return ServiceHelp<bool>.SetSuccessResponse(true);
         }

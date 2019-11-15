@@ -1,21 +1,24 @@
 public class BuildParameters
 {
-	public BuildParameters(ICakeContext context)
+	public BuildParameters(ICakeContext context,string rootPath)
 	{
 		Context = context;
+		RootPath = rootPath;
 	}
 
+	public string RootPath { get; }
 	public ICakeContext Context { get; }
 
 	public string Configuration { get; private set; }
+	public FilePathCollection SolutionFiles { get; set; }
 	public DirectoryPathCollection Projects { get; set; }
 	public DirectoryPathCollection TestProjects { get; set; }
 	public FilePathCollection ProjectFiles { get; set; }
 	public FilePathCollection TestProjectFiles { get; set; }
 
-	public static BuildParameters Create(ICakeContext context)
+	public static BuildParameters Create(ICakeContext context,string rootPath)
 	{
-		var buildParameters = new BuildParameters(context);
+		var buildParameters = new BuildParameters(context,rootPath);
 		buildParameters.Initialize();
 		return buildParameters;
 	}
@@ -28,10 +31,11 @@ public class BuildParameters
 
 	private void InitializeCore()
 	{
-		Projects = Context.GetDirectories("./src/*");
-		TestProjects = Context.GetDirectories("./test/*");
-		ProjectFiles = Context.GetFiles("./src/*/*/*.csproj");
-		TestProjectFiles = Context.GetFiles("./test/*/*.csproj");
-        Configuration = "Release";
+		Projects = Context.GetDirectories($"{RootPath}src/*");
+		TestProjects = Context.GetDirectories($"{RootPath}test/*");
+		ProjectFiles = Context.GetFiles($"{RootPath}src/**/*.csproj");
+		TestProjectFiles = Context.GetFiles($"{RootPath}test/**/*.csproj");
+		SolutionFiles = Context.GetFiles($"{RootPath}**/*.sln");
+		Configuration = Context.Argument("Configuration", "Release");
 	}
 }

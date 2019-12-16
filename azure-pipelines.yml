@@ -10,22 +10,30 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
+  buildtarget: 'Publish'
   buildConfiguration: 'Release'
+  buildRuntime: 'linux-x64'
 
 steps:
-#- script: dotnet build --configuration $(buildConfiguration)
-#  displayName: 'dotnet build $(buildConfiguration)'
-- script: dotnet publish --configuration $(buildConfiguration) --self-contained false -r linux-x64
-  displayName: 'dotnet publish --configuration $(buildConfiguration) --self-contained false -r linux-x64'
 
-# Copy Released Dll To '$(build.artifactstagingdirectory)'
+# Install DotNetSdk 3.x
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '3.x'
+
+# build with cake
+- task: Bash@3
+  inputs:
+    filePath: '$(System.DefaultWorkingDirectory)/build.sh -target=$(buildtarget) -Configuration=$(buildConfiguration) -Runtime=$(buildRuntime)'
+
+# Copy Publish directory To '$(build.artifactstagingdirectory)'
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(Build.SourcesDirectory)'
-    Contents: '**/bin/$(buildConfiguration)/**/publish/?(*.exe|*.dll)'
-    #Contents: '**/bin/Release/netcoreapp3.0/**/?(*.exe|*.dll)'
+    SourceFolder: '$(Build.SourcesDirectory)/publish'
+    Contents: '**'
     TargetFolder: '$(build.artifactstagingdirectory)'
-    flattenFolders: true
+    flattenFolders: false
 
 - task: CmdLine@2
   inputs:
@@ -42,8 +50,3 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'LightBlog Build Artifact'
     publishLocation: 'Container'
-
-# build Kane.Blake.util by cake
-#- task: Bash@3
-#  inputs:
-#    filePath: '$(System.DefaultWorkingDirectory)/build.sh'

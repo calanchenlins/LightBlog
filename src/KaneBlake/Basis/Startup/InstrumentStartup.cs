@@ -1,4 +1,4 @@
-﻿using KaneBlake.Basis.Diagnostics;
+﻿using KaneBlake.Basis.Extensions.Diagnostics;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

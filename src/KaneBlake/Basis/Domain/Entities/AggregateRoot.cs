@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
 namespace KaneBlake.Basis.Domain.Entities
 {
     /// <summary>
-    /// 实体抽象类
+    /// 聚合根抽象类
     /// </summary>
     /// <typeparam name="TPrimaryKey"></typeparam>
-    public abstract class Entity<TPrimaryKey>: IEntity<TPrimaryKey>
+    public abstract class AggregateRoot<TPrimaryKey> : IAggregateRoot<TPrimaryKey>
     {
-        [Required]
         public virtual TPrimaryKey Id { get; set; }
     }
 }

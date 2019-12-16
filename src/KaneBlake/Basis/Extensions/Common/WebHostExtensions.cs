@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LightBlog.Common
+namespace KaneBlake.Basis.Extensions.Common
 {
     public static class WebHostExtensions
     {

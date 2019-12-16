@@ -8,7 +8,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Extras.DynamicProxy;
 using AutoMapper;
-using KaneBlake.Basis.Diagnostics.Abstractions;
+using KaneBlake.Basis.Extensions.Diagnostics.Abstractions;
 using KaneBlake.Basis.Domain.Repositories;
 using LightBlog.Common.AOP.CommonCache;
 using LightBlog.Common.Diagnostics;
@@ -138,6 +138,10 @@ namespace LightBlog
             }
             else
             {
+                // always use 'throw;' it maintain stack trace details
+                // never use 'throw ex;' because it doesn’t maintain the stack trace details
+                // https://source.dot.net/#Microsoft.AspNetCore.Diagnostics/ExceptionHandler/ExceptionHandlerMiddleware.cs
+                // https://github.com/dotnet-architecture/eShopOnContainers/blob/dev/src/Services/Catalog/Catalog.API/Infrastructure/Filters/HttpGlobalExceptionFilter.cs
                 app.UseExceptionHandler("/Home/Error");
                 // Use Ngix to add_header Strict-Transport-Security "max-age=63072000; includeSubdomains; preload";
                 //app.UseHsts(); // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
@@ -150,10 +154,11 @@ namespace LightBlog
 
 
             app.UseAuthentication();
-            app.UseAuthorization(); // 放在 UseAuthentication 之后
+            
 
 
             app.UseRouting();
+            app.UseAuthorization(); // 放在 UseAuthentication 之后
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

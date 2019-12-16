@@ -1,11 +1,11 @@
 ﻿using AspectCore.Extensions.Reflection;
-using KaneBlake.Basis.Diagnostics.Abstractions;
+using KaneBlake.Basis.Extensions.Diagnostics.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace KaneBlake.Basis.Diagnostics
+namespace KaneBlake.Basis.Extensions.Diagnostics
 {
     public interface IParameterResolver
     {

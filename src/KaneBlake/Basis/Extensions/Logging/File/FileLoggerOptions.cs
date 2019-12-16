@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LightBlog.Common.Logging.File
+namespace KaneBlake.Basis.Extensions.Logging.File
 {
     public class FileLoggerOptions
     {

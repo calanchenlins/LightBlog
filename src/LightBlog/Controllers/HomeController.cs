@@ -8,7 +8,7 @@ using LightBlog.Models;
 using static LightBlog.Models.PostsViewModel;
 using LightBlog.Services;
 using System.Net;
-using LightBlog.Common.Logging.File;
+using KaneBlake.Basis.Extensions.Logging.File;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Distributed;

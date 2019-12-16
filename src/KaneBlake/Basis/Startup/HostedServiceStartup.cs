@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
-using KaneBlake.Basis.Diagnostics;
+using KaneBlake.Basis.Extensions.Diagnostics;
 
 [assembly: HostingStartup(typeof(KaneBlake.Basis.Startup.HostedServiceStartup))]
 namespace KaneBlake.Basis.Startup

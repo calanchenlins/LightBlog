@@ -5,7 +5,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 
-namespace LightBlog.Common.Logging.File
+namespace KaneBlake.Basis.Extensions.Logging.File
 {
     public class FileLoggerProvider : ILoggerProvider
     {

@@ -11,13 +11,13 @@ namespace LightBlog.Common.Diagnostics
     {
         public const string DiagnosticListenerName = "LightBlogDiagnosticListener";
 
-        private const string CapPrefix = "LightBlog.HomeCache.";
+        private const string LightBlogPrefix = "LightBlog.HomeCache.";
 
-        public const string AfterPostAddComment = CapPrefix + nameof(WriteAddPostCommentAfter);
+        public const string AfterPostAddComment = LightBlogPrefix + nameof(WriteAddPostCommentAfter);
 
-        public const string AfterDeletePost = CapPrefix + nameof(WriteDeletePostAfter);
+        public const string AfterDeletePost = LightBlogPrefix + nameof(WriteDeletePostAfter);
 
-        public const string AfterAddOrUpdatePost = CapPrefix + nameof(WriteAddOrUpdatePostAfter);
+        public const string AfterAddOrUpdatePost = LightBlogPrefix + nameof(WriteAddOrUpdatePostAfter);
 
         public static void WriteAddPostCommentAfter(this DiagnosticListener @this, int postId)
         {

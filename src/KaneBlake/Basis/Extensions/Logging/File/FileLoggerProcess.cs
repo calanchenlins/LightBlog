@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
-namespace LightBlog.Common.Logging.File
+namespace KaneBlake.Basis.Extensions.Logging.File
 {
     public class FileLoggerProcess : IDisposable
     {
@@ -101,7 +101,10 @@ namespace LightBlog.Common.Logging.File
                 fileName = _fileName.Trim()==""?"log.txt":_fileName;
                 // Directory.GetCurrentDirectory() 会得到IIS目录
                 // https://github.com/aspnet/AspNetCore/issues/4206
-                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
+                var baseDirectory = Directory.GetParent(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).FullName).FullName; 
+                // AppDomain.CurrentDomain.BaseDirectory 输出 
+                // C:\WorkStation\Code\GitHubCode\LightBlog\src\LightBlog\bin\Debug\netcoreapp3.1\
+                var path = Path.Combine(baseDirectory, fileName);
                 LogFileStream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
                 LogFileStream.Seek(0, SeekOrigin.End);
                 LogFileWriter = new StreamWriter(LogFileStream);

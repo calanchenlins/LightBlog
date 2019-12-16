@@ -39,27 +39,42 @@ Task("Clean")
             Recursive = true
         });
 	}
+	if (DirectoryExists($"{rootPath}publish"))
+	{
+		DeleteDirectory($"{rootPath}publish", new DeleteDirectorySettings(){
+            Force = true,
+            Recursive = true
+        });
+	}
 });
 
 Task("Restore")
 	.IsDependentOn("Clean")
 	.Does(() =>
 {
+	var settings = new DotNetCoreRestoreSettings
+    {
+		 Runtime = build.Runtime
+		 //,Force = true // force all dependencies to be resolved even if the last restore was successful. This is equivalent to deleting the project.assets.json file
+		 //,NoCache = true //cache packages and http requests.
+    };
 	foreach (var solution in build.SolutionFiles)
 	{
 		Information($"Restore solution: {solution.FullPath}");
-		DotNetCoreRestore(solution.FullPath);
+		DotNetCoreRestore(solution.FullPath,settings);
 	}
 });
 
+// build All ProjectFile
 Task("Build")
-.IsDependentOn("Restore")
+	.IsDependentOn("Restore")
     .Does(() =>
 {
     var settings = new DotNetCoreBuildSettings
     {
-         Configuration = build.Configuration
-         //OutputDirectory = "./artifacts/"
+         Configuration = build.Configuration,
+		 NoRestore = true,// config of 'Runtime' in Restore and Build must be same
+		 Runtime = build.Runtime
     };
 
 	Information($"*************************build.Configuration: {build.Configuration}");
@@ -69,24 +84,49 @@ Task("Build")
 	{
 		DotNetCoreBuild(project.FullPath, settings);
 	}
-    
 });
 
-Task("Test")
+Task("RunTest")
 	.IsDependentOn("Build")
 	.Does(() =>
 {
 	var settings = new DotNetCoreTestSettings
     {
-         Configuration = build.Configuration,
-		 NoBuild = false
+		NoRestore = true //// config of 'Runtime、Configuration' in RunTest and Build must be same
+		,NoBuild = true
+		,Runtime = build.Runtime
+		,Configuration = build.Configuration
+		
     };
-
 	foreach (var testProject in build.TestProjectFiles)
 	{
 		DotNetCoreTest(testProject.FullPath, settings);
 	}
 });
+
+
+// publish Web ProjectFile
+Task("Publish")
+	.IsDependentOn("RunTest")
+	.Does(() =>
+{
+	// https://cakebuild.net/api/Cake.Common.Tools.DotNetCore.Publish/DotNetCorePublishSettings/
+	var settings = new DotNetCorePublishSettings
+	{
+		NoRestore = false,
+		NoBuild = false,
+		Configuration = build.Configuration,
+		Runtime = build.Runtime, // 指定目标运行时的情况下, SelfContained 默认为true
+		SelfContained = false
+	};
+	foreach (var project in build.WebProjectFiles)
+	{
+		var projectName =project.GetFilenameWithoutExtension().ToString();
+		settings.OutputDirectory = $"{rootPath}publish/{projectName}";
+		DotNetCorePublish(project.FullPath, settings);
+	}
+});
+
 
 Task("Pack")
 	.Does(() =>
@@ -105,12 +145,10 @@ Task("Pack")
 
 
 Task("Default")
-    .IsDependentOn("Build")
-    .IsDependentOn("Test")
-    .IsDependentOn("Pack")
+    .IsDependentOn("Publish")
     .Does(() =>
 {
-
+	
 });
 
 RunTarget(target);

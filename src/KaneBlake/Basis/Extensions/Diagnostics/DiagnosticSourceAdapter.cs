@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using KaneBlake.Basis.Diagnostics.Abstractions;
+using KaneBlake.Basis.Extensions.Diagnostics.Abstractions;
 using Microsoft.Extensions.Logging;
 
-namespace KaneBlake.Basis.Diagnostics
+namespace KaneBlake.Basis.Extensions.Diagnostics
 {
     public class DiagnosticSourceAdapter : IObserver<KeyValuePair<string, object>>
     {

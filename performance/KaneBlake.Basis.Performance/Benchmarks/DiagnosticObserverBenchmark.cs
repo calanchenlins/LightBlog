@@ -1,6 +1,4 @@
 ﻿using BenchmarkDotNet.Attributes;
-using KaneBlake.Basis.Diagnostics;
-using KaneBlake.Basis.Diagnostics.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
@@ -9,6 +7,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using Microsoft.Extensions.DiagnosticAdapter;
+using KaneBlake.Basis.Extensions.Diagnostics.Abstractions;
+using KaneBlake.Basis.Extensions.Diagnostics;
 
 namespace KaneBlake.Basis.Performance.Benchmarks
 {

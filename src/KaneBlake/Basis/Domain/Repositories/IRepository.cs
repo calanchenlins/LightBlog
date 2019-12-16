@@ -12,7 +12,7 @@ namespace KaneBlake.Basis.Domain.Repositories
     /// 聚合根实现泛型仓储接口
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public interface IRepository<TEntity, TPrimaryKey> : IUnitOfWork where TEntity : Entity<TPrimaryKey>
+    public interface IRepository<TEntity, TPrimaryKey> : IUnitOfWork where TEntity : IEntity<TPrimaryKey>
     {
         IQueryable<TEntity> Get();
 

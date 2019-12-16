@@ -12,7 +12,7 @@ namespace KaneBlake.Basis.Infrastruct.EntityFrameworkCore
     /// EF对IRepository的实现
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public abstract class EFRepository<TEntity> : IRepository<TEntity, int> where TEntity : Entity<int>
+    public abstract class EFRepository<TEntity> : IRepository<TEntity, int> where TEntity : class, IEntity<int>
     {
         public virtual DbContext Context { get; private set; }
 

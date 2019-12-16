@@ -1,4 +1,4 @@
-﻿using LightBlog.Common.Logging.File;
+﻿using KaneBlake.Basis.Extensions.Logging.File;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LightBlog.Common.Logging
+namespace KaneBlake.Basis.Extensions.Logging
 {
     public static class LoggerExtensions
     {

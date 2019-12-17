@@ -9,10 +9,6 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-variables:
-  buildtarget: 'Publish'
-  buildConfiguration: 'Release'
-  buildRuntime: 'linux-x64'
 
 steps:
 
@@ -26,7 +22,7 @@ steps:
 - task: Bash@3
   inputs:
     filePath: '$(System.DefaultWorkingDirectory)/build.sh'
-    arguments: '-target=$(buildtarget) -Configuration=$(buildConfiguration) -Runtime=$(buildRuntime)'
+    arguments: '-verbosity=$(cakeVerbosity) -target=$(cakeTaskName) -Configuration=$(buildConfiguration) -Runtime=$(buildRuntime)'
 
 # Copy Publish directory To '$(build.artifactstagingdirectory)'
 - task: CopyFiles@2

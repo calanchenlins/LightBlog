@@ -12,6 +12,8 @@ public class BuildParameters
 
 	public string Configuration { get; private set; }
 	public string Runtime { get; private set; }
+	public string Version { get; set; }
+
 	public FilePathCollection SolutionFiles { get; set; }
 	public DirectoryPathCollection Projects { get; set; }
 	public DirectoryPathCollection TestProjects { get; set; }
@@ -43,6 +45,7 @@ public class BuildParameters
 
 		Configuration = Context.Argument("Configuration", "Release");
 		Runtime = Context.Argument("Runtime", "linux-x64");
+		Version = Context.Argument("Version", "0.1.0");
 
 		foreach (var projectFile in ProjectFiles)
 		{

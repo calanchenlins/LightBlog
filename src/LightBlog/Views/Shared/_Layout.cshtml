@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Authorization;
 @using LightBlog.Infrastruct.Entities;
 @using LightBlog.Services;
+@using LightBlog.Common;
 @inject IAuthorizationService AuthorizationService
 @inject IUserService<User> UserService
 <!DOCTYPE html>
@@ -75,7 +76,7 @@
         <div id="footer" class="row">
             <footer class="border-top footer text-muted">
                 <div class="container">
-                    &copy; 2019 - CoreBlog - CI/CD All IN - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    &copy; 2019 - CoreBlog - @AppInfo.Version -CI/CD All IN - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                 </div>
             </footer>
         </div>

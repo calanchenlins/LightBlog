@@ -1,3 +1,5 @@
+#tool "nuget:?package=GitVersion.CommandLine&version=5.1.2"
+#addin "nuget:?package=Cake.Incubator&version=5.1.0"
 #load "./index.cake"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -65,16 +67,32 @@ Task("Restore")
 	}
 });
 
+// Show GitVersion Info
+Task("GitVersion")
+    //.IsDependentOn("Publish")
+    .Does(() =>
+{
+	var gitVersionResults = GitVersion(new GitVersionSettings {
+    });
+	build.Version = gitVersionResults.InformationalVersion;
+	Information("GitVersion Info:");
+	Information(gitVersionResults.Dump());
+});
+
 // build All ProjectFile
 Task("Build")
 	.IsDependentOn("Restore")
+	.IsDependentOn("GitVersion")
     .Does(() =>
 {
+	var MSBuildSettings = new DotNetCoreMSBuildSettings();
+	MSBuildSettings.SetVersion(build.Version);
     var settings = new DotNetCoreBuildSettings
     {
          Configuration = build.Configuration,
 		 NoRestore = true,// config of 'Runtime' in Restore and Build must be same
-		 Runtime = build.Runtime
+		 Runtime = build.Runtime,
+		 MSBuildSettings = MSBuildSettings
     };
 
 	Information($"*************************build.Configuration: {build.Configuration}");
@@ -111,13 +129,17 @@ Task("Publish")
 	.Does(() =>
 {
 	// https://cakebuild.net/api/Cake.Common.Tools.DotNetCore.Publish/DotNetCorePublishSettings/
+	var MSBuildSettings = new DotNetCoreMSBuildSettings();
+	MSBuildSettings.SetVersion(build.Version);
+
 	var settings = new DotNetCorePublishSettings
 	{
 		NoRestore = false,
 		NoBuild = false,
 		Configuration = build.Configuration,
 		Runtime = build.Runtime, // 指定目标运行时的情况下, SelfContained 默认为true
-		SelfContained = false
+		SelfContained = false,
+		MSBuildSettings = MSBuildSettings
 	};
 	foreach (var project in build.WebProjectFiles)
 	{
@@ -148,7 +170,7 @@ Task("Default")
     .IsDependentOn("Publish")
     .Does(() =>
 {
-	
+
 });
 
 RunTarget(target);

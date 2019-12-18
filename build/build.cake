@@ -1,4 +1,3 @@
-#tool "nuget:?package=GitVersion.CommandLine&version=5.1.2"
 #addin "nuget:?package=Cake.Incubator&version=5.1.0"
 #load "./index.cake"
 

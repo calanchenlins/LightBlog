@@ -67,6 +67,7 @@ Task("Restore")
 });
 
 // Show GitVersion Info
+// Depends on GitVersion.Tool(dotnet global tool)
 Task("GitVersion")
     //.IsDependentOn("Publish")
     .Does(() =>

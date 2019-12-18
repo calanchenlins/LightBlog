@@ -5,9 +5,9 @@
 # Define default arguments.
 SCRIPT="./build/build.cake"
 
-DotNetCoreTOOLS_DIR = $HOME/.dotnet/tools
-CAKE_EXE = Join-Path $DotNetCoreTOOLS_DIR/dotnet-cake
-GITVERSION_EXE = $DotNetCoreTOOLS_DIR/dotnet-gitversion
+DotNetCoreTOOLS_DIR=$HOME/.dotnet/tools
+CAKE_EXE=$DotNetCoreTOOLS_DIR/dotnet-cake
+GITVERSION_EXE=$DotNetCoreTOOLS_DIR/dotnet-gitversion
 
 # dotnetCore Global Tools are installed in the following directories by default when you specify the -g (or --global) option:
 # Linux/macOS    $HOME/.dotnet/tools
@@ -17,7 +17,7 @@ GITVERSION_EXE = $DotNetCoreTOOLS_DIR/dotnet-gitversion
 if [ ! -f "$CAKE_EXE" ]; then
     echo "Install Cake.Tool..."
     dotnet tool install --global Cake.Tool
-    export PATH="$PATH:$HOME/.dotnet/tools"
+    
 else
     echo "dotnet-cake --version:"
     dotnet-cake --version
@@ -32,9 +32,8 @@ else
     echo "dotnet-gitversion /version:"
     dotnet-gitversion /version
 fi
-dotnet tool install --global GitVersion.Tool
 
-
+export PATH="$PATH:$HOME/.dotnet/tools"
 
 # Start Cake
 dotnet-cake $SCRIPT "$@"

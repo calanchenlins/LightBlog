@@ -24,10 +24,10 @@ steps:
     filePath: '$(System.DefaultWorkingDirectory)/build.sh'
     arguments: '-verbosity=$(cakeVerbosity) -target=$(cakeTaskName) -Configuration=$(buildConfiguration) -Runtime=$(buildRuntime)'
 
-# Copy Publish directory To '$(build.artifactstagingdirectory)'
+# Copy PublishDirectory && TestResults To '$(build.artifactstagingdirectory)'
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(Build.SourcesDirectory)/publish'
+    SourceFolder: '$(Build.SourcesDirectory)/artifacts'
     Contents: '**'
     TargetFolder: '$(build.artifactstagingdirectory)'
     flattenFolders: false

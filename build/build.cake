@@ -40,13 +40,6 @@ Task("Clean")
             Recursive = true
         });
 	}
-	if (DirectoryExists($"{rootPath}publish"))
-	{
-		DeleteDirectory($"{rootPath}publish", new DeleteDirectorySettings(){
-            Force = true,
-            Recursive = true
-        });
-	}
 });
 
 Task("Restore")
@@ -69,7 +62,6 @@ Task("Restore")
 // Show GitVersion Info
 // Depends on GitVersion.Tool(dotnet global tool)
 Task("GitVersion")
-    //.IsDependentOn("Publish")
     .Does(() =>
 {
 	var gitVersionResults = GitVersion(new GitVersionSettings {
@@ -114,10 +106,14 @@ Task("RunTest")
 		,NoBuild = true
 		,Runtime = build.Runtime
 		,Configuration = build.Configuration
+		// https://github.com/Microsoft/vstest-docs/blob/master/docs/report.md#syntax-of-default-loggers
+		,Logger = "xunit" // <PackageReference Include="XunitXml.TestLogger" Version="2.1.26" />
 		
     };
 	foreach (var testProject in build.TestProjectFiles)
 	{
+		var projectName = testProject.GetFilenameWithoutExtension().ToString();
+		settings.ResultsDirectory = $"{rootPath}artifacts/TestResults/{projectName}";
 		DotNetCoreTest(testProject.FullPath, settings);
 	}
 });
@@ -144,7 +140,7 @@ Task("Publish")
 	foreach (var project in build.WebProjectFiles)
 	{
 		var projectName =project.GetFilenameWithoutExtension().ToString();
-		settings.OutputDirectory = $"{rootPath}publish/{projectName}";
+		settings.OutputDirectory = $"{rootPath}artifacts/publish/{projectName}";
 		DotNetCorePublish(project.FullPath, settings);
 	}
 });

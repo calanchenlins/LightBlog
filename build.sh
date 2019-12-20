@@ -14,6 +14,28 @@ GITVERSION_EXE=$DotNetCoreTOOLS_DIR/dotnet-gitversion
 
 # Install  Cake.tool
 # Make sure that Cake has been installed.
+if [ ! -x "$(command -v dotnet-cake)" ]; then
+    echo "Install Cake.Tool..."
+    dotnet tool install --global Cake.Tool
+else
+    echo "dotnet-cake --version:"
+    dotnet-cake --version
+fi
+
+
+# 将命令执行结果赋值给环境变量的两种方式
+# a=`ls -l`  
+# a=$(ls -l)  
+# 将错误输出重定向到标准输出 2>&1
+CAKE_INSTALLED_VERSION=$($CAKE_EXE --version 2>&1)
+CAKE_REQUIREMENT_VERSION="0.35.0"
+
+if [ "$CAKE_INSTALLED_VERSION" != "$CAKE_REQUIREMENT_VERSION" ]; then
+    echo "wrong Version"
+else
+    echo "right Version"
+fi
+
 if [ ! -f "$CAKE_EXE" ]; then
     echo "Install Cake.Tool..."
     dotnet tool install --global Cake.Tool

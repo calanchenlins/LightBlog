@@ -113,7 +113,7 @@ Task("RunTest")
 	foreach (var testProject in build.TestProjectFiles)
 	{
 		var projectName = testProject.GetFilenameWithoutExtension().ToString();
-		settings.ResultsDirectory = $"{rootPath}artifacts/TestResults/{projectName}";
+		settings.ResultsDirectory = $"{rootPath}artifacts/TestResults";// /{projectName}
 		DotNetCoreTest(testProject.FullPath, settings);
 	}
 });

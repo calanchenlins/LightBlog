@@ -39,6 +39,8 @@ steps:
       cd $(build.artifactstagingdirectory)
       ls -R
       echo 'End'
+      echo $(GitVersionVariable.aa)
+      echo "##vso[task.setvariable variable=GitVersionVariable.aa]0.9.0"
     workingDirectory: '$(Build.ArtifactStagingDirectory)'
 
 # Publish Files To Artifact In Azure Pipeline
@@ -47,3 +49,9 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'LightBlog Build Artifact'
     publishLocation: 'Container'
+
+- task: CmdLine@2
+  inputs:
+    script: |
+      echo $(GitVersionVariable.aa)
+    workingDirectory: '$(Build.ArtifactStagingDirectory)'

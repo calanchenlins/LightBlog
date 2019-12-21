@@ -69,19 +69,32 @@ stages:
       inputs:
         script: |
           cd $(Pipeline.Workspace)
-          echo 'Start'
-          ls -R
-          echo 'End'
-          echo Hello world
+          echo 'Pipeline.Workspace:'
+          pwd
+          cd $(System.ArtifactsDirectory)
+          echo 'System.ArtifactsDirectory:'
+          pwd
     - task: DownloadPipelineArtifact@2
       inputs:
         buildType: 'current'
         artifactName: 'drop2'
-        targetPath: '$(Pipeline.Workspace)'
+        targetPath: '$(Pipeline.Workspace)/cs2'
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'drop'
+        downloadPath: '$(System.ArtifactsDirectory)/cs'
     - task: CmdLine@2
       inputs:
         script: |
-          cd $(Pipeline.Workspace)
+          cd $(Pipeline.Workspace)/cs2
+          pwd
+          echo 'Start'
+          ls -R
+          echo 'End'
+          cd $(System.ArtifactsDirectory)/cs
+          pwd
           echo 'Start'
           ls -R
           echo 'End'

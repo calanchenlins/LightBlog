@@ -50,4 +50,30 @@ stages:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop'
         publishLocation: 'Container'
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Build.ArtifactStagingDirectory)'
+        artifact: 'drop2'
+        publishLocation: 'pipeline'
 
+  - job: 'PushDockerImage'
+    pool:
+      vmImage: 'ubuntu-latest'
+      name: 'Azure Pipelines'
+    variables:
+      KB.Container.RegistryNameSpace: 'kane-blake'
+    steps:
+    - checkout: none
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'current'
+        artifactName: 'drop2'
+        targetPath: '$(Pipeline.Workspace)'
+    - task: CmdLine@2
+      inputs:
+        script: |
+          cd $(Pipeline.Workspace)
+          echo 'Start'
+          ls -R
+          echo 'End'
+          echo Hello world

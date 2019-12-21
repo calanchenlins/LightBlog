@@ -74,28 +74,25 @@ stages:
           ls -R
           echo 'End'
     # Set Variables for Next Task
-    - task: CmdLine@2
-      inputs:
-        script: |
-          imageVersion=`cat version`
-          echo "version: $imageVersion"
-          echo "##vso[task.setvariable variable=KB.Container.Image.Version;]$imageVersion"
-          KBRepositoryName=$(Build.Repository.Id)
-          echo KBRepositoryName: $KBRepositoryName
-          KBRepositoryName=${KBRepositoryName,,}
-          KBRepositoryName=${KBRepositoryName//\//-}
-          echo KBRepositoryName: $KBRepositoryName
-          echo "##vso[task.setvariable variable=KB.Container.Repository.Name;]$KBRepositoryName"
-        workingDirectory: '$(Build.ArtifactStagingDirectory)/publish'
     # Set Variables for Next Job(Next Task Cannot access output variables)
     - task: CmdLine@2
       name: 'SetContainerImageInfo'
       inputs:
         script: |
+          imageVersion=`cat version`
+          echo "read version from file: $imageVersion"
+          KBRepositoryName=$(Build.Repository.Id)
+          KBRepositoryName=${KBRepositoryName,,}
+          KBRepositoryName=${KBRepositoryName//\//-}
+          echo 'get RepositoryName from Build.Repository.Id: $KBRepositoryName'
+          echo "##vso[task.setvariable variable=KB.Container.Repository.Name;]$KBRepositoryName"
+          echo "##vso[task.setvariable variable=KB.Container.Image.Version;]$imageVersion"
           echo "##vso[task.setvariable variable=KB.Container.Repository.Name;isOutput=true]$(KB.Container.Repository.Name)"
           echo "##vso[task.setvariable variable=KB.Container.Image.Version;isOutput=true]$(KB.Container.Image.Version)"
           echo KB.Container.Repository.Name: $(KB.Container.Repository.Name)
-          echo KBRepositoryName: $(KB.Container.Image.Version)
+          echo KB.Container.Image.Version: $(KB.Container.Image.Version)
+        workingDirectory: '$(Build.ArtifactStagingDirectory)/publish'
+
     - task: Docker@2
       inputs:
         containerRegistry: '阿里云容器镜像私有仓库服务'

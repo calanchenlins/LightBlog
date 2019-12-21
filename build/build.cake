@@ -166,7 +166,7 @@ Task("Default")
     .IsDependentOn("Publish")
     .Does(() =>
 {
-
+	Information($"##vso[task.setvariable variable=GitVersion;]9.9.9");
 });
 
 RunTarget(target);

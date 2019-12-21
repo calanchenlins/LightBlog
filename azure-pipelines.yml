@@ -6,45 +6,48 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'ubuntu-latest'
+stages:
+- stage: build
+  jobs:
+  - job: 'BuildAndPush'
+    pool:
+      vmImage: 'ubuntu-latest'
+      name: 'Azure Pipelines'
+    steps:
+    # Install DotNetSdk 3.x
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '3.x'
 
+    # build with Cake
+    - task: Bash@3
+      inputs:
+        filePath: '$(System.DefaultWorkingDirectory)/build.sh'
+        arguments: '-verbosity=$(cakeVerbosity) -target=$(cakeTaskName) -Configuration=$(buildConfiguration) -Runtime=$(buildRuntime)'
 
-steps:
+    # Copy PublishDirectory && TestResults To '$(build.artifactstagingdirectory)'
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)/artifacts'
+        Contents: '**'
+        TargetFolder: '$(build.artifactstagingdirectory)'
+        flattenFolders: false
 
-# Install DotNetSdk 3.x
-- task: UseDotNet@2
-  inputs:
-    packageType: 'sdk'
-    version: '3.x'
+    # Show Files IN '$(build.artifactstagingdirectory)'    
+    - task: CmdLine@2
+      inputs:
+        script: |
+          echo 'Copied Files List In build.artifactstagingdirectory:'
+          cd $(build.artifactstagingdirectory)
+          ls -R
+          echo 'End'
+        workingDirectory: '$(Build.ArtifactStagingDirectory)'
 
-# build with Cake
-- task: Bash@3
-  inputs:
-    filePath: '$(System.DefaultWorkingDirectory)/build.sh'
-    arguments: '-verbosity=$(cakeVerbosity) -target=$(cakeTaskName) -Configuration=$(buildConfiguration) -Runtime=$(buildRuntime)'
+    # Publish BuildArtifacts In AzurePipelines
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
 
-# Copy PublishDirectory && TestResults To '$(build.artifactstagingdirectory)'
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(Build.SourcesDirectory)/artifacts'
-    Contents: '**'
-    TargetFolder: '$(build.artifactstagingdirectory)'
-    flattenFolders: false
-
-# Show Files IN '$(build.artifactstagingdirectory)'
-- task: CmdLine@2
-  inputs:
-    script: |
-      echo 'Copied Files List In build.artifactstagingdirectory:'
-      cd $(build.artifactstagingdirectory)
-      ls -R
-      echo 'End'
-    workingDirectory: '$(Build.ArtifactStagingDirectory)'
-
-# Publish BuildArtifacts In AzurePipelines
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'

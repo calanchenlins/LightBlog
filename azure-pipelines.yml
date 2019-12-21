@@ -73,6 +73,7 @@ stages:
           echo 'Start'
           ls -R
           echo 'End'
+    # Set Variables for Next Task
     - task: CmdLine@2
       inputs:
         script: |
@@ -86,21 +87,15 @@ stages:
           echo KBRepositoryName: $KBRepositoryName
           echo "##vso[task.setvariable variable=KB.Container.Repository.Name;]$KBRepositoryName"
         workingDirectory: '$(Build.ArtifactStagingDirectory)/publish'
+    # Set Variables for Next Job(Next Task Cannot access output variables)
     - task: CmdLine@2
+      name: 'SetContainerImageInfo'
       inputs:
         script: |
-          echo "##vso[task.setvariable variable=KB.Container.Repository.Name2;isOutput=true]$(KB.Container.Repository.Name)"
-          echo "##vso[task.setvariable variable=KB.Container.Image.Version2;isOutput=true]$(KB.Container.Image.Version)"
+          echo "##vso[task.setvariable variable=KB.Container.Repository.Name;isOutput=true]$(KB.Container.Repository.Name)"
+          echo "##vso[task.setvariable variable=KB.Container.Image.Version;isOutput=true]$(KB.Container.Image.Version)"
           echo KB.Container.Repository.Name: $(KB.Container.Repository.Name)
           echo KBRepositoryName: $(KB.Container.Image.Version)
-    - task: CmdLine@2
-      inputs:
-        script: |
-          echo KB.Container.Repository.Name: $(KB.Container.Repository.Name)
-          echo KBRepositoryName: $(KB.Container.Image.Version)
-          echo KB.Container.Repository.Name2: $(KB.Container.Repository.Name2)
-          echo KBRepositoryName2: $(KB.Container.Image.Version2)
-
     - task: Docker@2
       inputs:
         containerRegistry: '阿里云容器镜像私有仓库服务'
@@ -114,8 +109,8 @@ stages:
       name: 'ContainerOnNoteBook'
     dependsOn: 'BuildAndPushDockerImage'
     variables:
-      KB.Container.Repository.Name: $[ dependencies.BuildAndPushDockerImage.outputs['KB.Container.Repository.Name2'] ]
-      KB.Container.Image.Version: $[ dependencies.BuildAndPushDockerImage.outputs['KB.Container.Image.Version2'] ]
+      KB.Container.Repository.Name: $[ dependencies.BuildAndPushDockerImage.outputs['SetContainerImageInfo.KB.Container.Repository.Name'] ]
+      KB.Container.Image.Version: $[ dependencies.BuildAndPushDockerImage.outputs['SetContainerImageInfo.KB.Container.Image.Version'] ]
     steps:
     - checkout: none
     - task: CmdLine@2
@@ -123,5 +118,3 @@ stages:
         script: |
           echo KB.Container.Repository.Name: $(KB.Container.Repository.Name)
           echo KBRepositoryName: $(KB.Container.Image.Version)
-          echo KB.Container.Repository.Name2: $(KB.Container.Repository.Name2)
-          echo KBRepositoryName2: $(KB.Container.Image.Version2)

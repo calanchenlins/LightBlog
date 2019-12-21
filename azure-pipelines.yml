@@ -62,8 +62,17 @@ stages:
       name: 'Azure Pipelines'
     variables:
       KB.Container.RegistryNameSpace: 'kane-blake'
+    dependsOn: 'BuildAndPush'
     steps:
     - checkout: none
+    - task: CmdLine@2
+      inputs:
+        script: |
+          cd $(Pipeline.Workspace)
+          echo 'Start'
+          ls -R
+          echo 'End'
+          echo Hello world
     - task: DownloadPipelineArtifact@2
       inputs:
         buildType: 'current'

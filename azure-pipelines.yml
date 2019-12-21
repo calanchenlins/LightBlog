@@ -18,17 +18,11 @@ steps:
     packageType: 'sdk'
     version: '3.x'
 
-# build with cake
+# build with Cake
 - task: Bash@3
   inputs:
     filePath: '$(System.DefaultWorkingDirectory)/build.sh'
     arguments: '-verbosity=$(cakeVerbosity) -target=$(cakeTaskName) -Configuration=$(buildConfiguration) -Runtime=$(buildRuntime)'
-
-- task: CmdLine@2
-  inputs:
-    script: |
-      echo $(aa)
-    workingDirectory: '$(Build.ArtifactStagingDirectory)'
 
 # Copy PublishDirectory && TestResults To '$(build.artifactstagingdirectory)'
 - task: CopyFiles@2
@@ -38,6 +32,7 @@ steps:
     TargetFolder: '$(build.artifactstagingdirectory)'
     flattenFolders: false
 
+# Show Files IN '$(build.artifactstagingdirectory)'
 - task: CmdLine@2
   inputs:
     script: |
@@ -45,20 +40,11 @@ steps:
       cd $(build.artifactstagingdirectory)
       ls -R
       echo 'End'
-      echo $(aa)
-      echo "##vso[task.setvariable variable=aa]0.9.0"
-      echo $(aa)
     workingDirectory: '$(Build.ArtifactStagingDirectory)'
 
-# Publish Files To Artifact In Azure Pipeline
+# Publish BuildArtifacts In AzurePipelines
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'LightBlog Build Artifact'
+    ArtifactName: 'drop'
     publishLocation: 'Container'
-
-- task: CmdLine@2
-  inputs:
-    script: |
-      echo $(aa)
-    workingDirectory: '$(Build.ArtifactStagingDirectory)'

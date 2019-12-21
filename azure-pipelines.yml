@@ -91,3 +91,11 @@ stages:
         script: |
           echo KB.Container.Repository.Name: $(KB.Container.Repository.Name)
           echo KBRepositoryName: $(KB.Container.Image.Version)
+    - task: Docker@2
+      inputs:
+        containerRegistry: '阿里云容器镜像私有仓库服务'
+        repository: '$(KB.Container.RegistryNameSpace)/$(KB.Container.Repository.Name)'
+        command: 'buildAndPush'
+        Dockerfile: '$(Build.ArtifactStagingDirectory)/publish/LightBlog/Dockerfile'
+        buildContext: '$(Build.ArtifactStagingDirectory)/publish/LightBlog'
+        tags: '$(KB.Container.Image.Version)'

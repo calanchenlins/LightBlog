@@ -9,7 +9,7 @@ trigger:
 stages:
 - stage: build
   jobs:
-  - job: 'BuildAndPush'
+  - job: 'BuildArtifacts'
     pool:
       vmImage: 'ubuntu-latest'
       name: 'Azure Pipelines'
@@ -51,13 +51,13 @@ stages:
         artifact: 'drop'
         publishLocation: 'pipeline'
 
-  - job: 'PushDockerImage'
+  - job: 'BuildAndPushDockerImage'
     pool:
       vmImage: 'ubuntu-latest'
       name: 'Azure Pipelines'
     variables:
       KB.Container.RegistryNameSpace: 'kane-blake'
-    dependsOn: 'BuildAndPush'
+    dependsOn: 'BuildArtifacts'
     steps:
     - checkout: none
     - task: DownloadPipelineArtifact@2
@@ -89,8 +89,18 @@ stages:
     - task: CmdLine@2
       inputs:
         script: |
+          echo "##vso[task.setvariable variable=KB.Container.Repository.Name2;isOutput=true]$(KB.Container.Repository.Name)"
+          echo "##vso[task.setvariable variable=KB.Container.Image.Version2;isOutput=true]$(KB.Container.Image.Version)"
           echo KB.Container.Repository.Name: $(KB.Container.Repository.Name)
           echo KBRepositoryName: $(KB.Container.Image.Version)
+    - task: CmdLine@2
+      inputs:
+        script: |
+          echo KB.Container.Repository.Name: $(KB.Container.Repository.Name)
+          echo KBRepositoryName: $(KB.Container.Image.Version)
+          echo KB.Container.Repository.Name2: $(KB.Container.Repository.Name2)
+          echo KBRepositoryName2: $(KB.Container.Image.Version2)
+
     - task: Docker@2
       inputs:
         containerRegistry: '阿里云容器镜像私有仓库服务'
@@ -99,3 +109,16 @@ stages:
         Dockerfile: '$(Build.ArtifactStagingDirectory)/publish/LightBlog/Dockerfile'
         buildContext: '$(Build.ArtifactStagingDirectory)/publish/LightBlog'
         tags: '$(KB.Container.Image.Version)'
+  - job: 'PullAndRunContainer'
+    pool:
+      name: 'ContainerOnNoteBook'
+    dependsOn: 'BuildAndPushDockerImage'
+    steps:
+    - checkout: none
+    - task: CmdLine@2
+      inputs:
+        script: |
+          echo KB.Container.Repository.Name: $(KB.Container.Repository.Name)
+          echo KBRepositoryName: $(KB.Container.Image.Version)
+          echo KB.Container.Repository.Name2: $(KB.Container.Repository.Name2)
+          echo KBRepositoryName2: $(KB.Container.Image.Version2)

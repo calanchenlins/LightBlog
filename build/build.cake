@@ -1,4 +1,5 @@
 #addin "nuget:?package=Cake.Incubator&version=5.1.0"
+#addin "Cake.FileHelpers&version=3.2.1"
 #load "./index.cake"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -144,6 +145,11 @@ Task("Publish")
 		DotNetCorePublish(project.FullPath, settings);
 	}
 	Information($"##vso[task.setvariable variable=aa;]9.9.9");
+	var gitVersionResults = GitVersion(new GitVersionSettings() {});
+	var mdata = new FilePath($"{rootPath}artifacts/publish/version");
+	Information(mdata.FullPath);
+	FileWriteText(mdata, $@"{gitVersionResults.SemVer}");//{gitVersionResults.BranchName}.{gitVersionResults.Sha}
+	//FileWriteText
 });
 
 
@@ -167,7 +173,7 @@ Task("Default")
     .IsDependentOn("Publish")
     .Does(() =>
 {
-	
+
 });
 
 RunTarget(target);

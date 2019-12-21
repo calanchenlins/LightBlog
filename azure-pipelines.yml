@@ -24,6 +24,12 @@ steps:
     filePath: '$(System.DefaultWorkingDirectory)/build.sh'
     arguments: '-verbosity=$(cakeVerbosity) -target=$(cakeTaskName) -Configuration=$(buildConfiguration) -Runtime=$(buildRuntime)'
 
+- task: CmdLine@2
+  inputs:
+    script: |
+      echo $(aa)
+    workingDirectory: '$(Build.ArtifactStagingDirectory)'
+
 # Copy PublishDirectory && TestResults To '$(build.artifactstagingdirectory)'
 - task: CopyFiles@2
   inputs:
@@ -41,6 +47,7 @@ steps:
       echo 'End'
       echo $(aa)
       echo "##vso[task.setvariable variable=aa]0.9.0"
+      echo $(aa)
     workingDirectory: '$(Build.ArtifactStagingDirectory)'
 
 # Publish Files To Artifact In Azure Pipeline

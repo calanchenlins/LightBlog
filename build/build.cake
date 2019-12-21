@@ -143,6 +143,7 @@ Task("Publish")
 		settings.OutputDirectory = $"{rootPath}artifacts/publish/{projectName}";
 		DotNetCorePublish(project.FullPath, settings);
 	}
+	Information($"##vso[task.setvariable variable=GitVersion;]9.9.9");
 });
 
 
@@ -166,7 +167,7 @@ Task("Default")
     .IsDependentOn("Publish")
     .Does(() =>
 {
-	Information($"##vso[task.setvariable variable=GitVersion;]9.9.9");
+	
 });
 
 RunTarget(target);

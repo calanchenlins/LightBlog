@@ -24,10 +24,15 @@ stages:
     - task: Bash@3
       name: 'BuildWithCake'
       inputs:
-        filePath: '$(System.DefaultWorkingDirectory)/build.sh'
+        filePath: '$(Build.SourcesDirectory)/build.sh'
         arguments: '-verbosity=$(cakeVerbosity) -target=$(cakeTaskName) -Configuration=$(buildConfiguration) -Runtime=$(buildRuntime)'
     - publish: '$(Build.SourcesDirectory)/artifacts'
       artifact: '$(KB.ArtifactName)'
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'XUnit'
+        testResultsFiles: '**/TestResults/**/?(*.xml|*.trx)'
+        searchFolder: '$(Build.SourcesDirectory)'
 
 - stage: 'DevDeployment'
   dependsOn: 'BuildSrcCode'

@@ -101,8 +101,8 @@ stages:
         containerRegistry: '阿里云容器镜像私有仓库服务'
         repository: '$(KB.Container.RegistryNameSpace)/$(KB.Container.Repository.Name)'
         command: 'buildAndPush'
-        Dockerfile: '$(Build.ArtifactStagingDirectory)/drop/publish/LightBlog/Dockerfile'
-        buildContext: '$(Build.ArtifactStagingDirectory)/drop/publish/LightBlog'
+        Dockerfile: '$(Pipeline.Workspace)/drop/publish/LightBlog/Dockerfile'
+        buildContext: '$(Pipeline.Workspace)/drop/publish/LightBlog'
         tags: '$(KB.Container.Image.Version)'
   - job: 'PullAndRunContainer'
     pool:

@@ -26,7 +26,8 @@ stages:
       inputs:
         filePath: '$(System.DefaultWorkingDirectory)/build.sh'
         arguments: '-verbosity=$(cakeVerbosity) -target=$(cakeTaskName) -Configuration=$(buildConfiguration) -Runtime=$(buildRuntime)'
-
+    - publish: '$(Build.SourcesDirectory)/artifacts'
+      artifact: 'drop2'
     # Copy PublishDirectory && TestResults To '$(build.artifactstagingdirectory)'
     - task: CopyFiles@2
       inputs:
@@ -92,7 +93,7 @@ stages:
     - checkout: none
     - download: 'drop2'
       artifact: 'drop2'
-      target: '$(Build.ArtifactStagingDirectory)/d2'
+      target: 'current'
     - task: DownloadPipelineArtifact@2
       inputs:
         buildType: 'current'

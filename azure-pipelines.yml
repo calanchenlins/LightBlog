@@ -67,7 +67,7 @@ stages:
       name: 'Azure Pipelines'
     steps:
     - checkout: none
-    - download: '$(Build.ArtifactStagingDirectory)/d2'
+    - download:
       artifact: 'drop'
     - task: DownloadPipelineArtifact@2
       inputs:

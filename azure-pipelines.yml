@@ -109,8 +109,8 @@ stages:
       name: 'ContainerOnNoteBook'
     dependsOn: 'BuildAndPushImage'
     variables:
-      KB.Container.Repository.Name: $[ dependencies.BuildAndPushDockerImage.outputs['SetContainerImageInfo.KB.Container.Repository.Name'] ]
-      KB.Container.Image.Version: $[ dependencies.BuildAndPushDockerImage.outputs['SetContainerImageInfo.KB.Container.Image.Version'] ]
+      KB.Container.Repository.Name: $[ dependencies.BuildAndPushImage.outputs['SetContainerImageInfo.KB.Container.Repository.Name'] ]
+      KB.Container.Image.Version: $[ dependencies.BuildAndPushImage.outputs['SetContainerImageInfo.KB.Container.Image.Version'] ]
     steps:
     - checkout: none
     - task: CmdLine@2

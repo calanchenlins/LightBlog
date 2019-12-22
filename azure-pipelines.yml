@@ -138,3 +138,31 @@ stages:
                 sudo rm -r LightBlog/
                 \cp -rf ../Artifacts/. ./
                 sudo systemctl start LightBlogWebApp.service
+
+- stage: 'DeployDev'
+  dependsOn: 'build'
+  jobs:
+  - job: 'PullAndRunContainer'
+    pool:
+      name: 'Azure Pipelines'
+    steps:
+    - checkout: none
+    - task: CmdLine@2
+      inputs:
+        script: |
+          echo hello
+  # deployment job will Download pipeline artifact in '$(Pipeline.Workspace)/$(artifactName)' automatically
+  - deployment: 'deployToTencentCloud'
+    pool:
+      name: 'AgentOnTencentCloud'
+    dependsOn: 'PullAndRunContainer'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: none
+          - task: CmdLine@2
+            inputs:
+              script: |
+                echo 'Start Deploy WebApp'
+

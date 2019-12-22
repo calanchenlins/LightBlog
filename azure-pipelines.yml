@@ -7,7 +7,7 @@ trigger:
 - master
 
 stages:
-- stage: build
+- stage: BuildSrcCode
   jobs:
   - job: 'BuildArtifacts'
     pool:
@@ -52,13 +52,49 @@ stages:
         artifact: 'drop'
         publishLocation: 'pipeline'
 
-  - job: 'BuildAndPushDockerImage'
+- stage: 'DeployDev'
+  dependsOn: 'BuildSrcCode'
+  jobs:
+  # deployment job will Download pipeline artifact in '$(Pipeline.Workspace)/$(artifactName)' automatically
+  - deployment: 'deployToTencentCloud'
+    pool:
+      name: 'AgentOnTencentCloud'
+    environment: 'smarthotel-dev'
+    dependsOn: 'BuildArtifacts'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: none
+          - task: CopyFiles@2
+            displayName: 'Copy Files to: /home/ubuntu/Artifacts'
+            inputs:
+              SourceFolder: '$(Pipeline.Workspace)/drop/publish'
+              TargetFolder: /home/ubuntu/Artifacts
+              CleanTargetFolder: true
+          - task: CmdLine@2
+            inputs:
+              script: |
+                echo 'Start Deploy WebApp'
+                sudo systemctl stop LightBlogWebApp.service
+                cd ~/www/
+                sudo rm -r LightBlog/
+                \cp -rf ../Artifacts/. ./
+                sudo systemctl start LightBlogWebApp.service
+
+- stage: 'ProcDeployment'
+  dependsOn: 'BuildSrcCode'
+  jobs:
+  - job: 'BuildAndPushImage'
     pool:
       vmImage: 'ubuntu-latest'
       name: 'Azure Pipelines'
     dependsOn: 'BuildArtifacts'
     steps:
     - checkout: none
+    - download: 'drop2'
+      artifact: 'drop2'
+      target: '$(Build.ArtifactStagingDirectory)/d2'
     - task: DownloadPipelineArtifact@2
       inputs:
         buildType: 'current'
@@ -112,59 +148,4 @@ stages:
         script: |
           echo KB.Container.Repository.Name: $(KB.Container.Repository.Name)
           echo KBRepositoryName: $(KB.Container.Image.Version)
-  # deployment job will Download pipeline artifact in '$(Pipeline.Workspace)/$(artifactName)' automatically
-  - deployment: 'deployToTencentCloud'
-    pool:
-      name: 'AgentOnTencentCloud'
-    environment: 'smarthotel-dev'
-    dependsOn: 'BuildArtifacts'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - checkout: none
-          - task: CopyFiles@2
-            displayName: 'Copy Files to: /home/ubuntu/Artifacts'
-            inputs:
-              SourceFolder: '$(Pipeline.Workspace)/drop/publish'
-              TargetFolder: /home/ubuntu/Artifacts
-              CleanTargetFolder: true
-          - task: CmdLine@2
-            inputs:
-              script: |
-                echo 'Start Deploy WebApp'
-                sudo systemctl stop LightBlogWebApp.service
-                cd ~/www/
-                sudo rm -r LightBlog/
-                \cp -rf ../Artifacts/. ./
-                sudo systemctl start LightBlogWebApp.service
-
-- stage: 'DeployDev'
-  dependsOn: 'build'
-  jobs:
-  - job: 'PullAndRunContainer'
-    pool:
-      name: 'Azure Pipelines'
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: none
-    - task: CmdLine@2
-      inputs:
-        script: |
-          echo hello
-  # deployment job will Download pipeline artifact in '$(Pipeline.Workspace)/$(artifactName)' automatically
-  - deployment: 'deployToTencentCloud'
-    environment: 'fgfg'
-    pool:
-      name: 'AgentOnTencentCloud'
-    dependsOn: 'PullAndRunContainer'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - checkout: none
-          - task: CmdLine@2
-            inputs:
-              script: |
-                echo 'Start Deploy WebApp'
 

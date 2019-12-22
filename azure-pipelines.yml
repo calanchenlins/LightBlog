@@ -115,7 +115,7 @@ stages:
 
   - deployment: 'deployToTencentCloud'
     pool:
-      name: 'TencentCloud'
+      name: 'AgentOnTencentCloud'
     environment: 'smarthotel-dev'
     dependsOn: 'BuildArtifacts'
     strategy:

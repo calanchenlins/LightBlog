@@ -27,31 +27,7 @@ stages:
         filePath: '$(System.DefaultWorkingDirectory)/build.sh'
         arguments: '-verbosity=$(cakeVerbosity) -target=$(cakeTaskName) -Configuration=$(buildConfiguration) -Runtime=$(buildRuntime)'
     - publish: '$(Build.SourcesDirectory)/artifacts'
-      artifact: 'drop2'
-    # Copy PublishDirectory && TestResults To '$(build.artifactstagingdirectory)'
-    - task: CopyFiles@2
-      inputs:
-        SourceFolder: '$(Build.SourcesDirectory)/artifacts'
-        Contents: '**'
-        TargetFolder: '$(build.artifactstagingdirectory)'
-        flattenFolders: false
-
-    # Show Files IN '$(build.artifactstagingdirectory)'    
-    - task: CmdLine@2
-      inputs:
-        script: |
-          echo 'Copied Files List In build.artifactstagingdirectory:'
-          cd $(build.artifactstagingdirectory)
-          ls -R
-          echo 'End'
-        workingDirectory: '$(Build.ArtifactStagingDirectory)'
-
-    # Publish PipelineArtifact
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: '$(Build.ArtifactStagingDirectory)'
-        artifact: 'drop'
-        publishLocation: 'pipeline'
+      artifact: 'drop'
 
 - stage: 'DeployDev'
   dependsOn: 'BuildSrcCode'
@@ -91,9 +67,8 @@ stages:
       name: 'Azure Pipelines'
     steps:
     - checkout: none
-    - download: 'drop2'
-      artifact: 'drop2'
-      target: 'current'
+    - download: '$(Build.ArtifactStagingDirectory)/d2'
+      artifact: 'drop'
     - task: DownloadPipelineArtifact@2
       inputs:
         buildType: 'current'

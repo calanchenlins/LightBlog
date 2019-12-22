@@ -22,6 +22,7 @@ stages:
 
     # build with Cake
     - task: Bash@3
+      name: 'buildWithCake'
       inputs:
         filePath: '$(System.DefaultWorkingDirectory)/build.sh'
         arguments: '-verbosity=$(cakeVerbosity) -target=$(cakeTaskName) -Configuration=$(buildConfiguration) -Runtime=$(buildRuntime)'
@@ -55,8 +56,6 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
       name: 'Azure Pipelines'
-    variables:
-      KB.Container.RegistryNameSpace: 'kane-blake'
     dependsOn: 'BuildArtifacts'
     steps:
     - checkout: none

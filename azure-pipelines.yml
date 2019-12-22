@@ -60,7 +60,6 @@ stages:
     pool:
       name: 'AgentOnTencentCloud'
     environment: 'smarthotel-dev'
-    dependsOn: 'BuildArtifacts'
     strategy:
       runOnce:
         deploy:
@@ -89,7 +88,6 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
       name: 'Azure Pipelines'
-    dependsOn: 'BuildArtifacts'
     steps:
     - checkout: none
     - download: 'drop2'
@@ -137,7 +135,7 @@ stages:
   - job: 'PullAndRunContainer'
     pool:
       name: 'ContainerOnNoteBook'
-    dependsOn: 'BuildAndPushDockerImage'
+    dependsOn: 'BuildAndPushImage'
     variables:
       KB.Container.Repository.Name: $[ dependencies.BuildAndPushDockerImage.outputs['SetContainerImageInfo.KB.Container.Repository.Name'] ]
       KB.Container.Image.Version: $[ dependencies.BuildAndPushDockerImage.outputs['SetContainerImageInfo.KB.Container.Image.Version'] ]

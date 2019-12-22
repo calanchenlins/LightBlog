@@ -153,6 +153,7 @@ stages:
           echo hello
   # deployment job will Download pipeline artifact in '$(Pipeline.Workspace)/$(artifactName)' automatically
   - deployment: 'deployToTencentCloud'
+    environment: 'fgfg'
     pool:
       name: 'AgentOnTencentCloud'
     dependsOn: 'PullAndRunContainer'

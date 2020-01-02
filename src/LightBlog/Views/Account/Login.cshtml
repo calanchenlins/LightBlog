@@ -25,10 +25,12 @@
             background-color: #f4f4f4;
             height: 100%;
         }
+
         .container {
             display: flex;
             height: 100%;
         }
+
         .container .login-panel {
             background-color: #fff;
             margin: auto;
@@ -37,29 +39,53 @@
             border-radius: 1rem;
             box-shadow: 0 0 10rem rgba(0,0,0,0.1);
         }
+
         .panel-header {
             text-align: center;
             margin-bottom: 10%;
         }
+
+        .spice-title {
+            letter-spacing: 2.5px;
+            text-align: center;
+            border-bottom: 1px solid #DBD8D6; 
+            padding: 30px 0 5px;
+            position: relative;
+        }
+
+        .spice-title:before {
+            content: "\2731";
+            display: inline-block;
+            position: absolute;
+            font-size: 16px;
+            width: 0px;
+            left: 50%;
+            top: 100%;
+            color: #999;
+            line-height: 0;
+        }
+
         .login-remember {
             display: flex;
             align-items: center;
         }
+
         .remember-me {
             font-weight: 400;
             font-size: 10px;
             margin: .25rem;
         }
+
         .login-message {
             color: #dc3545;
-            font-size:2px;
+            font-size: 2px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="login-panel">
-            <div class="panel-header">
+            <div class="panel-header spice-title">
                 <h3>用户登录</h3>
             </div>
             <div class="panel-body">

@@ -8,9 +8,9 @@ using Polly;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace KaneBlake.Basis.Extensions.Common
+namespace KaneBlake.AspNetCore.Extensions.Hosting
 {
     public static class WebHostExtensions
     {

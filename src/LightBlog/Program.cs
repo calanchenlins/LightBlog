@@ -11,6 +11,7 @@ using LightBlog.Infrastruct.Context;
 using LightBlog.Data;
 using Autofac.Extensions.DependencyInjection;
 using KaneBlake.Basis.Extensions.Common;
+using KaneBlake.AspNetCore.Extensions.Hosting;
 
 namespace LightBlog
 {

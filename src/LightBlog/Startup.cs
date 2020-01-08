@@ -49,6 +49,7 @@ namespace LightBlog
                 options.CheckConsentNeeded = context => false;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            services.Configure<CookiePolicyOptions>(Configuration.GetSection("File"));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

@@ -29,7 +29,12 @@ namespace KaneBlake.Basis.Extensions.Diagnostics
                 var diagnosticNameAttribute = methodInfo.GetCustomAttribute<DiagnosticAdapterName>();
                 if (diagnosticNameAttribute != null)
                 {
-                    listener.Subscriptions.TryAdd(diagnosticNameAttribute.Name,new DiagnosticMethodSubscription(target, methodInfo, diagnosticNameAttribute.Name));
+                    try
+                    {
+                        listener.Subscriptions.Add(diagnosticNameAttribute.Name, new DiagnosticMethodSubscription(target, methodInfo, diagnosticNameAttribute.Name));
+                    }
+                    catch { }
+
                 }
             }
 

@@ -13,7 +13,7 @@
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "KaneBlake.Basis"
+        "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "KaneBlake.AspNetCore.Extensions"
       }
     },
     "LightBlog": {

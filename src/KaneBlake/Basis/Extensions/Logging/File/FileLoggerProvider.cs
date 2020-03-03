@@ -15,13 +15,13 @@ namespace KaneBlake.Basis.Extensions.Logging.File
 
         private readonly FileLoggerOptions _options;
 
-        public FileLoggerProvider(IOptions<FileLoggerOptions> options)
+        public FileLoggerProvider(IOptions<FileLoggerOptions> options, IOptionsMonitor<FileLoggerOptions> optionsMonitor)
         {
             _loggers = new ConcurrentDictionary<string, FileLogger>();
             _options = options.Value;
             _fileLoggerProcess = new FileLoggerProcess(_options?.FileName??"log.txt");
         }
-
+        
         public ILogger CreateLogger(string categoryName)
         {
             return _loggers.GetOrAdd(categoryName, 

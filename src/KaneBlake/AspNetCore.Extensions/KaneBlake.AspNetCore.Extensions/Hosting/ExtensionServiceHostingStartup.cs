@@ -5,16 +5,18 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using KaneBlake.Basis.Extensions.Diagnostics;
+using KaneBlake.Basis.Services;
 
-[assembly: HostingStartup(typeof(KaneBlake.AspNetCore.Extensions.Diagnostics.DiagnosticProcessorStartup))]
-namespace KaneBlake.AspNetCore.Extensions.Diagnostics
+[assembly: HostingStartup(typeof(KaneBlake.AspNetCore.Extensions.Hosting.ExtensionServiceHostingStartup))]
+namespace KaneBlake.AspNetCore.Extensions.Hosting
 {
-    public class DiagnosticProcessorStartup : IHostingStartup
+    public class ExtensionServiceHostingStartup : IHostingStartup
     {
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices(services => {
-                services.AddSingleton<IHostedService, DiagnosticProcessorService>();
+                services.AddSingleton<IHostedService, InstrumentationHostedService>();
+                services.AddSingleton<IExecutionService,DiagnosticProcessorService>();
                 services.AddSingleton<DiagnosticAdapterProcessorObserver>();
             });
         }

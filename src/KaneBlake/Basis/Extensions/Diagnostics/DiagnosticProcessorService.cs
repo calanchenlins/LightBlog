@@ -1,5 +1,4 @@
-﻿using KaneBlake.Basis.Extensions.Diagnostics;
-using Microsoft.Extensions.Hosting;
+﻿using KaneBlake.Basis.Services;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -8,12 +7,16 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace KaneBlake.AspNetCore.Extensions.Diagnostics
+namespace KaneBlake.Basis.Extensions.Diagnostics
 {
-    public class DiagnosticProcessorService : IHostedService
+    public class DiagnosticProcessorService : IExecutionService
     {
         private readonly DiagnosticAdapterProcessorObserver _observer;
+
         private readonly ILogger _logger;
+
+        private bool _disposed = true;
+        private IDisposable _subscriber;
 
         public DiagnosticProcessorService(DiagnosticAdapterProcessorObserver observer, ILoggerFactory loggerFactory)
         {
@@ -21,17 +24,26 @@ namespace KaneBlake.AspNetCore.Extensions.Diagnostics
             _logger = loggerFactory?.CreateLogger(typeof(DiagnosticProcessorService)) ?? throw new ArgumentNullException(nameof(loggerFactory));
         }
 
-        public async Task StartAsync(CancellationToken cancellationToken= default)
+        public async Task StartAsync(CancellationToken cancellationToken = default)
         {
+            if (_disposed)
+            {
+                _logger.LogWarning("Start DiagnosticProcessor Service.");
+                _disposed = false;
+                _subscriber = DiagnosticListener.AllListeners.Subscribe(_observer);
+            }
             await Task.Delay(TimeSpan.FromSeconds(2));
-            DiagnosticListener.AllListeners.Subscribe(_observer);
-            _logger.LogInformation("Started SkyAPM .NET Core Agent.");
         }
 
         public async Task StopAsync(CancellationToken cancellationToken = default)
         {
-            _logger.LogInformation("Stopped SkyAPM .NET Core Agent.");
-            // ReSharper disable once MethodSupportsCancellation
+            if (!_disposed)
+            {
+                _logger.LogWarning("Stop DiagnosticProcessor Service.");
+                _disposed = true;
+                _subscriber?.Dispose();
+                _subscriber = null;
+            }
             await Task.Delay(TimeSpan.FromSeconds(2));
         }
     }

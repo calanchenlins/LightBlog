@@ -17,10 +17,10 @@ namespace KaneBlake.Basis.Extensions.Diagnostics
         {
         }
 
-        protected override void Subscribe(DiagnosticListener listener, IDiagnosticProcessor target)
+        protected override IDisposable Subscribe(DiagnosticListener listener, IDiagnosticProcessor target)
         {
             var adapter = new DiagnosticSourceAdapter(target, _loggerFactory);
-            listener.Subscribe(adapter, (Predicate<string>)adapter.IsEnabled);
+            return listener.Subscribe(adapter, adapter.IsEnabled);
         }
     }
 

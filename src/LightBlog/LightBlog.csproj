@@ -15,6 +15,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="2.2.5" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
+    <PackageReference Include="OpenTelemetry.Collector.AspNetCore" Version="0.2.0-alpha.179" />
+    <PackageReference Include="OpenTelemetry.Collector.Dependencies" Version="0.2.0-alpha.100" />
+    <PackageReference Include="OpenTelemetry.Exporter.ApplicationInsights" Version="0.2.0-alpha.100" />
+    <PackageReference Include="OpenTelemetry.Hosting" Version="0.2.0-alpha.100" />
   </ItemGroup>
 
 

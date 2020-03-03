@@ -18,6 +18,8 @@ namespace KaneBlake.Basis.Extensions.Diagnostics
         protected readonly ILoggerFactory _loggerFactory;
         private readonly IEnumerable<IDiagnosticProcessor> _tracingDiagnosticProcessors;
 
+        private readonly List<IDisposable> _subscriptions = new List<IDisposable>();
+
         public DiagnosticProcessorObserver(IEnumerable<IDiagnosticProcessor> DiagnosticProcessors
             , ILoggerFactory loggerFactory)
         {
@@ -29,6 +31,8 @@ namespace KaneBlake.Basis.Extensions.Diagnostics
 
         public void OnCompleted()
         {
+            _subscriptions.ForEach(x => x.Dispose());
+            _subscriptions.Clear();
         }
 
         public void OnError(Exception error)
@@ -41,17 +45,18 @@ namespace KaneBlake.Basis.Extensions.Diagnostics
             {
                 if (listener.Name == diagnosticProcessor.ListenerName)
                 {
-                    Subscribe(listener, diagnosticProcessor);
+                    var subscription =  Subscribe(listener, diagnosticProcessor);
+                    _subscriptions.Add(subscription);
                     _logger.LogInformation(
                     $"Loaded diagnostic listener [{diagnosticProcessor.ListenerName}].");
                 }
             }
         }
 
-        protected virtual void Subscribe(DiagnosticListener listener,
+        protected virtual IDisposable Subscribe(DiagnosticListener listener,
             IDiagnosticProcessor tracingDiagnosticProcessor)
         {
-            listener.SubscribeWithAdapter(tracingDiagnosticProcessor);
+            return listener.SubscribeWithAdapter(tracingDiagnosticProcessor);
         }
     }
 }

@@ -1,0 +1,107 @@
+﻿@using IdentityServer4.Extensions
+@{
+    string name = null;
+    if (!true.Equals(ViewData["signed-out"]))
+    {
+        name = Context.User?.GetDisplayName();
+    }
+}
+<!DOCTYPE html>
+<html class="h-100">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KaneBlake.IdentityServer</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <!--Set PWA manifests-->
+    <link rel="manifest" href="~/manifest.json">
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+    
+<!--Sticky footer with fixed navbar-->
+<body class="d-flex flex-column h-100">
+    <header>
+        <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
+            <div class="container">
+                <a href="~/">
+                    <span class="navbar-brand">
+                        <img src="~/icon_36px.png" class="">
+                        IdentityServer
+                    </span>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Dropdown link
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="navbar-nav ml-auto">
+                        <form class="form-inline my-2 my-lg-0">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        </form>
+                        <ul class="navbar-nav">
+                            @if (!string.IsNullOrWhiteSpace(name))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link btn" asp-action="MyProfile" asp-controller="Account" role="button">My&nbsp;Profile</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link btn btn-outline-secondary" asp-action="Logout" asp-controller="Account" role="button">Logout</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item mx-auto">
+                                    <a class="nav-link btn" asp-action="Login" asp-controller="Account" role="button">Sign&nbsp;In</a>
+                                </li>
+                                <li class="nav-item mx-auto">
+                                    <a class="nav-link btn btn-outline-secondary px-5 px-lg-1 px-xl-1" asp-action="SignUp" asp-controller="Account" role="button">Sign&nbsp;Up</a>
+                                </li>
+
+
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </nav>
+    </header>
+
+    <main role="main" class="flex-shrink-0">
+        <div class="container mt-5 pt-5">
+            @RenderBody()
+        </div>
+    </main>
+
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container">
+            <span class="text-muted">
+                &copy; 2020 - KaneBlake - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                <a href="#">Back to top</a>
+            </span>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

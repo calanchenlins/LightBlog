@@ -11,9 +11,11 @@ namespace KaneBlake.Basis.Domain.Uow
     /// </summary>
     public interface IUnitOfWork : IDisposable
     {
+        void Complete();
+
         /// <summary>
         /// 工作单元提交
         /// </summary>
-        void Complete();
+        Task<int> CompleteAsync();
     }
 }

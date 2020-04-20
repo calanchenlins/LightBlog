@@ -4,6 +4,8 @@
 @using LightBlog.Common;
 @inject IAuthorizationService AuthorizationService
 @inject IUserService<User> UserService
+@{
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,13 +50,13 @@
                                 if (UserService.IsAuthenticated())
                                 {
                                     <a asp-controller="Account" asp-action="LogOut">登出</a>
-                                    <a href="/blog/@UserService.UserName">| 进入我的博客 </a>                         
+                                    <a href="/blog/@UserService.UserName">| 进入我的博客 </a>
                                 }
                                 else
                                 {
-                                <a asp-controller="Account" asp-action="Login" asp-route-ReturnUrl="@ViewContext.HttpContext.Request.Path">登入 | </a>
-                                <a asp-controller="Account" asp-action="SignUp">注册</a>
-                            }
+                                    <a asp-controller="Account" asp-action="Login" asp-route-ReturnUrl="@ViewContext.HttpContext.Request.Path">登入 | </a>
+                                    <a asp-controller="Account" asp-action="SignUp">注册</a>
+                                }
                             }
                         </span>
                     </div>

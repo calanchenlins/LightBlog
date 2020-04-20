@@ -31,7 +31,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "performance", "performance"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaneBlake.Basis.Performance", "performance\KaneBlake.Basis.Performance\KaneBlake.Basis.Performance.csproj", "{B0AF639B-3AF4-47F4-B164-90D8E6CA090B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaneBlake.AspNetCore.Extensions", "src\KaneBlake\AspNetCore.Extensions\KaneBlake.AspNetCore.Extensions\KaneBlake.AspNetCore.Extensions.csproj", "{9171D1D7-499C-42BD-89F2-A523EB55E247}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaneBlake.AspNetCore.Extensions", "src\KaneBlake\AspNetCore.Extensions\KaneBlake.AspNetCore.Extensions\KaneBlake.AspNetCore.Extensions.csproj", "{9171D1D7-499C-42BD-89F2-A523EB55E247}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaneBlake.STS.Identity", "src\KaneBlake\STS.Identity\KaneBlake.STS.Identity\KaneBlake.STS.Identity.csproj", "{F491930C-1302-45D0-8BC2-2C3E9DA220ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{9171D1D7-499C-42BD-89F2-A523EB55E247}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9171D1D7-499C-42BD-89F2-A523EB55E247}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9171D1D7-499C-42BD-89F2-A523EB55E247}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F491930C-1302-45D0-8BC2-2C3E9DA220ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F491930C-1302-45D0-8BC2-2C3E9DA220ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F491930C-1302-45D0-8BC2-2C3E9DA220ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F491930C-1302-45D0-8BC2-2C3E9DA220ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -70,6 +76,7 @@ Global
 		{4EDAADF5-2430-48F9-A781-ECFE71C13958} = {C8A8EC3C-A0FA-475B-8A75-8EFBA4BEE016}
 		{B0AF639B-3AF4-47F4-B164-90D8E6CA090B} = {341C817B-4950-4E4B-AF68-0B099CD1F298}
 		{9171D1D7-499C-42BD-89F2-A523EB55E247} = {DE736364-2FF7-4E76-9F3F-BCCA2DF7C67F}
+		{F491930C-1302-45D0-8BC2-2C3E9DA220ED} = {DE736364-2FF7-4E76-9F3F-BCCA2DF7C67F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {40B31C11-0E2F-4F50-8684-4C275C88FEB8}

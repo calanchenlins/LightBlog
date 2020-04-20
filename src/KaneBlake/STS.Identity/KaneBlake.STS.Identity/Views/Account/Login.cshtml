@@ -1,0 +1,74 @@
+﻿@{
+    Layout = null;
+}
+@model LoginViewModel
+
+
+<!DOCTYPE html>
+<html class="h-100">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KaneBlake.IdentityServer</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <!--Set PWA manifests-->
+    <link rel="manifest" href="~/manifest.json">
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body class="h-100">
+    <div class="position-fixed h-100 w-100 bg-light"></div>
+    <div class="container d-flex h-100">
+        <div class="login-panel ">
+            <div class="text-center">
+                <div class="mb-3">
+                    <a href="/">
+                        <img src="~/icon_48px.png" class="">
+                    </a>
+                </div>
+                <h4 class="font-weight-light">Sign in to KaneBlake</h4>
+                <hr />
+            </div>
+            <form asp-route="Login">
+                <input type="hidden" asp-for="ReturnUrl" />
+
+                <fieldset>
+                    <div class="form-group">
+                        <label class="font-weight-bold" asp-for="Username"></label>
+                        <input class="form-control" placeholder="Username" asp-for="Username" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold d-block" asp-for="Password">Password
+                            <a class="float-right text-decoration-none font-weight-normal font-size-1" href="/password_reset">Forgot password?</a>
+                        </label>
+                        <input type="password" class="form-control" placeholder="Password" asp-for="Password" autocomplete="off">
+                    </div>
+                    @if (Model.AllowRememberLogin)
+                    {
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" asp-for="RememberLogin">
+                                <label class="custom-control-label" asp-for="RememberLogin">Remember My Login</label>
+                            </div>
+                        </div>
+
+                    }
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-block" name="button" value="login">Sign in</button>
+                    </div>
+                </fieldset>
+            </form>
+            <p class="create-account-callout mt-3 text-center py-3 border rounded bg-light">
+                New to KaneBlake?
+                <a asp-action="SignUp" asp-controller="Account" asp-route-returnurl="@Model.ReturnUrl" role="button">Create an account</a>.
+            </p>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.js"></script>
+</body>
+</html>

@@ -3,6 +3,7 @@ using LightBlog.Infrastruct.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.JsonWebTokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,14 +24,28 @@ namespace LightBlog.Services
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
-        public string UserName { get => _httpContextAccessor.HttpContext.User.Identity?.Name; }
+        public string UserName 
+        { 
+            get 
+            {
+                //var jwtHandler = new JsonWebTokenHandler();
+                //var token = _httpContextAccessor.HttpContext.GetTokenAsync("access_token").Result;
+                //var JwtToken = jwtHandler.ReadJsonWebToken(token);
+                //return JwtToken.GetClaim("name").Value??"";
+
+                var userNameClaim = _httpContextAccessor.HttpContext.User.Claims
+                    .Where(c => c.Type == "name")
+                    .FirstOrDefault();
+                return userNameClaim?.Value ?? "";
+            }
+        }
 
         public string UserId
         {
             get
             {
                 var userClaims = _httpContextAccessor.HttpContext.User.Claims
-                    .Where(c => c.Type == ClaimTypes.NameIdentifier)
+                    .Where(c => c.Type == "sub")
                     .FirstOrDefault();
                 return userClaims?.Value??"";
             }

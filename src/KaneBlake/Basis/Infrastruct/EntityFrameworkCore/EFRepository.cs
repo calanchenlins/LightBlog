@@ -58,6 +58,11 @@ namespace KaneBlake.Basis.Infrastruct.EntityFrameworkCore
             Context.SaveChanges();
         }
 
+        public Task<int> CompleteAsync()
+        {
+            return Context.SaveChangesAsync();
+        }
+
         private bool disposedValue = false;
 
         public void Dispose()

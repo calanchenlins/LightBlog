@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using LightBlog.Infrastruct.Entities;
 using LightBlog.Services;
 using LightBlog.Services.InDto;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,10 +30,19 @@ namespace LightBlog.Controllers
         /// </summary>
         /// <param name="returnUrl">从</param>
         /// <returns></returns>
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Login(string ReturnUrl)
         {
+            var user = User as ClaimsPrincipal;
+
+            var token = await HttpContext.GetTokenAsync("access_token");
+
+            if (token != null)
+            {
+                ViewBag.access_token = token;
+            }
+
             ViewBag.ReturnUrl = ReturnUrl;
             await Task.CompletedTask;
             return View(ViewBag);
@@ -133,11 +145,17 @@ namespace LightBlog.Controllers
         {
             if (_userService.IsAuthenticated())
             {
-                await _userService.SignOutAsync();
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
                 HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
             }
 
-            return Redirect("/");
+            // "Catalog" because UrlHelper doesn't support nameof() for controllers
+            // https://github.com/aspnet/Mvc/issues/5853
+            var homeUrl = Url.Action(nameof(HomeController.Index), "Home");
+            return new SignOutResult(OpenIdConnectDefaults.AuthenticationScheme,
+                new AuthenticationProperties { RedirectUri = homeUrl });
+            //return Redirect("/");
         }
     }
 }

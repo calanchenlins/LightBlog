@@ -29,6 +29,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
 using OpenTelemetry.Trace.Configuration;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace LightBlog
 {
@@ -46,22 +48,54 @@ namespace LightBlog
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => false;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
+                options.MinimumSameSitePolicy = SameSiteMode.Unspecified;
+                options.OnAppendCookie = cookieContext =>
+                    CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
+                options.OnDeleteCookie = cookieContext =>
+                    CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
             });
-            services.Configure<CookiePolicyOptions>(Configuration.GetSection("File"));
+
+            //services.Configure<CookiePolicyOptions>(Configuration.GetSection("File"));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie();
+            var identityUrl = "https://localhost:44350";
+            var callBackUrl = "/";
+
+            // prevent from mapping "sub" claim to nameidentifier.
+            // 清除token中的claim到.netCore中的claim的映射
+            // 关闭了JWT的Claim 类型映射, 以便允许 well-known claims
+            // 否则amr和sub声明的键名会被改变
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = "oidc";
+            })
+                // code 验证成功之后，将凭证写入cookie
+                // 在cookie有效期内不需要重新申请code, 直接通过凭证获取token ???
+                .AddCookie(setup => setup.ExpireTimeSpan = TimeSpan.FromHours(2))
+                .AddOpenIdConnect("oidc", options =>
+                {
+                    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.Authority = identityUrl.ToString();
+                    options.SignedOutRedirectUri = callBackUrl.ToString();
+                    options.ClientId = "LightBlogMvc";
+                    options.ResponseType = "code";
+                    options.SaveTokens = true;
+                    options.GetClaimsFromUserInfoEndpoint = true;
+                    options.RequireHttpsMetadata = false;
+                    options.Scope.Add("openid");
+                    options.Scope.Add("profile");
+                    options.Scope.Add("sample.api");
+                });
+
 
             services.AddStackExchangeRedisCache(options =>
             {
-                options.Configuration = "localhost:6378";
+                options.Configuration = "localhost:5000";
                 options.InstanceName = "LightBlogCache";
             });
 
@@ -157,27 +191,36 @@ namespace LightBlog
                 //app.UseHsts(); // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             }
 
-            // Use Ngix to Redirec Http Request
-            //app.UseHttpsRedirection();
+            // Use Ngix to Redirect Http Request
+            // app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseRouting();
+
+
             app.UseCookiePolicy();
 
-
-            app.UseAuthentication();
-            
-
-
-            app.UseRouting();
-            app.UseAuthorization(); // 放在 UseAuthentication 之后
+            // 增加了 oidc 认证之后, 启用认证中间件, 进行身份验证并颁发凭证
+            // 对于 IdSrv4 组件来说,会在 host/signin-oidc 终结点提供接受code、写入cookie的服务
+            app.UseAuthentication(); // 认证 signin-oidc
+            app.UseAuthorization(); // 授权
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapDefaultControllerRoute();
             });
 
 
             //DiagnosticListener.AllListeners.Subscribe(app.ApplicationServices.GetRequiredService<DiagnosticProcessorObserver>());
         }
+
+        private void CheckSameSite(HttpContext httpContext, CookieOptions options)
+        {
+            if (options.SameSite == SameSiteMode.None)
+            {
+                var userAgent = httpContext.Request.Headers["User-Agent"].ToString();
+                // TODO: Use your User Agent library of choice here.
+                options.SameSite = SameSiteMode.Unspecified;
+            }
+        }
+
     }
 }

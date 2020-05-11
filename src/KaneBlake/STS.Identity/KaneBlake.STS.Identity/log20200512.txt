@@ -1,0 +1,106 @@
+2020-05-12 00:00:06.322 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:00:06.338 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0021ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:00:16.342 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:00:16.343 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0017ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:00:26.344 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:00:26.344 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0017ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:00:36.345 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:00:36.345 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0017ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:00:46.345 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:00:46.346 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0017ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:00:56.354 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:00:56.354 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0012ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:01:06.354 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:01:06.355 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0017ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:01:16.355 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:01:16.355 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0102ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:01:26.367 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:01:26.367 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0017ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:01:36.367 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:01:36.368 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0017ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:01:46.368 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:01:46.368 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0012ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:01:56.382 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:01:56.382 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0021ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:02:06.382 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:02:06.382 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0012ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:02:16.383 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:02:16.383 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0012ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:02:26.382 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:02:26.382 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0017ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:02:36.383 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:02:36.383 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0012ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:02:46.383 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:02:46.383 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0021ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:02:56.394 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:02:56.395 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0021ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:03:06.395 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:03:06.395 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0012ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:03:16.396 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:03:16.396 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0008ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:03:26.408 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:03:26.409 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0017ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:03:36.409 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:03:36.409 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0021ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:03:46.409 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:03:46.410 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0012ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:03:56.410 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:03:56.411 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 0.0017ms - processed: 0 items - remaining: 1 items
+2020-05-12 00:04:06.415 +08:00 [DBG] Starting HttpMessageHandler cleanup cycle with 1 items
+2020-05-12 00:04:06.416 +08:00 [DBG] Ending HttpMessageHandler cleanup cycle after 1.0494ms - processed: 1 items - remaining: 0 items
+2020-05-12 00:09:24.715 +08:00 [INF] Entity Framework Core 3.1.2 initialized 'PersistedGrantDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: MigrationsAssembly=KaneBlake.STS.Identity 
+2020-05-12 00:09:24.744 +08:00 [DBG] queryContext => new QueryingEnumerable<PersistedGrant>(
+    (RelationalQueryContext)queryContext, 
+    RelationalCommandCache, 
+    null, 
+    ReaderColumn[] { ReaderColumn<object>, ReaderColumn<object>, ReaderColumn<DateTime>, ReaderColumn<object>, ReaderColumn<DateTime>, ReaderColumn<object>, ReaderColumn<object>, }, 
+    Func<QueryContext, DbDataReader, ResultContext, int[], ResultCoordinator, PersistedGrant>, 
+    IdentityServer4.EntityFramework.DbContexts.PersistedGrantDbContext, 
+    DiagnosticsLogger<Query>
+)
+2020-05-12 00:09:24.757 +08:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2020-05-12 00:09:24.758 +08:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2020-05-12 00:09:24.758 +08:00 [DBG] Opening connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-05-12 00:09:24.998 +08:00 [DBG] Opened connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-05-12 00:09:24.999 +08:00 [DBG] Executing DbCommand [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(@__p_0) [p].[Key], [p].[ClientId], [p].[CreationTime], [p].[Data], [p].[Expiration], [p].[SubjectId], [p].[Type]
+FROM [PersistedGrants] AS [p]
+WHERE [p].[Expiration] < GETUTCDATE()
+ORDER BY [p].[Key]
+2020-05-12 00:09:25.041 +08:00 [INF] Executed DbCommand (43ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(@__p_0) [p].[Key], [p].[ClientId], [p].[CreationTime], [p].[Data], [p].[Expiration], [p].[SubjectId], [p].[Type]
+FROM [PersistedGrants] AS [p]
+WHERE [p].[Expiration] < GETUTCDATE()
+ORDER BY [p].[Key]
+2020-05-12 00:09:25.045 +08:00 [DBG] A data reader was disposed.
+2020-05-12 00:09:25.045 +08:00 [DBG] Closing connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-05-12 00:09:25.045 +08:00 [DBG] Closed connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-05-12 00:09:25.047 +08:00 [INF] Removing 0 grants
+2020-05-12 00:09:25.059 +08:00 [DBG] queryContext => new QueryingEnumerable<DeviceFlowCodes>(
+    (RelationalQueryContext)queryContext, 
+    RelationalCommandCache, 
+    null, 
+    ReaderColumn[] { ReaderColumn<object>, ReaderColumn<object>, ReaderColumn<DateTime>, ReaderColumn<object>, ReaderColumn<object>, ReaderColumn<DateTime>, ReaderColumn<object>, }, 
+    Func<QueryContext, DbDataReader, ResultContext, int[], ResultCoordinator, DeviceFlowCodes>, 
+    IdentityServer4.EntityFramework.DbContexts.PersistedGrantDbContext, 
+    DiagnosticsLogger<Query>
+)
+2020-05-12 00:09:25.060 +08:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2020-05-12 00:09:25.060 +08:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2020-05-12 00:09:25.060 +08:00 [DBG] Opening connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-05-12 00:09:25.060 +08:00 [DBG] Opened connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-05-12 00:09:25.061 +08:00 [DBG] Executing DbCommand [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(@__p_0) [d].[UserCode], [d].[ClientId], [d].[CreationTime], [d].[Data], [d].[DeviceCode], [d].[Expiration], [d].[SubjectId]
+FROM [DeviceCodes] AS [d]
+WHERE [d].[Expiration] < GETUTCDATE()
+ORDER BY [d].[DeviceCode]
+2020-05-12 00:09:25.101 +08:00 [INF] Executed DbCommand (41ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(@__p_0) [d].[UserCode], [d].[ClientId], [d].[CreationTime], [d].[Data], [d].[DeviceCode], [d].[Expiration], [d].[SubjectId]
+FROM [DeviceCodes] AS [d]
+WHERE [d].[Expiration] < GETUTCDATE()
+ORDER BY [d].[DeviceCode]
+2020-05-12 00:09:25.105 +08:00 [DBG] A data reader was disposed.
+2020-05-12 00:09:25.105 +08:00 [DBG] Closing connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-05-12 00:09:25.105 +08:00 [DBG] Closed connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-05-12 00:09:25.108 +08:00 [INF] Removing 0 device flow codes
+2020-05-12 00:09:25.109 +08:00 [DBG] 'PersistedGrantDbContext' disposed.

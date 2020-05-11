@@ -22,6 +22,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace KaneBlake.STS.Identity
 {
@@ -102,6 +103,11 @@ namespace KaneBlake.STS.Identity
             // "key": "idsrv"
             // "key": "idsrv.session"
             app.UseIdentityServer();
+
+            // Write streamlined request completion events, instead of the more verbose ones from the framework.
+            // To use the default framework request logging instead, remove this line and set the "Microsoft"
+            // level in appsettings.json to "Information".
+            app.UseSerilogRequestLogging();
 
             app.UseRouting();
 

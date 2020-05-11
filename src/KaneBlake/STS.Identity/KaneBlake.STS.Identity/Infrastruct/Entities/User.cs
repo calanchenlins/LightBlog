@@ -4,16 +4,33 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using BCrypts = BCrypt.Net.BCrypt;
 
 namespace KaneBlake.STS.Identity.Infrastruct.Entities
 {
     public class User : Entity<int>
     {
-        public User(string username, string password)
+        public User()
         {
-            Username = username ?? throw new ArgumentNullException(nameof(username));
-            Password = password ?? throw new ArgumentNullException(nameof(password));
-            CreatedTime = DateTime.UtcNow;
+        }
+
+        public static User Create(string username, string password) 
+        {
+            var salt = BCrypts.GenerateSalt();
+            var user = new User
+            {
+                Username = username ?? throw new ArgumentNullException(nameof(username)),
+                Password = BCrypts.HashPassword(password ?? throw new ArgumentNullException(nameof(password)), salt),
+                Salt = salt,
+                CreatedTime = DateTime.UtcNow
+            };
+            return user;
+        }
+
+        public bool ValidateCredentials(string password)
+        {
+            string passwordHash = BCrypts.HashPassword(password,Salt);
+            return Password.Equals(passwordHash);
         }
 
         /// <summary>
@@ -33,5 +50,8 @@ namespace KaneBlake.STS.Identity.Infrastruct.Entities
         /// </summary>
         [Required]
         public string Password { get; private set; }
+
+        [Required]
+        public string Salt { get; private set; }
     }
 }

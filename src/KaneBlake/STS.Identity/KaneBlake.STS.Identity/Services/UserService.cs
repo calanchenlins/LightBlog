@@ -18,7 +18,7 @@ namespace KaneBlake.STS.Identity.Services
         private readonly IRepository<User, int> _userRepository;
         private readonly ILogger _logger;
 
-        public UserService(IHttpContextAccessor httpContextAccessor, IRepository<User, int> userRepository, ILogger<HomeController> logger)
+        public UserService(IHttpContextAccessor httpContextAccessor, IRepository<User, int> userRepository, ILogger<UserService> logger)
         {
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
@@ -38,6 +38,7 @@ namespace KaneBlake.STS.Identity.Services
 
         public Task SignInAsync(User user, bool rememberLogin)
         {
+            _logger.LogDebug("SignInAsync");
             // only set explicit expiration here if user chooses "remember me". 
             // otherwise we rely upon expiration configured in cookie middleware.
             AuthenticationProperties props = null;
@@ -63,14 +64,14 @@ namespace KaneBlake.STS.Identity.Services
         {
             try 
             {
-                var user = new User(userName, password);
+                var user = User.Create(userName, password);
                 _userRepository.Add(user);
                 await _userRepository.CompleteAsync();
                 return user;
             }
             catch(Exception ex) 
             {
-                _logger.LogWarning(ex, "SignUp Failed!");
+                _logger.LogError(ex, "SignUp Failed!");
                 return null;
             }
         }
@@ -78,11 +79,13 @@ namespace KaneBlake.STS.Identity.Services
         public async Task<bool> ValidateCredentials(User user, string password)
         {
             await Task.CompletedTask;
-            return user is null ? false : user.Password.Equals(password);
+            return user is null ? false : user.ValidateCredentials(password);
         }
 
         public async Task<bool> UserNameExists(string userName)
         {
+            var t = _userRepository.Get().ToList();
+            var u = _userRepository.Get().Any(r => r.Username.Equals(userName));
             return await _userRepository.Get().AnyAsync(r => r.Username.Equals(userName));
         }
     }

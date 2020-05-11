@@ -1,0 +1,329 @@
+2020-04-21 17:05:21.826 +08:00 [INF] Starting web host
+2020-04-21 17:05:23.071 +08:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2020-04-21 17:05:23.665 +08:00 [INF] Entity Framework Core 3.1.2 initialized 'PersistedGrantDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: MigrationsAssembly=KaneBlake.STS.Identity 
+2020-04-21 17:05:23.734 +08:00 [DBG] Opening connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.223 +08:00 [DBG] Opened connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.235 +08:00 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2020-04-21 17:05:24.245 +08:00 [DBG] Created DbCommand for 'ExecuteNonQuery' (9ms).
+2020-04-21 17:05:24.257 +08:00 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2020-04-21 17:05:24.330 +08:00 [INF] Executed DbCommand (74ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2020-04-21 17:05:24.333 +08:00 [DBG] Closing connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.338 +08:00 [DBG] Closed connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.343 +08:00 [DBG] Creating DbCommand for 'ExecuteScalar'.
+2020-04-21 17:05:24.343 +08:00 [DBG] Created DbCommand for 'ExecuteScalar' (0ms).
+2020-04-21 17:05:24.343 +08:00 [DBG] Opening connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.344 +08:00 [DBG] Opened connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.345 +08:00 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2020-04-21 17:05:24.402 +08:00 [INF] Executed DbCommand (57ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2020-04-21 17:05:24.402 +08:00 [DBG] Closing connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.403 +08:00 [DBG] Closed connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.416 +08:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2020-04-21 17:05:24.416 +08:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2020-04-21 17:05:24.416 +08:00 [DBG] Opening connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.417 +08:00 [DBG] Opened connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.417 +08:00 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2020-04-21 17:05:24.474 +08:00 [INF] Executed DbCommand (57ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2020-04-21 17:05:24.478 +08:00 [DBG] A data reader was disposed.
+2020-04-21 17:05:24.479 +08:00 [DBG] Closing connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.479 +08:00 [DBG] Closed connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.482 +08:00 [DBG] 'PersistedGrantDbContext' disposed.
+2020-04-21 17:05:24.762 +08:00 [INF] Entity Framework Core 3.1.2 initialized 'ConfigurationDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: MigrationsAssembly=KaneBlake.STS.Identity 
+2020-04-21 17:05:24.767 +08:00 [DBG] Opening connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.768 +08:00 [DBG] Opened connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.768 +08:00 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2020-04-21 17:05:24.768 +08:00 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2020-04-21 17:05:24.768 +08:00 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2020-04-21 17:05:24.826 +08:00 [INF] Executed DbCommand (59ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2020-04-21 17:05:24.827 +08:00 [DBG] Closing connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.827 +08:00 [DBG] Closed connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.827 +08:00 [DBG] Creating DbCommand for 'ExecuteScalar'.
+2020-04-21 17:05:24.827 +08:00 [DBG] Created DbCommand for 'ExecuteScalar' (0ms).
+2020-04-21 17:05:24.827 +08:00 [DBG] Opening connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.827 +08:00 [DBG] Opened connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.827 +08:00 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2020-04-21 17:05:24.863 +08:00 [INF] Executed DbCommand (36ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2020-04-21 17:05:24.864 +08:00 [DBG] Closing connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.864 +08:00 [DBG] Closed connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.866 +08:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2020-04-21 17:05:24.867 +08:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2020-04-21 17:05:24.867 +08:00 [DBG] Opening connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.867 +08:00 [DBG] Opened connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.867 +08:00 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2020-04-21 17:05:24.913 +08:00 [INF] Executed DbCommand (46ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2020-04-21 17:05:24.913 +08:00 [DBG] A data reader was disposed.
+2020-04-21 17:05:24.913 +08:00 [DBG] Closing connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.914 +08:00 [DBG] Closed connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:24.914 +08:00 [DBG] 'ConfigurationDbContext' disposed.
+2020-04-21 17:05:24.920 +08:00 [DBG] Hosting starting
+2020-04-21 17:05:24.959 +08:00 [INF] User profile is available. Using 'C:\Users\Administrator\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-04-21 17:05:24.967 +08:00 [DBG] Reading data from file 'C:\Users\Administrator\AppData\Local\ASP.NET\DataProtection-Keys\key-4b88a329-f608-4602-9d58-a9881ea8ce5d.xml'.
+2020-04-21 17:05:24.970 +08:00 [DBG] Reading data from file 'C:\Users\Administrator\AppData\Local\ASP.NET\DataProtection-Keys\key-7140842a-768d-4526-9910-38873fea8253.xml'.
+2020-04-21 17:05:24.970 +08:00 [DBG] Reading data from file 'C:\Users\Administrator\AppData\Local\ASP.NET\DataProtection-Keys\key-74911a66-eff8-4ca2-9b04-36b494193304.xml'.
+2020-04-21 17:05:24.970 +08:00 [DBG] Reading data from file 'C:\Users\Administrator\AppData\Local\ASP.NET\DataProtection-Keys\key-7502c470-694d-4bd5-aee1-8256a91d5699.xml'.
+2020-04-21 17:05:24.971 +08:00 [DBG] Reading data from file 'C:\Users\Administrator\AppData\Local\ASP.NET\DataProtection-Keys\key-7957dfa3-b932-4d8e-b8d8-69146d00492e.xml'.
+2020-04-21 17:05:24.971 +08:00 [DBG] Reading data from file 'C:\Users\Administrator\AppData\Local\ASP.NET\DataProtection-Keys\key-c63d022f-6a79-4fdc-956f-59bfb7408681.xml'.
+2020-04-21 17:05:24.978 +08:00 [DBG] Found key "4b88a329-f608-4602-9d58-a9881ea8ce5d".
+2020-04-21 17:05:24.981 +08:00 [DBG] Found key "7140842a-768d-4526-9910-38873fea8253".
+2020-04-21 17:05:24.982 +08:00 [DBG] Found key "74911a66-eff8-4ca2-9b04-36b494193304".
+2020-04-21 17:05:24.982 +08:00 [DBG] Found key "7502c470-694d-4bd5-aee1-8256a91d5699".
+2020-04-21 17:05:24.982 +08:00 [DBG] Found key "7957dfa3-b932-4d8e-b8d8-69146d00492e".
+2020-04-21 17:05:24.982 +08:00 [DBG] Found key "c63d022f-6a79-4fdc-956f-59bfb7408681".
+2020-04-21 17:05:24.993 +08:00 [DBG] Considering key "7957dfa3-b932-4d8e-b8d8-69146d00492e" with expiration date "2020-06-04T14:03:21.1322240+00:00" as default key.
+2020-04-21 17:05:25.005 +08:00 [DBG] Forwarded activator type request from Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlDecryptor, Microsoft.AspNetCore.DataProtection, Version=3.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60 to Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlDecryptor, Microsoft.AspNetCore.DataProtection, Culture=neutral, PublicKeyToken=adb9793829ddae60
+2020-04-21 17:05:25.005 +08:00 [DBG] Decrypting secret element using Windows DPAPI.
+2020-04-21 17:05:25.008 +08:00 [DBG] Forwarded activator type request from Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel.AuthenticatedEncryptorDescriptorDeserializer, Microsoft.AspNetCore.DataProtection, Version=3.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60 to Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel.AuthenticatedEncryptorDescriptorDeserializer, Microsoft.AspNetCore.DataProtection, Culture=neutral, PublicKeyToken=adb9793829ddae60
+2020-04-21 17:05:25.010 +08:00 [DBG] Opening CNG algorithm 'AES' from provider 'null' with chaining mode CBC.
+2020-04-21 17:05:25.012 +08:00 [DBG] Opening CNG algorithm 'SHA256' from provider 'null' with HMAC.
+2020-04-21 17:05:25.016 +08:00 [DBG] Using key "7957dfa3-b932-4d8e-b8d8-69146d00492e" as the default key.
+2020-04-21 17:05:25.017 +08:00 [DBG] Key ring with default key "7957dfa3-b932-4d8e-b8d8-69146d00492e" was loaded during application startup.
+2020-04-21 17:05:25.017 +08:00 [DBG] Starting grant removal
+2020-04-21 17:05:25.053 +08:00 [INF] Starting IdentityServer4 version 3.1.2.0
+2020-04-21 17:05:25.074 +08:00 [DBG] Custom IssuerUri set to null
+2020-04-21 17:05:25.078 +08:00 [INF] Using the default authentication scheme idsrv for IdentityServer
+2020-04-21 17:05:25.078 +08:00 [DBG] Using idsrv as default ASP.NET Core scheme for authentication
+2020-04-21 17:05:25.078 +08:00 [DBG] Using idsrv as default ASP.NET Core scheme for sign-in
+2020-04-21 17:05:25.079 +08:00 [DBG] Using idsrv as default ASP.NET Core scheme for sign-out
+2020-04-21 17:05:25.079 +08:00 [DBG] Using idsrv as default ASP.NET Core scheme for challenge
+2020-04-21 17:05:25.079 +08:00 [DBG] Using idsrv as default ASP.NET Core scheme for forbid
+2020-04-21 17:05:25.405 +08:00 [DBG] Loaded hosting startup assembly KaneBlake.STS.Identity
+2020-04-21 17:05:25.405 +08:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-04-21 17:05:25.405 +08:00 [INF] Hosting environment: Development
+2020-04-21 17:05:25.405 +08:00 [INF] Content root path: C:\WorkStation\Code\GitHubCode\LightBlog\src\KaneBlake\STS.Identity\KaneBlake.STS.Identity
+2020-04-21 17:05:25.405 +08:00 [DBG] Hosting started
+2020-04-21 17:05:25.435 +08:00 [INF] Request starting HTTP/2.0 GET https://localhost:44350/  
+2020-04-21 17:05:25.438 +08:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2020-04-21 17:05:25.444 +08:00 [DBG] The request path / does not match a supported file type
+2020-04-21 17:05:25.460 +08:00 [DBG] Login Url: /Account/Login
+2020-04-21 17:05:25.460 +08:00 [DBG] Login Return Url Parameter: ReturnUrl
+2020-04-21 17:05:25.460 +08:00 [DBG] Logout Url: /Account/Logout
+2020-04-21 17:05:25.460 +08:00 [DBG] ConsentUrl Url: /consent
+2020-04-21 17:05:25.460 +08:00 [DBG] Consent Return Url Parameter: returnUrl
+2020-04-21 17:05:25.460 +08:00 [DBG] Error Url: /home/error
+2020-04-21 17:05:25.460 +08:00 [DBG] Error Id Parameter: errorId
+2020-04-21 17:05:25.480 +08:00 [INF] idsrv was not authenticated. Failure message: Ticket expired
+2020-04-21 17:05:25.489 +08:00 [INF] idsrv was not authenticated. Failure message: Ticket expired
+2020-04-21 17:05:25.532 +08:00 [DBG] 1 candidate(s) found for the request path '/'
+2020-04-21 17:05:25.539 +08:00 [DBG] Endpoint 'KaneBlake.STS.Identity.HomeController.Index (KaneBlake.STS.Identity)' with route pattern '{controller=Home}/{action=Index}/{id?}' is valid for the request path '/'
+2020-04-21 17:05:25.540 +08:00 [DBG] Request matched endpoint 'KaneBlake.STS.Identity.HomeController.Index (KaneBlake.STS.Identity)'
+2020-04-21 17:05:25.542 +08:00 [INF] Executing endpoint 'KaneBlake.STS.Identity.HomeController.Index (KaneBlake.STS.Identity)'
+2020-04-21 17:05:25.552 +08:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexTypeModelBinderProvider"]
+2020-04-21 17:05:25.585 +08:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller KaneBlake.STS.Identity.HomeController (KaneBlake.STS.Identity).
+2020-04-21 17:05:25.586 +08:00 [DBG] Execution plan of authorization filters (in the following order): ["Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.AutoValidateAntiforgeryTokenAuthorizationFilter"]
+2020-04-21 17:05:25.586 +08:00 [DBG] Execution plan of resource filters (in the following order): ["Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.SaveTempDataFilter"]
+2020-04-21 17:05:25.587 +08:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.Filters.ControllerActionFilter (Order: -2147483648)","Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","KaneBlake.STS.Identity.SecurityHeadersAttribute (Order: 0)"]
+2020-04-21 17:05:25.587 +08:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2020-04-21 17:05:25.587 +08:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.SaveTempDataFilter","KaneBlake.STS.Identity.SecurityHeadersAttribute (Order: 0)"]
+2020-04-21 17:05:25.589 +08:00 [DBG] Executing controller factory for controller KaneBlake.STS.Identity.HomeController (KaneBlake.STS.Identity)
+2020-04-21 17:05:25.622 +08:00 [DBG] Executed controller factory for controller KaneBlake.STS.Identity.HomeController (KaneBlake.STS.Identity)
+2020-04-21 17:05:25.634 +08:00 [DBG] View lookup cache miss for view 'Index' in controller 'Home'.
+2020-04-21 17:05:25.640 +08:00 [DBG] Initializing Razor view compiler with compiled view: '/Views/Account/AccessDenied.cshtml'.
+2020-04-21 17:05:25.640 +08:00 [DBG] Initializing Razor view compiler with compiled view: '/Views/Account/LoggedOut.cshtml'.
+2020-04-21 17:05:25.640 +08:00 [DBG] Initializing Razor view compiler with compiled view: '/Views/Account/Login.cshtml'.
+2020-04-21 17:05:25.640 +08:00 [DBG] Initializing Razor view compiler with compiled view: '/Views/Account/Logout.cshtml'.
+2020-04-21 17:05:25.641 +08:00 [DBG] Initializing Razor view compiler with compiled view: '/Views/Account/SignUp.cshtml'.
+2020-04-21 17:05:25.641 +08:00 [DBG] Initializing Razor view compiler with compiled view: '/Views/Account/tt.cshtml'.
+2020-04-21 17:05:25.641 +08:00 [DBG] Initializing Razor view compiler with compiled view: '/Views/Consent/Index.cshtml'.
+2020-04-21 17:05:25.641 +08:00 [DBG] Initializing Razor view compiler with compiled view: '/Views/Device/Success.cshtml'.
+2020-04-21 17:05:25.641 +08:00 [DBG] Initializing Razor view compiler with compiled view: '/Views/Device/UserCodeCapture.cshtml'.
+2020-04-21 17:05:25.641 +08:00 [DBG] Initializing Razor view compiler with compiled view: '/Views/Device/UserCodeConfirmation.cshtml'.
+2020-04-21 17:05:25.641 +08:00 [DBG] Initializing Razor view compiler with compiled view: '/Views/Diagnostics/Index.cshtml'.
+2020-04-21 17:05:25.641 +08:00 [DBG] Initializing Razor view compiler with compiled view: '/Views/Grants/Index.cshtml'.
+2020-04-21 17:05:25.641 +08:00 [DBG] Initializing Razor view compiler with compiled view: '/Views/Home/Index.cshtml'.
+2020-04-21 17:05:25.641 +08:00 [DBG] Initializing Razor view compiler with compiled view: '/Views/Shared/Error.cshtml'.
+2020-04-21 17:05:25.641 +08:00 [DBG] Initializing Razor view compiler with compiled view: '/Views/Shared/Redirect.cshtml'.
+2020-04-21 17:05:25.641 +08:00 [DBG] Initializing Razor view compiler with compiled view: '/Views/Shared/_Layout.cshtml'.
+2020-04-21 17:05:25.641 +08:00 [DBG] Initializing Razor view compiler with compiled view: '/Views/Shared/_ScopeListItem.cshtml'.
+2020-04-21 17:05:25.642 +08:00 [DBG] Initializing Razor view compiler with compiled view: '/Views/Shared/_ValidationScriptsPartial.cshtml'.
+2020-04-21 17:05:25.642 +08:00 [DBG] Initializing Razor view compiler with compiled view: '/Views/Shared/_ValidationSummary.cshtml'.
+2020-04-21 17:05:25.642 +08:00 [DBG] Initializing Razor view compiler with compiled view: '/Views/_ViewImports.cshtml'.
+2020-04-21 17:05:25.642 +08:00 [DBG] Initializing Razor view compiler with compiled view: '/Views/_ViewStart.cshtml'.
+2020-04-21 17:05:25.669 +08:00 [INF] Executing ViewResult, running view Index.
+2020-04-21 17:05:25.674 +08:00 [DBG] The view path '/Views/Home/Index.cshtml' was found in 35.6843ms.
+2020-04-21 17:05:25.710 +08:00 [DBG] View lookup cache miss for view '_Layout' in controller 'Home'.
+2020-04-21 17:05:25.760 +08:00 [DBG] Found the endpoints ["Route: {controller=Home}/{action=Index}/{id?}"] for address Microsoft.AspNetCore.Routing.RouteValuesAddress
+2020-04-21 17:05:25.767 +08:00 [DBG] Successfully processed template {controller=Home}/{action=Index}/{id?} for Route: {controller=Home}/{action=Index}/{id?} resulting in /Account/Login and 
+2020-04-21 17:05:25.777 +08:00 [DBG] Link generation succeeded for endpoints ["Route: {controller=Home}/{action=Index}/{id?}"] with result /Account/Login
+2020-04-21 17:05:25.779 +08:00 [DBG] Found the endpoints ["Route: {controller=Home}/{action=Index}/{id?}"] for address Microsoft.AspNetCore.Routing.RouteValuesAddress
+2020-04-21 17:05:25.780 +08:00 [DBG] Successfully processed template {controller=Home}/{action=Index}/{id?} for Route: {controller=Home}/{action=Index}/{id?} resulting in /Account/SignUp and 
+2020-04-21 17:05:25.780 +08:00 [DBG] Link generation succeeded for endpoints ["Route: {controller=Home}/{action=Index}/{id?}"] with result /Account/SignUp
+2020-04-21 17:05:25.781 +08:00 [DBG] Found the endpoints ["Route: {controller=Home}/{action=Index}/{id?}"] for address Microsoft.AspNetCore.Routing.RouteValuesAddress
+2020-04-21 17:05:25.782 +08:00 [DBG] Successfully processed template {controller=Home}/{action=Index}/{id?} for Route: {controller=Home}/{action=Index}/{id?} resulting in /Home/Privacy and 
+2020-04-21 17:05:25.782 +08:00 [DBG] Link generation succeeded for endpoints ["Route: {controller=Home}/{action=Index}/{id?}"] with result /Home/Privacy
+2020-04-21 17:05:25.788 +08:00 [DBG] No response compression available for HTTPS requests. See ResponseCompressionOptions.EnableForHttps.
+2020-04-21 17:05:25.803 +08:00 [INF] Executed ViewResult - view Index executed in 169.4666ms.
+2020-04-21 17:05:25.804 +08:00 [INF] Executed action KaneBlake.STS.Identity.HomeController.Index (KaneBlake.STS.Identity) in 216.7105ms
+2020-04-21 17:05:25.805 +08:00 [INF] Executed endpoint 'KaneBlake.STS.Identity.HomeController.Index (KaneBlake.STS.Identity)'
+2020-04-21 17:05:25.808 +08:00 [INF] HTTP GET / responded 200 in 308.036997249326 ms
+2020-04-21 17:05:25.815 +08:00 [INF] Request finished in 383.9709ms 200 text/html; charset=utf-8
+2020-04-21 17:05:39.641 +08:00 [INF] Request starting HTTP/2.0 GET https://localhost:44350/Account/Login  
+2020-04-21 17:05:39.642 +08:00 [DBG] The request path /Account/Login does not match a supported file type
+2020-04-21 17:05:39.646 +08:00 [INF] idsrv was not authenticated. Failure message: Ticket expired
+2020-04-21 17:05:39.647 +08:00 [INF] idsrv was not authenticated. Failure message: Ticket expired
+2020-04-21 17:05:39.652 +08:00 [DBG] 1 candidate(s) found for the request path '/Account/Login'
+2020-04-21 17:05:39.655 +08:00 [DBG] Endpoint 'KaneBlake.STS.Identity.AccountController.Login (KaneBlake.STS.Identity)' with route pattern '{controller=Home}/{action=Index}/{id?}' is valid for the request path '/Account/Login'
+2020-04-21 17:05:39.656 +08:00 [DBG] Request matched endpoint 'KaneBlake.STS.Identity.AccountController.Login (KaneBlake.STS.Identity)'
+2020-04-21 17:05:39.659 +08:00 [INF] Executing endpoint 'KaneBlake.STS.Identity.AccountController.Login (KaneBlake.STS.Identity)'
+2020-04-21 17:05:39.683 +08:00 [INF] Route matched with {action = "Login", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(System.String) on controller KaneBlake.STS.Identity.AccountController (KaneBlake.STS.Identity).
+2020-04-21 17:05:39.683 +08:00 [DBG] Execution plan of authorization filters (in the following order): ["Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.AutoValidateAntiforgeryTokenAuthorizationFilter"]
+2020-04-21 17:05:39.683 +08:00 [DBG] Execution plan of resource filters (in the following order): ["Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.SaveTempDataFilter"]
+2020-04-21 17:05:39.683 +08:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.Filters.ControllerActionFilter (Order: -2147483648)","Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","KaneBlake.STS.Identity.SecurityHeadersAttribute (Order: 0)"]
+2020-04-21 17:05:39.684 +08:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2020-04-21 17:05:39.684 +08:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.SaveTempDataFilter","KaneBlake.STS.Identity.SecurityHeadersAttribute (Order: 0)"]
+2020-04-21 17:05:39.684 +08:00 [DBG] Executing controller factory for controller KaneBlake.STS.Identity.AccountController (KaneBlake.STS.Identity)
+2020-04-21 17:05:39.688 +08:00 [DBG] Executed controller factory for controller KaneBlake.STS.Identity.AccountController (KaneBlake.STS.Identity)
+2020-04-21 17:05:39.697 +08:00 [DBG] Attempting to bind parameter 'returnUrl' of type 'System.String' ...
+2020-04-21 17:05:39.700 +08:00 [DBG] Could not find a value in the request with name '' for binding parameter 'returnUrl' of type 'System.String'.
+2020-04-21 17:05:39.700 +08:00 [DBG] Done attempting to bind parameter 'returnUrl' of type 'System.String'.
+2020-04-21 17:05:39.700 +08:00 [DBG] Done attempting to bind parameter 'returnUrl' of type 'System.String'.
+2020-04-21 17:05:39.700 +08:00 [DBG] Attempting to validate the bound parameter 'returnUrl' of type 'System.String' ...
+2020-04-21 17:05:39.702 +08:00 [DBG] Done attempting to validate the bound parameter 'returnUrl' of type 'System.String'.
+2020-04-21 17:05:39.714 +08:00 [DBG] View lookup cache miss for view 'Login' in controller 'Account'.
+2020-04-21 17:05:39.721 +08:00 [INF] Executing ViewResult, running view Login.
+2020-04-21 17:05:39.721 +08:00 [DBG] The view path '/Views/Account/Login.cshtml' was found in 7.2342ms.
+2020-04-21 17:05:39.737 +08:00 [DBG] No endpoints found for address Microsoft.AspNetCore.Routing.RouteValuesAddress
+2020-04-21 17:05:39.740 +08:00 [DBG] An antiforgery cookie token was reused.
+2020-04-21 17:05:39.777 +08:00 [DBG] Found the endpoints ["Route: {controller=Home}/{action=Index}/{id?}"] for address Microsoft.AspNetCore.Routing.RouteValuesAddress
+2020-04-21 17:05:39.778 +08:00 [DBG] Successfully processed template {controller=Home}/{action=Index}/{id?} for Route: {controller=Home}/{action=Index}/{id?} resulting in /Account/SignUp and 
+2020-04-21 17:05:39.778 +08:00 [DBG] Link generation succeeded for endpoints ["Route: {controller=Home}/{action=Index}/{id?}"] with result /Account/SignUp
+2020-04-21 17:05:39.780 +08:00 [DBG] No response compression available for HTTPS requests. See ResponseCompressionOptions.EnableForHttps.
+2020-04-21 17:05:39.780 +08:00 [INF] Executed ViewResult - view Login executed in 66.8265ms.
+2020-04-21 17:05:39.781 +08:00 [INF] Executed action KaneBlake.STS.Identity.AccountController.Login (KaneBlake.STS.Identity) in 96.8885ms
+2020-04-21 17:05:39.781 +08:00 [INF] Executed endpoint 'KaneBlake.STS.Identity.AccountController.Login (KaneBlake.STS.Identity)'
+2020-04-21 17:05:39.781 +08:00 [INF] HTTP GET /Account/Login responded 200 in 132.94539364744844 ms
+2020-04-21 17:05:39.782 +08:00 [INF] Request finished in 143.6273ms 200 text/html; charset=utf-8
+2020-04-21 17:05:40.865 +08:00 [INF] Request starting HTTP/2.0 POST https://localhost:44350/Account/Login application/x-www-form-urlencoded 254
+2020-04-21 17:05:40.865 +08:00 [DBG] POST requests are not supported
+2020-04-21 17:05:40.870 +08:00 [DBG] CORS request made for path: /Account/Login from origin: null but was ignored because path was not for an allowed IdentityServer CORS endpoint
+2020-04-21 17:05:40.870 +08:00 [INF] No CORS policy found for the specified request.
+2020-04-21 17:05:40.874 +08:00 [INF] idsrv was not authenticated. Failure message: Ticket expired
+2020-04-21 17:05:40.875 +08:00 [INF] idsrv was not authenticated. Failure message: Ticket expired
+2020-04-21 17:05:40.877 +08:00 [DBG] 1 candidate(s) found for the request path '/Account/Login'
+2020-04-21 17:05:40.877 +08:00 [DBG] Endpoint 'KaneBlake.STS.Identity.AccountController.Login (KaneBlake.STS.Identity)' with route pattern '{controller=Home}/{action=Index}/{id?}' is valid for the request path '/Account/Login'
+2020-04-21 17:05:40.877 +08:00 [DBG] Request matched endpoint 'KaneBlake.STS.Identity.AccountController.Login (KaneBlake.STS.Identity)'
+2020-04-21 17:05:40.878 +08:00 [INF] Executing endpoint 'KaneBlake.STS.Identity.AccountController.Login (KaneBlake.STS.Identity)'
+2020-04-21 17:05:40.886 +08:00 [INF] Route matched with {action = "Login", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(KaneBlake.STS.Identity.LoginInputModel, System.String) on controller KaneBlake.STS.Identity.AccountController (KaneBlake.STS.Identity).
+2020-04-21 17:05:40.886 +08:00 [DBG] Execution plan of authorization filters (in the following order): ["Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.AutoValidateAntiforgeryTokenAuthorizationFilter","Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.ValidateAntiforgeryTokenAuthorizationFilter"]
+2020-04-21 17:05:40.886 +08:00 [DBG] Execution plan of resource filters (in the following order): ["Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.SaveTempDataFilter"]
+2020-04-21 17:05:40.886 +08:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.Filters.ControllerActionFilter (Order: -2147483648)","Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","KaneBlake.STS.Identity.SecurityHeadersAttribute (Order: 0)"]
+2020-04-21 17:05:40.887 +08:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2020-04-21 17:05:40.887 +08:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.SaveTempDataFilter","KaneBlake.STS.Identity.SecurityHeadersAttribute (Order: 0)"]
+2020-04-21 17:05:40.897 +08:00 [DBG] Antiforgery successfully validated a request.
+2020-04-21 17:05:40.897 +08:00 [DBG] Executing controller factory for controller KaneBlake.STS.Identity.AccountController (KaneBlake.STS.Identity)
+2020-04-21 17:05:40.902 +08:00 [DBG] Executed controller factory for controller KaneBlake.STS.Identity.AccountController (KaneBlake.STS.Identity)
+2020-04-21 17:05:40.905 +08:00 [DBG] Attempting to bind parameter 'model' of type 'KaneBlake.STS.Identity.LoginInputModel' ...
+2020-04-21 17:05:40.907 +08:00 [DBG] Attempting to bind parameter 'model' of type 'KaneBlake.STS.Identity.LoginInputModel' using the name '' in request data ...
+2020-04-21 17:05:40.909 +08:00 [DBG] Attempting to bind property 'KaneBlake.STS.Identity.LoginInputModel.Username' of type 'System.String' using the name 'Username' in request data ...
+2020-04-21 17:05:40.910 +08:00 [DBG] Done attempting to bind property 'KaneBlake.STS.Identity.LoginInputModel.Username' of type 'System.String'.
+2020-04-21 17:05:40.911 +08:00 [DBG] Attempting to bind property 'KaneBlake.STS.Identity.LoginInputModel.Password' of type 'System.String' using the name 'Password' in request data ...
+2020-04-21 17:05:40.911 +08:00 [DBG] Done attempting to bind property 'KaneBlake.STS.Identity.LoginInputModel.Password' of type 'System.String'.
+2020-04-21 17:05:40.911 +08:00 [DBG] Attempting to bind property 'KaneBlake.STS.Identity.LoginInputModel.RememberLogin' of type 'System.Boolean' using the name 'RememberLogin' in request data ...
+2020-04-21 17:05:40.911 +08:00 [DBG] Done attempting to bind property 'KaneBlake.STS.Identity.LoginInputModel.RememberLogin' of type 'System.Boolean'.
+2020-04-21 17:05:40.912 +08:00 [DBG] Attempting to bind property 'KaneBlake.STS.Identity.LoginInputModel.ReturnUrl' of type 'System.String' using the name 'ReturnUrl' in request data ...
+2020-04-21 17:05:40.912 +08:00 [DBG] Done attempting to bind property 'KaneBlake.STS.Identity.LoginInputModel.ReturnUrl' of type 'System.String'.
+2020-04-21 17:05:40.912 +08:00 [DBG] Done attempting to bind parameter 'model' of type 'KaneBlake.STS.Identity.LoginInputModel'.
+2020-04-21 17:05:40.912 +08:00 [DBG] Done attempting to bind parameter 'model' of type 'KaneBlake.STS.Identity.LoginInputModel'.
+2020-04-21 17:05:40.912 +08:00 [DBG] Attempting to validate the bound parameter 'model' of type 'KaneBlake.STS.Identity.LoginInputModel' ...
+2020-04-21 17:05:40.919 +08:00 [DBG] Done attempting to validate the bound parameter 'model' of type 'KaneBlake.STS.Identity.LoginInputModel'.
+2020-04-21 17:05:40.919 +08:00 [DBG] Attempting to bind parameter 'button' of type 'System.String' ...
+2020-04-21 17:05:40.920 +08:00 [DBG] Attempting to bind parameter 'button' of type 'System.String' using the name 'button' in request data ...
+2020-04-21 17:05:40.920 +08:00 [DBG] Done attempting to bind parameter 'button' of type 'System.String'.
+2020-04-21 17:05:40.920 +08:00 [DBG] Done attempting to bind parameter 'button' of type 'System.String'.
+2020-04-21 17:05:40.920 +08:00 [DBG] Attempting to validate the bound parameter 'button' of type 'System.String' ...
+2020-04-21 17:05:40.920 +08:00 [DBG] Done attempting to validate the bound parameter 'button' of type 'System.String'.
+2020-04-21 17:05:40.950 +08:00 [DBG] An additional 'IServiceProvider' was created for internal use by Entity Framework. An existing service provider was not used due to the following configuration changes: configuration added for 'Proxies:UseLazyLoadingProxies'.
+2020-04-21 17:05:41.192 +08:00 [INF] Entity Framework Core 3.1.2 initialized 'UserDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: using lazy-loading proxies 
+2020-04-21 17:05:41.429 +08:00 [DBG] queryContext => ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync<User>(
+    asyncEnumerable: new QueryingEnumerable<User>(
+        (RelationalQueryContext)queryContext, 
+        RelationalCommandCache, 
+        null, 
+        ReaderColumn[] { ReaderColumn<int>, ReaderColumn<DateTime>, ReaderColumn<object>, ReaderColumn<object>, }, 
+        Func<QueryContext, DbDataReader, ResultContext, int[], ResultCoordinator, User>, 
+        KaneBlake.STS.Identity.Infrastruct.Context.UserDbContext, 
+        DiagnosticsLogger<Query>
+    ), 
+    cancellationToken: queryContext.CancellationToken)
+2020-04-21 17:05:41.469 +08:00 [DBG] Creating DbCommand for 'ExecuteReader'.
+2020-04-21 17:05:41.470 +08:00 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2020-04-21 17:05:41.477 +08:00 [DBG] Opening connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:41.479 +08:00 [DBG] Opened connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:41.485 +08:00 [DBG] Executing DbCommand [Parameters=[@__username_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[CreatedTime], [u].[Password], [u].[Username]
+FROM [User] AS [u]
+WHERE [u].[Username] = @__username_0
+2020-04-21 17:05:41.572 +08:00 [INF] Executed DbCommand (92ms) [Parameters=[@__username_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[CreatedTime], [u].[Password], [u].[Username]
+FROM [User] AS [u]
+WHERE [u].[Username] = @__username_0
+2020-04-21 17:05:41.651 +08:00 [DBG] Context 'UserDbContext' started tracking 'User' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2020-04-21 17:05:41.677 +08:00 [DBG] A data reader was disposed.
+2020-04-21 17:05:41.679 +08:00 [DBG] Closing connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:41.682 +08:00 [DBG] Closed connection to database 'IdentityDb' on server '101.132.150.163,57803'.
+2020-04-21 17:05:41.688 +08:00 [DBG] SignInAsync
+2020-04-21 17:05:41.705 +08:00 [DBG] Augmenting SignInContext
+2020-04-21 17:05:41.706 +08:00 [DBG] Adding idp claim with value: local
+2020-04-21 17:05:41.706 +08:00 [DBG] Adding amr claim with value: pwd
+2020-04-21 17:05:41.706 +08:00 [DBG] Adding auth_time claim with value: 1587459941
+2020-04-21 17:05:41.708 +08:00 [INF] idsrv was not authenticated. Failure message: Ticket expired
+2020-04-21 17:05:41.715 +08:00 [INF] AuthenticationScheme: idsrv signed in.
+2020-04-21 17:05:41.720 +08:00 [INF] Executing RedirectResult, redirecting to /.
+2020-04-21 17:05:41.721 +08:00 [INF] Executed action KaneBlake.STS.Identity.AccountController.Login (KaneBlake.STS.Identity) in 834.5913ms
+2020-04-21 17:05:41.722 +08:00 [INF] Executed endpoint 'KaneBlake.STS.Identity.AccountController.Login (KaneBlake.STS.Identity)'
+2020-04-21 17:05:41.723 +08:00 [INF] HTTP POST /Account/Login responded 302 in 848.6145703611458 ms
+2020-04-21 17:05:41.727 +08:00 [DBG] 'UserDbContext' disposed.
+2020-04-21 17:05:41.728 +08:00 [INF] Request finished in 865.8203ms 302 
+2020-04-21 17:05:41.732 +08:00 [INF] Request starting HTTP/2.0 GET https://localhost:44350/  
+2020-04-21 17:05:41.732 +08:00 [DBG] The request path / does not match a supported file type
+2020-04-21 17:05:41.733 +08:00 [DBG] AuthenticationScheme: idsrv was successfully authenticated.
+2020-04-21 17:05:41.733 +08:00 [DBG] AuthenticationScheme: idsrv was successfully authenticated.
+2020-04-21 17:05:41.733 +08:00 [DBG] 1 candidate(s) found for the request path '/'
+2020-04-21 17:05:41.733 +08:00 [DBG] Endpoint 'KaneBlake.STS.Identity.HomeController.Index (KaneBlake.STS.Identity)' with route pattern '{controller=Home}/{action=Index}/{id?}' is valid for the request path '/'
+2020-04-21 17:05:41.734 +08:00 [DBG] Request matched endpoint 'KaneBlake.STS.Identity.HomeController.Index (KaneBlake.STS.Identity)'
+2020-04-21 17:05:41.734 +08:00 [INF] Executing endpoint 'KaneBlake.STS.Identity.HomeController.Index (KaneBlake.STS.Identity)'
+2020-04-21 17:05:41.734 +08:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller KaneBlake.STS.Identity.HomeController (KaneBlake.STS.Identity).
+2020-04-21 17:05:41.734 +08:00 [DBG] Execution plan of authorization filters (in the following order): ["Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.AutoValidateAntiforgeryTokenAuthorizationFilter"]
+2020-04-21 17:05:41.734 +08:00 [DBG] Execution plan of resource filters (in the following order): ["Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.SaveTempDataFilter"]
+2020-04-21 17:05:41.734 +08:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.Filters.ControllerActionFilter (Order: -2147483648)","Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","KaneBlake.STS.Identity.SecurityHeadersAttribute (Order: 0)"]
+2020-04-21 17:05:41.734 +08:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2020-04-21 17:05:41.734 +08:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.SaveTempDataFilter","KaneBlake.STS.Identity.SecurityHeadersAttribute (Order: 0)"]
+2020-04-21 17:05:41.735 +08:00 [DBG] Executing controller factory for controller KaneBlake.STS.Identity.HomeController (KaneBlake.STS.Identity)
+2020-04-21 17:05:41.735 +08:00 [DBG] Executed controller factory for controller KaneBlake.STS.Identity.HomeController (KaneBlake.STS.Identity)
+2020-04-21 17:05:41.735 +08:00 [DBG] View lookup cache hit for view 'Index' in controller 'Home'.
+2020-04-21 17:05:41.736 +08:00 [INF] Executing ViewResult, running view Index.
+2020-04-21 17:05:41.736 +08:00 [DBG] The view path '/Views/Home/Index.cshtml' was found in 0.3147ms.
+2020-04-21 17:05:41.736 +08:00 [DBG] View lookup cache hit for view '_Layout' in controller 'Home'.
+2020-04-21 17:05:41.737 +08:00 [DBG] Found the endpoints ["Route: {controller=Home}/{action=Index}/{id?}"] for address Microsoft.AspNetCore.Routing.RouteValuesAddress
+2020-04-21 17:05:41.737 +08:00 [DBG] Successfully processed template {controller=Home}/{action=Index}/{id?} for Route: {controller=Home}/{action=Index}/{id?} resulting in /Account/MyProfile and 
+2020-04-21 17:05:41.738 +08:00 [DBG] Link generation succeeded for endpoints ["Route: {controller=Home}/{action=Index}/{id?}"] with result /Account/MyProfile
+2020-04-21 17:05:41.739 +08:00 [DBG] Found the endpoints ["Route: {controller=Home}/{action=Index}/{id?}"] for address Microsoft.AspNetCore.Routing.RouteValuesAddress
+2020-04-21 17:05:41.739 +08:00 [DBG] Successfully processed template {controller=Home}/{action=Index}/{id?} for Route: {controller=Home}/{action=Index}/{id?} resulting in /Account/Logout and 
+2020-04-21 17:05:41.739 +08:00 [DBG] Link generation succeeded for endpoints ["Route: {controller=Home}/{action=Index}/{id?}"] with result /Account/Logout
+2020-04-21 17:05:41.740 +08:00 [DBG] Found the endpoints ["Route: {controller=Home}/{action=Index}/{id?}"] for address Microsoft.AspNetCore.Routing.RouteValuesAddress
+2020-04-21 17:05:41.740 +08:00 [DBG] Successfully processed template {controller=Home}/{action=Index}/{id?} for Route: {controller=Home}/{action=Index}/{id?} resulting in /Home/Privacy and 
+2020-04-21 17:05:41.740 +08:00 [DBG] Link generation succeeded for endpoints ["Route: {controller=Home}/{action=Index}/{id?}"] with result /Home/Privacy
+2020-04-21 17:05:41.741 +08:00 [DBG] No response compression available for HTTPS requests. See ResponseCompressionOptions.EnableForHttps.
+2020-04-21 17:05:41.741 +08:00 [INF] Executed ViewResult - view Index executed in 5.8648ms.
+2020-04-21 17:05:41.741 +08:00 [INF] Executed action KaneBlake.STS.Identity.HomeController.Index (KaneBlake.STS.Identity) in 6.8236ms
+2020-04-21 17:05:41.741 +08:00 [INF] Executed endpoint 'KaneBlake.STS.Identity.HomeController.Index (KaneBlake.STS.Identity)'
+2020-04-21 17:05:41.742 +08:00 [INF] HTTP GET / responded 200 in 8.176327097559975 ms
+2020-04-21 17:05:41.742 +08:00 [INF] Request finished in 9.7864ms 200 text/html; charset=utf-8

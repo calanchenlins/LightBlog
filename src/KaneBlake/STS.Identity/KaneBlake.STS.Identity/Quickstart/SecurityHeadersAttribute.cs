@@ -27,22 +27,30 @@ namespace KaneBlake.STS.Identity
                 }
 
                 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
-                var csp = "default-src 'self'; object-src 'none'; frame-ancestors 'none'; sandbox allow-forms allow-same-origin allow-scripts; base-uri 'self';img-src 'self' data:;";//
+                var csp = "default-src 'self'; object-src 'none'; frame-ancestors 'none'; sandbox allow-forms allow-same-origin allow-scripts; base-uri 'self';img-src 'self' data:;";
                 // also consider adding upgrade-insecure-requests once you have HTTPS in place for production
-                //csp += "upgrade-insecure-requests;";
+                // csp += "upgrade-insecure-requests;";
                 // also an example if you need client images to be displayed from twitter
                 // csp += "img-src 'self' https://pbs.twimg.com;";
+                csp += "script-src 'self' https://unpkg.com/;";
 
                 csp += "report-uri /csp_report;";
 
 
-                //'report-to' not working in chrome
-                //csp += "report-to csp-endpoint;";
-                //if (!context.HttpContext.Response.Headers.ContainsKey("Report-To"))
-                //{
-                //    //report-to: {"group":"default","max_age":31536000,"endpoints":[{"url":"https://webhook.site/15ebf15e-126d-4c2a-bfff-73c7086f3a4a"}],"include_subdomains":true}
-                //    context.HttpContext.Response.Headers.Add("Report-To", @"{""group"": ""csp-endpoint"",""max_age"": 10886400,""endpoints"": [{ ""url"": ""/csp_report"" }],""include_subdomains"":true}");
-                //}
+                // 'report-to'、'report-uri' testPage: https://daniel.spilsbury.io/
+                // chrome://net-export/   https://netlog-viewer.appspot.com/#import
+                // https://stackoverflow.com/questions/60632559/how-to-add-report-to-content-security-policy-directly-in-web-config
+                // https://community.brave.com/t/reporting-api-does-not-send-reports-in-dev-beta/74232
+                // reports are queued indefinitely in localhost 
+                if (!context.HttpContext.Request.Host.Host.Equals("localhost")) 
+                {
+                    csp += "report-to csp-endpoint;";
+                    if (!context.HttpContext.Response.Headers.ContainsKey("Report-To"))
+                    {
+                        context.HttpContext.Response.Headers.Add("Report-To", @"{""group"": ""csp-endpoint"",""max_age"": 10886400,""endpoints"": [{ ""url"": ""/csp_report"" }],""include_subdomains"":true}");
+                    }
+                }
+
 
                 // once for standards compliant browsers
                 if (!context.HttpContext.Response.Headers.ContainsKey("Content-Security-Policy"))

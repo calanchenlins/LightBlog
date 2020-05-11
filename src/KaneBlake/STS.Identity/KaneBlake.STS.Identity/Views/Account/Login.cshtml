@@ -41,7 +41,8 @@
                         <input class="form-control" placeholder="Username" asp-for="Username" autofocus>
                     </div>
                     <div class="form-group">
-                        <label class="font-weight-bold d-block" asp-for="Password">Password
+                        <label class="font-weight-bold d-block" asp-for="Password">
+                            Password
                             <a class="float-right text-decoration-none font-weight-normal font-size-1" href="/password_reset">Forgot password?</a>
                         </label>
                         <input type="password" class="form-control" placeholder="Password" asp-for="Password" autocomplete="off">
@@ -56,6 +57,7 @@
                         </div>
 
                     }
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <button class="btn btn-primary btn-block" name="button" value="login">Sign in</button>
                     </div>

@@ -146,6 +146,7 @@ namespace LightBlog
                 .AddDependencyCollector()
                 .UseApplicationInsights(config => { config.InstrumentationKey = Configuration["ApplicationInsightsInstrumentationKey"]; });
             });
+            //var y = new OpenTelemetry.Collector.Dependencies.
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                   .AddNewtonsoftJson(options =>

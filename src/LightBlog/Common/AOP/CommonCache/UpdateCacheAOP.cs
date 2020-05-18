@@ -27,12 +27,14 @@ namespace LightBlog.Common.AOP.CommonCache
             }
 
             var method = invocation.MethodInvocationTarget ?? invocation.Method;
-            
+
+            method.GetParameters()[0].Name
+
             if (method.GetCustomAttributes(true).FirstOrDefault(x => x.GetType() == typeof(CachingSetAttribute)) is CachingSetAttribute authAttribute)
             {
                 var sourceId = JsonConvert.SerializeObject(invocation.Arguments[0]);
 
-                var key = $@"[{authAttribute.QuryType.Name}][{authAttribute.QueryMethodName}]:{sourceId}";
+                var key = $@"[{authAttribute.QuryTypeName}][{authAttribute.QueryMethodName}]:{sourceId}";
 
                 _cache.Remove(key);
             }

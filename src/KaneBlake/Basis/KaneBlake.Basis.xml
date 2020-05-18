@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>KaneBlake.Basis</name>
+    </assembly>
+    <members>
+        <member name="T:KaneBlake.Basis.Domain.Entities.AggregateRoot`1">
+            <summary>
+            聚合根抽象类
+            </summary>
+            <typeparam name="TPrimaryKey"></typeparam>
+        </member>
+        <member name="T:KaneBlake.Basis.Domain.Entities.Entity`1">
+            <summary>
+            实体抽象类
+            </summary>
+            <typeparam name="TPrimaryKey"></typeparam>
+        </member>
+        <member name="T:KaneBlake.Basis.Domain.Entities.EntityKey">
+            <summary>
+            重写实体 ==运算符、Equals、GetHashCode()、ToString()方法
+            </summary>
+        </member>
+        <member name="M:KaneBlake.Basis.Domain.Entities.EntityKey.op_Equality(KaneBlake.Basis.Domain.Entities.EntityKey,KaneBlake.Basis.Domain.Entities.EntityKey)">
+            <summary>
+            在没有重写 == 运算符的情况下，调用 OpCodes.Ceq 指令比较堆栈中的值
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="T:KaneBlake.Basis.Domain.Entities.IAggregateRoot`1">
+            <summary>
+            聚合根接口
+            </summary>
+            <typeparam name="TPrimaryKey"></typeparam>
+        </member>
+        <member name="T:KaneBlake.Basis.Domain.Entities.IEntity`1">
+            <summary>
+            实体接口
+            </summary>
+            <typeparam name="TPrimaryKey"></typeparam>
+        </member>
+        <member name="P:KaneBlake.Basis.Domain.Entities.IEntity`1.Id">
+            <summary>
+            实体唯一主键
+            </summary>
+        </member>
+        <member name="T:KaneBlake.Basis.Domain.Repositories.IRepository`2">
+            <summary>
+            聚合根实现泛型仓储接口
+            </summary>
+            <typeparam name="TEntity"></typeparam>
+        </member>
+        <member name="T:KaneBlake.Basis.Domain.Uow.IUnitOfWork">
+            <summary>
+            工作单元接口
+            仓储继承IUnitOfWork
+            </summary>
+        </member>
+        <member name="M:KaneBlake.Basis.Domain.Uow.IUnitOfWork.CompleteAsync">
+            <summary>
+            工作单元提交
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:KaneBlake.Basis.Extensions.Common.Abstractions.Singleton`1" -->
+        <member name="M:KaneBlake.Basis.Extensions.Cryptography.CertificateExtensions.ExportRSAPublicKey(System.Security.Cryptography.X509Certificates.X509Certificate2)">
+            <summary>
+            Attempts to export the current key in the PKCS#1 RSAPublicKey format into string
+            </summary>
+            <param name="certificate">current key</param>
+            <returns></returns>
+        </member>
+        <member name="M:KaneBlake.Basis.Extensions.Cryptography.CertificateExtensions.Decrypt(System.Security.Cryptography.X509Certificates.X509Certificate2,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="certificate"></param>
+            <param name="ciphertext"></param>
+            <returns></returns>
+        </member>
+        <member name="T:KaneBlake.Basis.Extensions.Diagnostics.DiagnosticAdapterProcessorObserver">
+            <summary>
+            支持属性绑定和对象绑定
+            性能: 对象、属性绑定(80ns) > Microsoft.Extensions.DiagnosticAdapter(140ns)
+            </summary>
+        </member>
+        <member name="T:KaneBlake.Basis.Extensions.Diagnostics.DiagnosticProcessorObserver">
+            <summary>
+            默认实现使用 Microsoft.Extensions.DiagnosticAdapter 作为适配器
+            方法参数只支持属性绑定(匿名对象和非匿名对象在性能上基本无差别)
+            </summary>
+        </member>
+        <member name="T:KaneBlake.Basis.Infrastruct.EntityFrameworkCore.EFRepository`1">
+            <summary>
+            EF对IRepository的实现
+            </summary>
+            <typeparam name="TEntity"></typeparam>
+        </member>
+        <member name="T:KaneBlake.Basis.Infrastruct.EntityFrameworkCore.TEntityContext`2">
+            <summary>
+            领域聚合根上下文对象
+            </summary>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TSelf"></typeparam>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:CoreWeb.Util.Infrastruct.DbKernalHelp.ReadDataTable(System.String,System.String,System.Collections.Generic.List{Microsoft.Data.SqlClient.SqlParameter})" -->
+        <member name="P:CoreWeb.Util.Services.ServiceResponse`1.Code">
+            <summary>
+            服务状态码
+            2000: 正常响应
+            4001: 参数错误 4003: 拒绝处理 
+            5000: 内部异常 
+            </summary>
+        </member>
+        <member name="P:CoreWeb.Util.Services.ServiceResponse`1.Data">
+            <summary>
+            状态码: 2000 响应数据
+            </summary>
+        </member>
+        <member name="P:CoreWeb.Util.Services.ServiceResponse`1.Message">
+            <summary>
+            状态码: 2000 之外的错误消息
+            </summary>
+        </member>
+        <member name="M:CoreWeb.Util.Services.ServiceResponse`1.SetInnerException(System.Exception)">
+            <summary>
+            状态码: 5000 内部异常 日志记录
+            </summary>
+            <param name="exception"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

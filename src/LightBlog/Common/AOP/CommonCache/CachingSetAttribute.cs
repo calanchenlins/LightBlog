@@ -10,8 +10,10 @@ namespace LightBlog.Common.AOP.CommonCache
     public class CachingSetAttribute : Attribute
     {
 
-        public Type QuryType { get; set; }
+        public string QuryTypeName { get; set; }
 
-        public string QueryMethodName { get; set; }
+        public string[] QueryMethodsName { get; set; }
+
+        public string[] QueryKeys { get; set; }
     }
 }

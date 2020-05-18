@@ -12,13 +12,21 @@ using IdentityServer4.Stores;
 using IdentityServer4.Test;
 using KaneBlake.STS.Identity.Infrastruct.Entities;
 using KaneBlake.STS.Identity.Services;
+using KaneBlake.Basis.Extensions.Cryptography;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Buffers.Text;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
+using KaneBlake.STS.Identity.Quickstart;
 
 namespace KaneBlake.STS.Identity
 {
@@ -36,20 +44,25 @@ namespace KaneBlake.STS.Identity
         private readonly IClientStore _clientStore;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly IEventService _events;
+        private readonly ILogger _logger;
+        private readonly ISigningCredentialStore _signingCredentialStore;
 
         public AccountController(
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
             IAuthenticationSchemeProvider schemeProvider,
             IEventService events,
-            IUserService<User> userService)
+            IUserService<User> userService,
+            ILogger<AccountController> logger,
+            ISigningCredentialStore signingCredentialStore)
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
-
             _interaction = interaction;
             _clientStore = clientStore;
             _schemeProvider = schemeProvider;
             _events = events;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _signingCredentialStore = signingCredentialStore ?? throw new ArgumentNullException(nameof(signingCredentialStore));
         }
 
         /// <summary>
@@ -77,9 +90,9 @@ namespace KaneBlake.STS.Identity
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
+        [ServiceFilter(typeof(EncryptFormFilterAttribute))]
         public async Task<IActionResult> Login(LoginInputModel model, string button)
         {
-            // check if we are in the context of an authorization request
             var context = await _interaction.GetAuthorizationContextAsync(model.ReturnUrl);
 
             // the user clicked the "cancel" button
@@ -144,8 +157,11 @@ namespace KaneBlake.STS.Identity
                     }
                     else
                     {
+
                         // user might have clicked on a malicious link - should be logged
-                        throw new Exception("invalid return URL");
+                        // never throw new Exception() in business logic
+                        _logger.LogWarning("invalid return URL:{0}", model.ReturnUrl);
+                        // throw new Exception("invalid return URL");
                     }
                 }
 
@@ -232,7 +248,7 @@ namespace KaneBlake.STS.Identity
             return View(new SignUpViewModel());
         }
 
-        [AcceptVerbs("GET", "POST")]
+        [AcceptVerbs("GET")]
         [AllowAnonymous]
         public async Task<IActionResult> VerifyUserName(string UserName)
         {
@@ -242,6 +258,20 @@ namespace KaneBlake.STS.Identity
             }
 
             return Json(true);
+        }
+
+        //[ResponseCache(Location =ResponseCacheLocation.Any,NoStore =false)]//Duration =86400,
+        [AcceptVerbs("GET")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetPublicKey()
+        {
+            var securityKey = (await _signingCredentialStore.GetSigningCredentialsAsync()).Key;
+            if (securityKey is X509SecurityKey x509SecurityKey)
+            {
+                var publickey = x509SecurityKey.Certificate.ExportRSAPublicKey();
+                return Content(publickey);
+            }
+            return NoContent();
         }
 
         [HttpPost]

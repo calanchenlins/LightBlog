@@ -12,12 +12,15 @@ using KaneBlake.STS.Identity.Common.IdentityServer4Config;
 using KaneBlake.STS.Identity.Infrastruct.Context;
 using KaneBlake.STS.Identity.Infrastruct.Entities;
 using KaneBlake.STS.Identity.Infrastruct.Repository;
+using KaneBlake.STS.Identity.Quickstart;
 using KaneBlake.STS.Identity.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -58,6 +61,12 @@ namespace KaneBlake.STS.Identity
             // Disable compression on dynamically generated pages which over secure connections to avoid security problems.
             services.AddResponseCompression();
 
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = "localhost:5000";
+                options.InstanceName = "LightBlogCache";
+            });
+
             ConfigureIdentityServer(services);
 
 
@@ -72,6 +81,9 @@ namespace KaneBlake.STS.Identity
 
             services.AddTransient<IRepository<User, int>, UserRepository>();
             services.AddTransient<IUserService<User>, UserService>();
+
+            services.AddSingleton<EncryptFormValueProviderFactory>();
+            services.AddScoped<EncryptFormFilterAttribute>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -110,6 +122,7 @@ namespace KaneBlake.STS.Identity
             app.UseSerilogRequestLogging();
 
             app.UseRouting();
+            app.UseResponseCaching();
 
             app.UseAuthorization();// 授权
 
@@ -151,9 +164,7 @@ namespace KaneBlake.STS.Identity
                 // 用户名密码 验证成功之后，将凭证写入cookie
                 // 在cookie有效期内不需要重新登录, 直接通过凭证获取code ???
             })
-                .AddSigningCredential(CertificateExtensions.GetX509Certificate(
-                    Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Certs", "IdentityServerCredential.pfx")
-                ))// 配置 token 加密的证书
+                .AddSigningCredential(AppInfo.Instance.Certificate)// 配置 token 加密的证书
                 .AddConfigurationStore(options =>// 持久化资源、客户端
                 {
                     options.ConfigureDbContext = builder => builder.UseSqlServer(AppOptions.IdentityDB,

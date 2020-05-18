@@ -22,6 +22,7 @@ namespace LightBlog.Common.AOP.CommonCache
             var a = invocation.GetConcreteMethod();
             var b = invocation.GetConcreteMethodInvocationTarget();
             var c = invocation.Method;
+            c.GetParameters()[0].Name
             var d = invocation.MethodInvocationTarget;
 
             var e = invocation.TargetType;

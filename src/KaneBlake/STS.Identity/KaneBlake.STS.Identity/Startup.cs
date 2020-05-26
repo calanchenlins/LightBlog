@@ -14,6 +14,8 @@ using KaneBlake.STS.Identity.Infrastruct.Entities;
 using KaneBlake.STS.Identity.Infrastruct.Repository;
 using KaneBlake.STS.Identity.Quickstart;
 using KaneBlake.STS.Identity.Services;
+using MessagePack.AspNetCoreMvcFormatter;
+using MessagePack.Resolvers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -45,9 +47,13 @@ namespace KaneBlake.STS.Identity
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            IMvcBuilder builder = services.AddControllersWithViews(options=> {
+            IMvcBuilder builder = services.AddControllersWithViews(options =>
+            {
                 // it doesn't require tokens for requests made using the following safe HTTP methods: GET, HEAD, OPTIONS, and TRACE
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                //options.OutputFormatters.Add(new MessagePackOutputFormatter(ContractlessStandardResolver.Options));
+                //options.InputFormatters.Clear();
+                //options.InputFormatters.Add(new MessagePackInputFormatter(ContractlessStandardResolver.Options));
             });
             #if DEBUG
             if (Env.IsDevelopment())

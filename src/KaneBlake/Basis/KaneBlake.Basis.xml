@@ -64,6 +64,14 @@
             </summary>
         </member>
         <!-- Badly formed XML comment ignored for member "T:KaneBlake.Basis.Extensions.Common.Abstractions.Singleton`1" -->
+        <member name="M:KaneBlake.Basis.Extensions.Cryptography.CertificateExtensions.GetX509Certificate(System.String,System.String)">
+            <summary>
+            Get pfx Certificate from filePath
+            </summary>
+            <param name="certificatePath"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
         <member name="M:KaneBlake.Basis.Extensions.Cryptography.CertificateExtensions.ExportRSAPublicKey(System.Security.Cryptography.X509Certificates.X509Certificate2)">
             <summary>
             Attempts to export the current key in the PKCS#1 RSAPublicKey format into string
@@ -71,12 +79,28 @@
             <param name="certificate">current key</param>
             <returns></returns>
         </member>
-        <member name="M:KaneBlake.Basis.Extensions.Cryptography.CertificateExtensions.Decrypt(System.Security.Cryptography.X509Certificates.X509Certificate2,System.String)">
+        <member name="M:KaneBlake.Basis.Extensions.Cryptography.CertificateExtensions.DecryptFromBase64String(System.Security.Cryptography.X509Certificates.X509Certificate2,System.String)">
             <summary>
-            
+            decrypt string from Base64String with RSAPrivateKey
             </summary>
             <param name="certificate"></param>
-            <param name="ciphertext"></param>
+            <param name="cipherB64str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KaneBlake.Basis.Extensions.Cryptography.CertificateExtensions.DecryptFromUTF8bytes(System.Security.Cryptography.X509Certificates.X509Certificate2,System.ReadOnlySpan{System.Byte})">
+            <summary>
+            decrypt string from ReadOnlySpan[byte] with RSAPrivateKey
+            </summary>
+            <param name="certificate"></param>
+            <param name="cipherBytes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KaneBlake.Basis.Extensions.Cryptography.CertificateExtensions.Decrypt(System.Security.Cryptography.X509Certificates.X509Certificate2,System.ReadOnlySpan{System.Byte})">
+            <summary>
+            decrypt data with RSAPrivateKey
+            </summary>
+            <param name="certificate"></param>
+            <param name="cipherBytes"></param>
             <returns></returns>
         </member>
         <member name="T:KaneBlake.Basis.Extensions.Diagnostics.DiagnosticAdapterProcessorObserver">

@@ -24,7 +24,7 @@ namespace KaneBlake.STS.Identity.Quickstart
 
         public void OnResourceExecuting(ResourceExecutingContext context)
         {
-            var _ = context.HttpContext.Request.Headers.FirstOrDefault(h => "Content-Type".Equals(h.Key)&& h.Value.Any(v=> "application/x-www-form-urlencoded".Equals(v)));
+            var _ = context.HttpContext.Request.Headers.FirstOrDefault(h => "Content-Type".Equals(h.Key)&& h.Value.Any(v=> "application/x-msgpack".Equals(v)));
             var __ = context.HttpContext.Request.Headers.FirstOrDefault(h => "form-encrypt".Equals(h.Key) && h.Value.Any(v => "formrsaencrypt".Equals(v)));
 
             var formValueProviderFactory = context.ValueProviderFactories

@@ -11,6 +11,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using KaneBlake.Basis.Extensions.Cryptography;
 using KaneBlake.STS.Identity.Common;
+using MessagePack;
+using static MessagePack.MessagePackSerializer;
+using System.Text;
 
 namespace KaneBlake.STS.Identity.Quickstart
 {
@@ -30,7 +33,7 @@ namespace KaneBlake.STS.Identity.Quickstart
             }
 
             var request = context.ActionContext.HttpContext.Request;
-            if (request.HasFormContentType)
+            if (request.ContentType.Equals("application/x-msgpack"))
             {
                 // Allocating a Task only when the body is form data.
                 return AddValueProviderAsync(context);
@@ -45,19 +48,20 @@ namespace KaneBlake.STS.Identity.Quickstart
             IFormCollection form;
             try
             {
-                form = await request.ReadFormAsync();
-                KeyValueAccumulator accumulator = default;
-                foreach (var r in form) 
+                var body = await request.BodyReader.ReadAsync();
+                var CiphertextArray = MessagePackSerializer.Deserialize<byte[][]>(body.Buffer, MessagePack.Resolvers.ContractlessStandardResolver.Options);
+                var plainText = new StringBuilder();
+
+                for (int i = 0; i < CiphertextArray.Length; i++)
                 {
-                    foreach (var k in r.Value) 
-                    {
-                        var ct = AppInfo.Instance.Certificate.Decrypt(k);
-                        accumulator.Append(r.Key, ct);
-                    }
+                    plainText.Append(AppInfo.Instance.Certificate.DecryptFromUTF8bytes(CiphertextArray[i]));
                 }
-                form = new FormCollection(accumulator.GetResults());
+                
+                var formReader = new FormReader(plainText.ToString());
+                var formFields = await formReader.ReadFormAsync();
+                form = new FormCollection(formFields);
             }
-            catch (InvalidDataException ex)
+            catch (Exception ex)
             {
                 throw;
                 //throw new ValueProviderException(Resources.FormatFailedToReadRequestForm(ex.Message), ex);
@@ -71,6 +75,4 @@ namespace KaneBlake.STS.Identity.Quickstart
             context.ValueProviders.Add(valueProvider);
         }
     }
-
-
 }

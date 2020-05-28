@@ -33,9 +33,10 @@ namespace KaneBlake.STS.Identity.Quickstart
             }
 
             var request = context.ActionContext.HttpContext.Request;
-            if (request.ContentType.Equals("application/x-msgpack"))
+            if (request.ContentType.Equals("application/x-msgpack") 
+                && request.Headers.Any(h => "form-data-format".Equals(h.Key) && h.Value.Any(v => "EncryptionForm".Equals(v))) )
             {
-                // Allocating a Task only when the body is form data.
+                // Allocating a Task only when the body is form data with RsaEncryption.
                 return AddValueProviderAsync(context);
             }
 

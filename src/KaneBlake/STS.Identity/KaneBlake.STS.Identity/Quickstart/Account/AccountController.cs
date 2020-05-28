@@ -149,11 +149,11 @@ namespace KaneBlake.STS.Identity
                     // request for a local page
                     if (Url.IsLocalUrl(model.ReturnUrl))
                     {
-                        return Redirect(model.ReturnUrl);
+                        return RedirectToLocal(model.ReturnUrl);
                     }
                     else if (string.IsNullOrEmpty(model.ReturnUrl))
                     {
-                        return Redirect("~/");
+                        return RedirectToLocal("/");
                     }
                     else
                     {
@@ -167,9 +167,12 @@ namespace KaneBlake.STS.Identity
 
                 await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId: context?.ClientId));
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
+                ModelState.AddModelError(nameof(model.Username), "scasc");
             }
 
+
             // something went wrong, show form with error
+            return BadRequest(ModelState);
             var vm = await BuildLoginViewModelAsync(model);
             return View(vm);
         }
@@ -276,13 +279,15 @@ namespace KaneBlake.STS.Identity
 
         [HttpPost]
         [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        [ServiceFilter(typeof(EncryptFormFilterAttribute))]
         public async Task<IActionResult> SignUp(SignUpViewModel model, string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
 
             ViewData["ReturnUrl"] = returnUrl;
 
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid) return BadRequest(ModelState);// 返回了 400 错误,会在浏览器控制台报错.;
 
             var user = await _userService.SignUp(model.UserName, model.Password);
             if (user != null) 
@@ -291,8 +296,9 @@ namespace KaneBlake.STS.Identity
                 return RedirectToLocal(returnUrl);
             }
             ModelState.AddModelError(nameof(model.UserName), $"UserName '{model.UserName}' is already in use.");
-            
+
             // If we got this far, something failed, redisplay form
+            return BadRequest(ModelState);
             return View(model);
         }
 
@@ -326,12 +332,17 @@ namespace KaneBlake.STS.Identity
         /*****************************************/
         private IActionResult RedirectToLocal(string returnUrl)
         {
-            if (Url.IsLocalUrl(returnUrl))
+            if (!Url.IsLocalUrl(returnUrl))
             {
-                return Redirect(returnUrl);
-            }
+                returnUrl = Url.Action(nameof(HomeController.Index), nameof(HomeController));
 
-            return RedirectToAction(nameof(HomeController.Index), nameof(HomeController));
+            }
+            if (Request.Headers.Any(h => "x-requested-with".Equals(h.Key) && h.Value.Any(v => "XMLHttpRequest".Equals(v)))) 
+            {
+                Response.Headers.Add("transparent-redirect", returnUrl);
+                return Ok();
+            }
+            return Redirect(returnUrl);
         }
         private async Task<LoginViewModel> BuildLoginViewModelAsync(string returnUrl)
         {

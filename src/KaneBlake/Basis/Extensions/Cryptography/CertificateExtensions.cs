@@ -90,9 +90,24 @@ namespace KaneBlake.Basis.Extensions.Cryptography
             // 密文长度 = 密钥的长度 = Modulus.Length * 8
             var ciphertextLength = privateKey.ExportParameters(false).Modulus.Length;
             var ciphertextStd = new byte[ciphertextLength];
-            // 值:258 Hex:0x01 0x02  小字节序
-            // [0] 低位内存地址  0x01
-            // [1] 高位内存地址  0x02
+            // [] 数组表示了在内存中连续的一块地址
+            // 索引 [0] [1] [2] [3] [4] [5]
+            // 地址  a  a+1 a+2 a+3 a+4 a+5
+            /*******************************************************/
+            // 值:258 Hex:0x00 0x00 0x01 0x02
+            // 小字节序:低位字节优先于高位字节(低位字节存放在数组的高位)
+            // byte[0] 数组高位 == 低位内存地址  0x02  低位字节
+            // byte[1]                         0x01
+            // byte[2]                         0x00
+            // byte[3] 数组低位 == 高位内存地址  0x00  高位字节
+            /*******************************************************/
+            // 值:"abcd" Hex:0x61 0x62 0x63 0x64
+            // 字符串在内存中以byte[]的形式存在,数组高位存储了字符串的高位字符
+            // byte[0] 数组高位 == 低位内存地址  0x61  字符串高位
+            // byte[1]                         0x62
+            // byte[2]                         0x63
+            // byte[3] 数组低位 == 高位内存地址  0x64  字符串低位
+
             var ciphertextAct = cipherBytes.ToArray();
 
             if (ciphertextAct.Length > ciphertextStd.Length)

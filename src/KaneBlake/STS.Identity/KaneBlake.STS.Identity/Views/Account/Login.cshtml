@@ -32,13 +32,14 @@
                 <h4 class="font-weight-light">Sign in to KaneBlake</h4>
                 <hr />
             </div>
-            <form asp-action="Login" id="form1" data-form-axios-encrypt="true">
+            <form asp-action="Login" id="form1" data-encrypted-form="true">
                 <input type="hidden" asp-for="ReturnUrl" />
 
                 <fieldset>
                     <div class="form-group">
                         <label class="font-weight-bold" asp-for="Username"></label>
                         <input class="form-control" placeholder="Username" asp-for="Username" autofocus>
+                        <span asp-validation-for="Username" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label class="font-weight-bold d-block" asp-for="Password">
@@ -57,7 +58,8 @@
                         </div>
 
                     }
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="text-danger validation-summary-valid" data-valmsg-custom="true"><ul></ul></div>
                     <div class="form-group">
                         <button class="btn btn-primary btn-block" type="submit" name="button" value="login">Sign in</button>
                     </div>
@@ -72,12 +74,8 @@
 
     <script src="~/lib/jquery/jquery.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.bundle.js"></script>
-    <script src="https://unpkg.com/axios@0.19.2/dist/axios.min.js"></script>
-    <script src="https://unpkg.com/qs@6.9.4/dist/qs.js"></script>
-    <script src="https://unpkg.com/jsencrypt@3.0.0-rc.1/bin/jsencrypt.js"></script>
-    <script src="https://unpkg.com/crypto-js@4.0.0/crypto-js.js"></script>
-    <script src="https://unpkg.com/@@msgpack/msgpack"></script>
-    <script src="https://unpkg.com/msgpack5@4.2.1/dist/msgpack5.min.js"></script>
-    <script src="~/js/formEncrypt.js"></script>
+
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
 </body>
 </html>

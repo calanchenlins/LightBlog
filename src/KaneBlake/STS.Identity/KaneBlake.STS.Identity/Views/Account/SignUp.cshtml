@@ -2,18 +2,17 @@
 @{
     ViewData["Title"] = "SignUp";
 }
-<script src="https://unpkg.com/jsencrypt@3.0.0-rc.1/bin/jsencrypt.js"></script>
-<script src="https://unpkg.com/crypto-js@4.0.0/crypto-js.js"></script>
 
 <div class="sign-up-container">
     <div class="d-none d-md-block">
         <h1 class="font-size-4 text-center">Create your account</h1>
         <hr />
     </div>
+
     <div class="">
         <!-- FormTagHelper injects antiforgery tokens into HTML form elements -->
-        <form asp-action="SignUp">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-action="SignUp" data-encrypted-form="true">
+            <div class="text-danger validation-summary-valid" data-valmsg-custom="true"><ul></ul></div>
             <div class="form-group">
                 <label asp-for="UserName" class="col-form-label font-weight-bold"></label>
                 <input asp-for="UserName" class="form-control" />
@@ -38,8 +37,8 @@
                 <input type="submit" value="Sign up" class="btn btn-primary btn-block" />
             </div>
         </form>
-
     </div>
+
 </div>
 
 

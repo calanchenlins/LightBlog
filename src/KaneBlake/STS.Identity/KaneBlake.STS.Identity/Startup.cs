@@ -4,6 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Hangfire;
+using Hangfire.Dashboard;
+using Hangfire.Dashboard.Resources;
+using IdentityModel.Client;
 using IdentityServer4.Configuration;
 using KaneBlake.Basis.Domain.Repositories;
 using KaneBlake.Basis.Extensions.Cryptography;
@@ -19,10 +23,12 @@ using MessagePack.Resolvers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -54,6 +60,7 @@ namespace KaneBlake.STS.Identity
                 //options.OutputFormatters.Add(new MessagePackOutputFormatter(ContractlessStandardResolver.Options));
                 //options.InputFormatters.Clear();
                 //options.InputFormatters.Add(new MessagePackInputFormatter(ContractlessStandardResolver.Options));
+
             });
             #if DEBUG
             if (Env.IsDevelopment())
@@ -90,6 +97,49 @@ namespace KaneBlake.STS.Identity
 
             services.AddSingleton<EncryptFormValueProviderFactory>();
             services.AddScoped<EncryptFormFilterAttribute>();
+
+            NavigationMenu.Items.Clear();
+            NavigationMenu.Items.Add(page => new MenuItem(Strings.NavigationMenu_Jobs, page.Url.LinkToQueues())
+            {
+                Active = page.RequestPath.StartsWith("/jobs"),
+                Metrics = new[]
+                {
+                    DashboardMetrics.EnqueuedCountOrNull,
+                    DashboardMetrics.FailedCountOrNull
+                }
+            });
+
+            NavigationMenu.Items.Add(page => new MenuItem(Strings.NavigationMenu_Retries, page.Url.To("/retries"))
+            {
+                Active = page.RequestPath.StartsWith("/retries"),
+                Metric = DashboardMetrics.RetriesCount
+            });
+
+            NavigationMenu.Items.Add(page => new MenuItem(Strings.NavigationMenu_RecurringJobs, page.Url.To("/management"))
+            {
+                Active = page.RequestPath.StartsWith("/management"),
+                Metric = DashboardMetrics.RecurringJobCount
+            });
+
+            NavigationMenu.Items.Add(page => new MenuItem(Strings.NavigationMenu_Servers, page.Url.To("/servers"))
+            {
+                Active = page.RequestPath.Equals("/servers"),
+                Metric = DashboardMetrics.ServerCount
+            });
+
+            //DashboardRoutes.Routes.
+            //NavigationMenu.Items.Add(page => new MenuItem("作业管理", page.Url.To("/management"))
+            //{
+            //    Active = page.RequestPath.StartsWith("/management")
+            //});
+            DashboardRoutes.Routes.AddRazorPage("/management", x => new Hangfire.Dashboard.Management.Views.CustomHangfire.ManagementPage());
+
+            services.AddHangfire(x => x.UseSqlServerStorage(AppOptions.IdentityDB));
+            services.AddHangfireServer();
+
+
+            services.AddTransient<IJobManageService, JobManageService>();
+            services.AddSingleton<JobEntryResolver>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -132,6 +182,11 @@ namespace KaneBlake.STS.Identity
 
             app.UseAuthorization();// 授权
 
+            app.UseHangfireDashboard(AppInfo.HangfirePath,new DashboardOptions
+            {
+                Authorization = new[] { new HangfireDashboardAuthorizationFilter() }
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
@@ -162,7 +217,7 @@ namespace KaneBlake.STS.Identity
             services.AddIdentityServer(options =>
             {
                 // 配置用户登录的交互页面,默认为 /Account/Login
-                options.UserInteraction = new UserInteractionOptions { LoginUrl = "/Account/Login" };
+                options.UserInteraction = new UserInteractionOptions { LoginUrl = AppInfo.LoginUrl };
                 // 设置请求 token 成功后, 写入 token 的 Issuer,设置为"null"后不验证 Issuer. 可在 IdSrv 服务终结点 '/.well-known/openid-configuration' 查看 Issuer
                 // 设置为 null、空字符串或者不设置时: IssuerUri 被默认为为项目监听地址
                 options.IssuerUri = "null";
@@ -205,6 +260,22 @@ namespace KaneBlake.STS.Identity
                 // TODO: Use your User Agent library of choice here.
                 options.SameSite = SameSiteMode.Unspecified;
             }
+        }
+    }
+
+
+    public class HangfireDashboardAuthorizationFilter : IDashboardAuthorizationFilter
+    {
+        public bool Authorize(DashboardContext context)
+        {
+            var httpContext = context.GetHttpContext();
+            if (!httpContext.User.Identity.IsAuthenticated)
+            {
+                httpContext.Response.Redirect(AppInfo.HangfireLoginUrl);
+            }
+
+            // Allow all authenticated users to see the Dashboard (potentially dangerous).
+            return true;
         }
     }
 }

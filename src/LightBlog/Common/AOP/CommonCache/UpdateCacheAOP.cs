@@ -4,6 +4,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace LightBlog.Common.AOP.CommonCache
@@ -21,21 +23,26 @@ namespace LightBlog.Common.AOP.CommonCache
         {
             invocation.Proceed();
 
-            if (invocation.Arguments.Length == 0)
+            var method = invocation.Method;
+
+            var cachingSetAttributes = method.GetCustomAttributes(true).Where(x => x.GetType() == typeof(CachingSetAttribute));
+            foreach (CachingSetAttribute cachingSetAttribute in cachingSetAttributes) 
             {
-                return;
-            }
+                var parameterValues = new StringBuilder();
+                ParameterInfo[] parameterInfos = method.GetParameters();
 
-            var method = invocation.MethodInvocationTarget ?? invocation.Method;
+                for (int i = 0; i < cachingSetAttribute.QueryKeys.Length; i++)
+                {
+                    for (int ii = 0; ii < parameterInfos.Length; ii++)
+                    {
+                        if (cachingSetAttribute.QueryKeys[i].Equals(parameterInfos[ii].Name, StringComparison.OrdinalIgnoreCase))
+                        {
+                            parameterValues.Append(JsonConvert.SerializeObject(invocation.Arguments[ii]) + ":");
+                        }
+                    }
+                }
 
-            method.GetParameters()[0].Name
-
-            if (method.GetCustomAttributes(true).FirstOrDefault(x => x.GetType() == typeof(CachingSetAttribute)) is CachingSetAttribute authAttribute)
-            {
-                var sourceId = JsonConvert.SerializeObject(invocation.Arguments[0]);
-
-                var key = $@"[{authAttribute.QuryTypeName}][{authAttribute.QueryMethodName}]:{sourceId}";
-
+                var key = $@"[{cachingSetAttribute.QuryTypeName}][{cachingSetAttribute.QueryMethodName}]:{parameterValues}";
                 _cache.Remove(key);
             }
         }

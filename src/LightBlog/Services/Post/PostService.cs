@@ -55,8 +55,7 @@ namespace LightBlog.Services
             return user;
         }
 
-        [CachingSet(QuryTypeName = nameof(PostService), QueryMethodsName = new string[] { nameof(GetPostById) }
-        ,QueryKeys =new string[] { "BlogId" })]
+
         public ServiceResponse<bool> Commenting(int blogId, CommentPostInDto input)
         {
             var post = _postRepository.Get()
@@ -89,7 +88,7 @@ namespace LightBlog.Services
             return ServiceHelp<bool>.SetBadResponse();
         }
 
-        [CachingSet(QuryTypeName = nameof(PostService), QueryMethodsName = new string[] { nameof(GetPostById) })]
+
         public ServiceResponse<bool> Delete(int BlogId)
         {
             var post = _postRepository.Get()
@@ -104,7 +103,7 @@ namespace LightBlog.Services
             return ServiceHelp<bool>.SetSuccessResponse(true);
         }
 
-        [CachingSet(QuryTypeName = nameof(PostService), QueryMethodsName = new string[] { nameof(GetPostById) })]
+
         public ServiceResponse<bool> Edit(int BlogId, EditPostInDto input)
         {
             var post = _postRepository.Get()
@@ -119,7 +118,7 @@ namespace LightBlog.Services
             return ServiceHelp<bool>.SetSuccessResponse(true);
         }
 
-        [Caching]
+
         public ServiceResponse<PostDetailViewModel> GetPostById(int blogId)
         {
             var post = _postRepository.Get()

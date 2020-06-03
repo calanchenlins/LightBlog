@@ -1,4 +1,6 @@
 ﻿using KaneBlake.Basis.Extensions.Cryptography;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,6 +18,9 @@ namespace KaneBlake.STS.Identity.Common
 
         static AppInfo()
         {
+            LoginUrl = "/Account/Login";
+            HangfirePath = "/hangfire";
+            HangfireLoginUrl = UriHelper.BuildRelative(path: new PathString(LoginUrl), query: QueryString.Create("ReturnUrl", HangfirePath));
             Instance = new AppInfo
             {
                 Certificate = CertificateExtensions.GetX509Certificate(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Certs", "IdentityServerCredential.pfx"))
@@ -24,5 +29,13 @@ namespace KaneBlake.STS.Identity.Common
         }
 
         public X509Certificate2 Certificate { get; private set; }
+
+        public static string LoginUrl { get; private set; }
+
+        public static string HangfirePath { get; private set; }
+
+        public static string HangfireLoginUrl { get; private set; }
+
+        
     }
 }

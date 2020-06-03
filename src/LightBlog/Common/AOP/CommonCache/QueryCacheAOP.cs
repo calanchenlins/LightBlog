@@ -1,9 +1,13 @@
 ﻿using Castle.DynamicProxy;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace LightBlog.Common.AOP.CommonCache
@@ -19,25 +23,26 @@ namespace LightBlog.Common.AOP.CommonCache
 
         public void Intercept(IInvocation invocation)
         {
-            var a = invocation.GetConcreteMethod();
-            var b = invocation.GetConcreteMethodInvocationTarget();
-            var c = invocation.Method;
-            c.GetParameters()[0].Name
-            var d = invocation.MethodInvocationTarget;
-
-            var e = invocation.TargetType;
-            var f = invocation.GetType();
-
-            var method = invocation.MethodInvocationTarget ?? invocation.Method;
+            var method = invocation.Method;
 
             if (method.GetCustomAttributes(true).FirstOrDefault(x => x.GetType() == typeof(CachingAttribute)) 
-                is CachingAttribute authAttribute && invocation.Arguments.Length > 0)
+                is CachingAttribute cachingAttribute)
             {
-                var sourceId = invocation.Arguments[0];
+                var parameterValues = new StringBuilder();
+                ParameterInfo[] parameterInfos = method.GetParameters();
 
-                var sourceIdStr = JsonConvert.SerializeObject(sourceId);
+                for (int i = 0; i < cachingAttribute.QueryKeys.Length; i++) 
+                {
+                    for (int ii = 0; ii < parameterInfos.Length; ii++)
+                    {
+                        if (cachingAttribute.QueryKeys[i].Equals(parameterInfos[ii].Name, StringComparison.OrdinalIgnoreCase))
+                        {
+                            parameterValues.Append(JsonConvert.SerializeObject(invocation.Arguments[ii]) +":");
+                        }
+                    }
+                }
 
-                var key = $@"[{invocation.TargetType.Name}][{invocation.MethodInvocationTarget.Name}]:{sourceIdStr}";
+                var key = $@"[{invocation.TargetType.Name}][{method.Name}]:{parameterValues}";
 
                 if (_cache.TryGetValue(key, out object cacheValue))
                 {

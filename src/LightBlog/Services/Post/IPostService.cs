@@ -1,4 +1,5 @@
-﻿using LightBlog.Infrastruct.Entities;
+﻿using LightBlog.Common.AOP.CommonCache;
+using LightBlog.Infrastruct.Entities;
 using LightBlog.Models;
 using LightBlog.Services.InDto;
 using System;
@@ -14,16 +15,21 @@ namespace LightBlog.Services
 
         ServiceResponse<PostsViewModel> GetPagePostsByUser(string authorName,int startIndex = 0, int pageSize = 5, int pageIndex = 1);
 
+        [Caching(QueryKeys = new string[] { "blogId" })]
         ServiceResponse<PostDetailViewModel> GetPostById(int blogId);
 
         ServiceResponse<PostEditViewModel> GetPostForEditById(int blogId);
 
         ServiceResponse<bool> Create(CreatPostInDto input);
 
+        [CachingSet(QuryTypeName = nameof(PostService), QueryMethodName = nameof(GetPostById), QueryKeys = new string[] { "BlogId" })]
         ServiceResponse<bool> Edit(int BlogId,EditPostInDto input);
 
+        [CachingSet(QuryTypeName = nameof(PostService), QueryMethodName = nameof(GetPostById), QueryKeys = new string[] { "BlogId" })]
         ServiceResponse<bool> Delete(int BlogId);
 
+        [CachingSet(QuryTypeName = nameof(PostService), QueryMethodName = nameof(GetPostById), QueryKeys = new string[] { "blogId" })]
+        [CachingSet(QuryTypeName = nameof(PostService), QueryMethodName = nameof(GetPostById), QueryKeys = new string[] { "blogId" })]
         ServiceResponse<bool> Commenting(int BlogId,CommentPostInDto input);
     }
 }

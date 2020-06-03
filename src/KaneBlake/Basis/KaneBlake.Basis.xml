@@ -128,7 +128,7 @@
             <typeparam name="TEntity"></typeparam>
             <typeparam name="TSelf"></typeparam>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:CoreWeb.Util.Infrastruct.DbKernalHelp.ReadDataTable(System.String,System.String,System.Collections.Generic.List{Microsoft.Data.SqlClient.SqlParameter})" -->
+        <!-- Badly formed XML comment ignored for member "M:CoreWeb.Util.Infrastruct.SqlClientHelp.ReadDataTable(System.String,System.String,System.Collections.Generic.List{Microsoft.Data.SqlClient.SqlParameter})" -->
         <member name="P:CoreWeb.Util.Services.ServiceResponse`1.Code">
             <summary>
             服务状态码

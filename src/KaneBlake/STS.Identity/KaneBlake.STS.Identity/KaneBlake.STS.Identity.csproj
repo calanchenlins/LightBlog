@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.0" />
+    <PackageReference Include="Hangfire" Version="1.7.11" />
     <PackageReference Include="IdentityServer4.EntityFramework" Version="3.1.2" />
     <PackageReference Include="MessagePack.AspNetCoreMvcFormatter" Version="2.1.115" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.3" />
@@ -28,15 +29,40 @@
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="3.1.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
+    <PackageReference Include="System.IO.Pipelines" Version="4.7.2" />
+    <PackageReference Include="System.Security.Principal.Windows" Version="4.7.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\AspNetCore.Extensions\KaneBlake.AspNetCore.Extensions\KaneBlake.AspNetCore.Extensions.csproj" />
     <ProjectReference Include="..\..\Basis\KaneBlake.Basis.csproj" />
+    <ProjectReference Include="..\..\Hangfire\Hangfire.Dashboard.Management\Hangfire.Dashboard.Management.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Certs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Account\AccessDenied.cshtml" />
+    <None Include="Views\Account\LoggedOut.cshtml" />
+    <None Include="Views\Account\Login.cshtml" />
+    <None Include="Views\Account\Logout.cshtml" />
+    <None Include="Views\Account\SignUp.cshtml" />
+    <None Include="Views\Account\tt.cshtml" />
+    <None Include="Views\Consent\Index.cshtml" />
+    <None Include="Views\Device\Success.cshtml" />
+    <None Include="Views\Device\UserCodeCapture.cshtml" />
+    <None Include="Views\Device\UserCodeConfirmation.cshtml" />
+    <None Include="Views\Diagnostics\Index.cshtml" />
+    <None Include="Views\Grants\Index.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Shared\Error.cshtml" />
+    <None Include="Views\Shared\Redirect.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\Shared\_ScopeListItem.cshtml" />
+    <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <None Include="Views\Shared\_ValidationSummary.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

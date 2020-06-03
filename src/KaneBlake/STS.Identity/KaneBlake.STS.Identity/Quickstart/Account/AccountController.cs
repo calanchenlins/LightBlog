@@ -27,6 +27,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using KaneBlake.STS.Identity.Quickstart;
+using Hangfire;
+using Hangfire.Common;
+using System.Linq.Expressions;
+using CoreWeb.Util.Infrastruct;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Reflection;
+using System.Collections.Generic;
+using Microsoft.Extensions.Primitives;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace KaneBlake.STS.Identity
 {
@@ -46,6 +55,7 @@ namespace KaneBlake.STS.Identity
         private readonly IEventService _events;
         private readonly ILogger _logger;
         private readonly ISigningCredentialStore _signingCredentialStore;
+        private readonly IServiceProvider _serviceProvider;
 
         public AccountController(
             IIdentityServerInteractionService interaction,
@@ -54,7 +64,8 @@ namespace KaneBlake.STS.Identity
             IEventService events,
             IUserService<User> userService,
             ILogger<AccountController> logger,
-            ISigningCredentialStore signingCredentialStore)
+            ISigningCredentialStore signingCredentialStore, 
+            IServiceProvider serviceProvider)
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
             _interaction = interaction;
@@ -63,6 +74,65 @@ namespace KaneBlake.STS.Identity
             _events = events;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _signingCredentialStore = signingCredentialStore ?? throw new ArgumentNullException(nameof(signingCredentialStore));
+            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+        }
+
+        public void Method(string SqlText) 
+        {
+            _logger.LogError(SqlText);
+        }
+
+        public int tt(string t,string con) {
+            _logger.LogError(t+con);
+            return 5;
+        }
+
+        private void gg() 
+        {
+            IFormCollection form = null;// HttpContext.Request.Form
+            var accumulator = new KeyValueAccumulator();
+            accumulator.Append("connectionString", "afada");
+            accumulator.Append("cmdText", "werwerwerw");
+
+            form = new FormCollection(accumulator.GetResults());
+            //TypeConverter.StandardValuesCollection.
+
+            var TargetType = typeof(SqlClientHelp);
+            var TargetMethodName = "ExecuteTSqlInTran";
+            // 不支持重载
+            var TargetMethod = TargetType.GetMethod(TargetMethodName);
+            ParameterInfo[] parameters = TargetMethod.GetParameters();
+            var constantExpressions = new List<ConstantExpression>();
+            foreach (var parameterInfo in parameters)
+            {
+                var _ = form.FirstOrDefault(el => parameterInfo.Name.Equals(el.Key, StringComparison.OrdinalIgnoreCase));
+                // TypeConverter???
+                ConstantExpression constantExpression = null;
+                if (!_.Value.Equals(StringValues.Empty))
+                {
+                    constantExpression = System.Linq.Expressions.Expression.Constant(_.Value.FirstOrDefault(), parameterInfo.ParameterType);
+
+                }
+                else if (parameterInfo.HasDefaultValue)
+                {
+                    constantExpression = System.Linq.Expressions.Expression.Constant(parameterInfo.DefaultValue, parameterInfo.ParameterType);
+                }
+                else
+                {
+                    constantExpression = System.Linq.Expressions.Expression.Constant(null, parameterInfo.ParameterType);
+                }
+                constantExpressions.Add(constantExpression);
+            }
+            System.Linq.Expressions.Expression instance = null;
+            if (!TargetMethod.IsStatic)
+            {
+                // 获取对象实例
+                var TargetInstance = ActivatorUtilities.GetServiceOrCreateInstance(_serviceProvider, TargetType);
+                instance = System.Linq.Expressions.Expression.Constant(TargetInstance, TargetType);
+            }
+            var methodCallExpression = System.Linq.Expressions.Expression.Call(instance, TargetMethod, constantExpressions.ToArray());
+            var methodCall = System.Linq.Expressions.Expression.Lambda<Action>(methodCallExpression, new ParameterExpression[] { });
+            RecurringJob.AddOrUpdate(Guid.NewGuid().ToString(), methodCall, Cron.Daily);
         }
 
         /// <summary>
@@ -72,6 +142,19 @@ namespace KaneBlake.STS.Identity
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl)
         {
+            //this.TryUpdateModelAsync
+            gg();
+            //Expression<Action<int>> StatementLambdas = num => tt(num);
+            //StatementLambdas.Compile()(7);
+
+            //Action<int> StatementLambdas2 = num => tt(num);
+            //StatementLambdas2.Invoke(7);
+
+            //Job.FromExpression<int>(num => tt(num));
+            //Expression tt = (t) => { Console.WriteLine(t); SqlClientHelp.ExecuteTSqlInTran(connStr, Tsql); return; };
+            //RecurringJob.AddOrUpdate(() => tt("aa","fff"), Cron.Minutely);
+
+            //RecurringJob.AddOrUpdate(() => SqlClientHelp.ExecuteTSqlInTran("sss", "ddd",null), Cron.Daily);
             // build a model so we know what to show on the login page
             var vm = await BuildLoginViewModelAsync(returnUrl);
 

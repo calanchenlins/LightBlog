@@ -12,6 +12,7 @@ using CoreWeb.Util.Infrastruct;
 using Hangfire;
 using Hangfire.Logging;
 using KaneBlake.STS.Identity.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
@@ -21,7 +22,7 @@ using Microsoft.Extensions.Primitives;
 
 namespace KaneBlake.STS.Identity.HangfireCustomDashboard.Controllers
 {
-    [Route("/hangfire/api/[controller]")]
+    [Route("/hangfireapi/[controller]")]
     [ApiController]
     public class JobManageController : ControllerBase
     {
@@ -34,11 +35,24 @@ namespace KaneBlake.STS.Identity.HangfireCustomDashboard.Controllers
 
         [HttpPost]
         [Route("RecurringJob/add")]
+        [AllowAnonymous]
+        [IgnoreAntiforgeryToken]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> AddRecurringJob(string connStr,string Tsql)
+        public async Task<IActionResult> AddRecurringJob([FromForm] string TN, [FromForm] string MN, [FromForm] string CE)
         {
-            Expression<Func<int,int>> methodCall2 = (t) => SqlClientHelp.ExecuteTSqlInTran(connStr, Tsql, null);
+            //await _serviceProvider.RecurringJobAddOrUpdateAsync(Guid.NewGuid().ToString(), "CoreWeb.Util.Infrastruct.SqlClientHelp, KaneBlake.Basis, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "ExecuteTSqlInTran", Cron.Minutely());
+            await _jobManageService.RecurringJobAddOrUpdateAsync(Guid.NewGuid().ToString(), TN, MN, CE);
             return Ok();
+        }
+
+        [HttpPost]
+        [Route("RecurringJob/all")]
+        [AllowAnonymous]
+        [IgnoreAntiforgeryToken]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public IActionResult GetAllJobEntries()
+        {
+            return Ok(_jobManageService.GetAllJobEntries());
         }
 
     }

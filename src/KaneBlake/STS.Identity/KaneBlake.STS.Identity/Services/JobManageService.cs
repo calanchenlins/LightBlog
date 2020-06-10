@@ -34,7 +34,7 @@ namespace KaneBlake.STS.Identity.Services
             _jobEntryResolver = jobEntryResolver ?? throw new ArgumentNullException(nameof(jobEntryResolver));
         }
 
-        public async void RecurringJobAddOrUpdate(string id,string targetTypeName, string targetMethodName,string cronExpression, TimeZoneInfo timeZone = null,string queue = EnqueuedState.DefaultQueue)
+        public async Task RecurringJobAddOrUpdateAsync(string id,string targetTypeName, string targetMethodName,string cronExpression, TimeZoneInfo timeZone = null,string queue = EnqueuedState.DefaultQueue)
         {
             var context = _httpContextAccessor.HttpContext;
             if (context == null)
@@ -67,16 +67,15 @@ namespace KaneBlake.STS.Identity.Services
             // (T)=> func(T,OP1,OP2); 返回Task
 
         }
+
+        public string GetAllJobEntries() => _jobEntryResolver.GetAllJobEntries();
     }
 
-
-    // 单例
     public class JobEntryResolver 
     {
         protected readonly ILoggerFactory _loggerFactory;
         private readonly ILogger _logger;
 
-        private readonly ConcurrentDictionary<string, Type> _services;
         private static readonly ConcurrentDictionary<string, List<JobEntry>> JobEntryCache = new ConcurrentDictionary<string, List<JobEntry>>();
 
         public JobEntryResolver(ILoggerFactory loggerFactory)
@@ -110,6 +109,12 @@ namespace KaneBlake.STS.Identity.Services
             }
         }
 
+        public string GetAllJobEntries() 
+        {
+            var _ = JobEntryCache.Select(job => job.Value.Select(r => new { typeName = job.Key, methodName = r.TargetMethodName, ParameterNames = r.GetParameters() })).ToList();
+            return Newtonsoft.Json.JsonConvert.SerializeObject(_);
+        }
+
         private void CurrentDomain_AssemblyLoad(object sender, AssemblyLoadEventArgs args)
         {
             LoadJobEntry(new List<Assembly>() { args.LoadedAssembly });
@@ -119,16 +124,19 @@ namespace KaneBlake.STS.Identity.Services
             assemblies.ForEach(assembliy => {
                 try
                 {
-                    var jobTemplateAttributes = assembliy.GetCustomAttributes<JobTemplateAttribute>();
+                    var jobTemplateAttributes = assembliy.GetCustomAttributes<JobTemplateAttribute>().ToList();
                     var tt =jobTemplateAttributes.Select(jobTemplateAttribute => new 
                     { 
                         typename = jobTemplateAttribute.TargetType.AssemblyQualifiedName, 
                         jobEntries= jobTemplateAttribute.TargetType.GetMethods().Where(m => m.GetCustomAttributes<JobTemplateAttribute>().Any()).Select(method => new JobEntry(jobTemplateAttribute.TargetType, method))
                     });
+                    if (assembliy.FullName.Contains("KaneBlake.Basis")) {
+                        var ttg = "";
+                    }
                     foreach (var jobTemplateAttribute in jobTemplateAttributes) 
                     {
-                        var methods = jobTemplateAttribute.TargetType.GetMethods().Where(m => m.GetCustomAttributes<JobTemplateAttribute>().Any());
-                        var jobEntries =methods.Select(method => new JobEntry(jobTemplateAttribute.TargetType, method));
+                        var methods = jobTemplateAttribute.TargetType.GetMethods().Where(m => m.GetCustomAttributes<JobTemplateAttribute>().Any()).ToList();
+                        var jobEntries =methods.Select(method => new JobEntry(jobTemplateAttribute.TargetType, method)).ToList();
                         JobEntryCache.TryAdd(jobTemplateAttribute.TargetType.AssemblyQualifiedName, jobEntries.ToList());
                     }
                 }
@@ -156,6 +164,7 @@ namespace KaneBlake.STS.Identity.Services
             _reflector = targetMethod.GetReflector();
         }
 
+        public IEnumerable<string> GetParameters() => _reflector.ParameterReflectors.Select(p => p.Name);
         public Job GetJob(Expression instance, IFormCollection form) 
         {
             var parameters = _reflector.ParameterReflectors;
@@ -182,8 +191,9 @@ namespace KaneBlake.STS.Identity.Services
             var methodCallExpression = Expression.Call(instance, _targetMethod, constantExpressions.ToArray());
             Job job = null;
             // void action();
-            if (_targetMethod.ReturnType == typeof(void) && _reflector.GetCustomAttribute<AsyncStateMachineAttribute>() == null)
+            if (_targetMethod.ReturnType != typeof(Task) && _reflector.GetCustomAttribute<AsyncStateMachineAttribute>() == null)
             {
+                //_targetMethod.ReturnType == typeof(void) && 
                 var methodCall = Expression.Lambda<Action>(methodCallExpression, new ParameterExpression[] { });
                 job = Job.FromExpression(methodCall);
             }

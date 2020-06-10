@@ -13,6 +13,7 @@ using KaneBlake.Basis.Domain.Repositories;
 using KaneBlake.Basis.Extensions.Cryptography;
 using KaneBlake.STS.Identity.Common;
 using KaneBlake.STS.Identity.Common.IdentityServer4Config;
+using KaneBlake.STS.Identity.HangfireCustomDashboard;
 using KaneBlake.STS.Identity.Infrastruct.Context;
 using KaneBlake.STS.Identity.Infrastruct.Entities;
 using KaneBlake.STS.Identity.Infrastruct.Repository;
@@ -98,41 +99,11 @@ namespace KaneBlake.STS.Identity
             services.AddSingleton<EncryptFormValueProviderFactory>();
             services.AddScoped<EncryptFormFilterAttribute>();
 
-            NavigationMenu.Items.Clear();
-            NavigationMenu.Items.Add(page => new MenuItem(Strings.NavigationMenu_Jobs, page.Url.LinkToQueues())
-            {
-                Active = page.RequestPath.StartsWith("/jobs"),
-                Metrics = new[]
-                {
-                    DashboardMetrics.EnqueuedCountOrNull,
-                    DashboardMetrics.FailedCountOrNull
-                }
-            });
+            var jsPath = Hangfire.Dashboard.DashboardRoutes.Routes.Contains("/js[0-9]+") ? "/js[0-9]+" : "/js[0-9]{3}";
+            //DashboardRoutes.Routes.Append(jsPath, new EmbeddedResourceDispatcher("application/javascript", Assembly.GetExecutingAssembly(),$"{typeof(Startup).Namespace}.HangfireCustomDashboard.hangfire.custom.js"));
 
-            NavigationMenu.Items.Add(page => new MenuItem(Strings.NavigationMenu_Retries, page.Url.To("/retries"))
-            {
-                Active = page.RequestPath.StartsWith("/retries"),
-                Metric = DashboardMetrics.RetriesCount
-            });
-
-            NavigationMenu.Items.Add(page => new MenuItem(Strings.NavigationMenu_RecurringJobs, page.Url.To("/management"))
-            {
-                Active = page.RequestPath.StartsWith("/management"),
-                Metric = DashboardMetrics.RecurringJobCount
-            });
-
-            NavigationMenu.Items.Add(page => new MenuItem(Strings.NavigationMenu_Servers, page.Url.To("/servers"))
-            {
-                Active = page.RequestPath.Equals("/servers"),
-                Metric = DashboardMetrics.ServerCount
-            });
-
-            //DashboardRoutes.Routes.
-            //NavigationMenu.Items.Add(page => new MenuItem("作业管理", page.Url.To("/management"))
-            //{
-            //    Active = page.RequestPath.StartsWith("/management")
-            //});
-            DashboardRoutes.Routes.AddRazorPage("/management", x => new Hangfire.Dashboard.Management.Views.CustomHangfire.ManagementPage());
+            //IOptions<StaticFileOptions> options, IWebHostEnvironment env
+            DashboardRoutes.Routes.Append(jsPath, new StaticFileDispatcher("application/javascript", "js/hangfire.custom.js", Env.WebRootFileProvider));
 
             services.AddHangfire(x => x.UseSqlServerStorage(AppOptions.IdentityDB));
             services.AddHangfireServer();

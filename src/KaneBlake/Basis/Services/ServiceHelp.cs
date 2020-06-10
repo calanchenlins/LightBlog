@@ -45,6 +45,7 @@ namespace CoreWeb.Util.Services
         /// 2000: 正常响应
         /// 4001: 参数错误 4003: 拒绝处理 
         /// 5000: 内部异常 
+        /// 302:重定向
         /// </summary>
         public int Code { get; set; }
 

@@ -13,7 +13,7 @@ namespace KaneBlake.Basis.Extensions.Hangfire
         }
         public JobTemplateAttribute(Type targetType)
         {
-            TargetType = targetType ?? throw new ArgumentNullException(nameof(targetType));
+            TargetType = targetType;
         }
 
         public Type TargetType { get; }

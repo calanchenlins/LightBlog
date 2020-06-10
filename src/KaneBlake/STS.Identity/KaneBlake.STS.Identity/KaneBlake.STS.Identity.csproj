@@ -5,10 +5,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\hangfire.custom.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="HangfireCustomDashboard\hangfire.custom.js" />
     <None Remove="log20200421.txt" />
     <None Remove="log20200507.txt" />
     <None Remove="log20200511.txt" />
     <None Remove="log20200512.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="HangfireCustomDashboard\hangfire.custom.js" />
+    <EmbeddedResource Include="wwwroot\js\hangfire.custom.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,7 +37,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="3.1.4" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
     <PackageReference Include="System.IO.Pipelines" Version="4.7.2" />
     <PackageReference Include="System.Security.Principal.Windows" Version="4.7.0" />

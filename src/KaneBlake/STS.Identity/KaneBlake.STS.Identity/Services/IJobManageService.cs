@@ -8,8 +8,11 @@ namespace KaneBlake.STS.Identity.Services
 {
     public interface IJobManageService
     {
-        Task RecurringJobAddOrUpdateAsync(string id, string targetTypeName, string targetMethodName, string cronExpression, TimeZoneInfo timeZone = null, string queue = EnqueuedState.DefaultQueue);
+        Task BackgroundJobCreateAsync(string targetTypeName, string targetMethodName, string queue = EnqueuedState.DefaultQueue);
+        Task BackgroundJobCreateAsync(string targetTypeName, string targetMethodName, DateTime enqueueAt);
+        Task RecurringJobAddOrUpdateAsync(RecurringJobInDto recurringJobInDto);
+        IEnumerable<JobEntryViewModel> GetAllJobEntries();
 
-        string GetAllJobEntries();
+        RecurringJobViewModel GetRecurringJobById(string id);
     }
 }

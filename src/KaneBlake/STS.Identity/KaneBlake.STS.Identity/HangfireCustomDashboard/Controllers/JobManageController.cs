@@ -1,16 +1,19 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using Castle.Core.Internal;
 using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using CoreWeb.Util.Infrastruct;
 using Hangfire;
 using Hangfire.Logging;
+using Hangfire.States;
 using KaneBlake.STS.Identity.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -22,8 +25,10 @@ using Microsoft.Extensions.Primitives;
 
 namespace KaneBlake.STS.Identity.HangfireCustomDashboard.Controllers
 {
-    [Route("/hangfireapi/[controller]")]
+    [Route("/hangfireapi/Manage")]
     [ApiController]
+    [Authorize]
+    [IgnoreAntiforgeryToken]
     public class JobManageController : ControllerBase
     {
         private readonly IJobManageService _jobManageService;
@@ -35,25 +40,58 @@ namespace KaneBlake.STS.Identity.HangfireCustomDashboard.Controllers
 
         [HttpPost]
         [Route("RecurringJob/add")]
-        [AllowAnonymous]
-        [IgnoreAntiforgeryToken]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> AddRecurringJob([FromForm] string TN, [FromForm] string MN, [FromForm] string CE)
+        public async Task<IActionResult> AddRecurringJob([FromBody]RecurringJobInDto recurringJobInDto)
         {
-            //await _serviceProvider.RecurringJobAddOrUpdateAsync(Guid.NewGuid().ToString(), "CoreWeb.Util.Infrastruct.SqlClientHelp, KaneBlake.Basis, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "ExecuteTSqlInTran", Cron.Minutely());
-            await _jobManageService.RecurringJobAddOrUpdateAsync(Guid.NewGuid().ToString(), TN, MN, CE);
+            await _jobManageService.RecurringJobAddOrUpdateAsync(recurringJobInDto);
             return Ok();
         }
 
         [HttpPost]
-        [Route("RecurringJob/all")]
-        [AllowAnonymous]
-        [IgnoreAntiforgeryToken]
+        [Route("BackgroundJob/add")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public IActionResult GetAllJobEntries()
+        public async Task<IActionResult> CreateBackgroundJob(BackgroundJobInDto backgroundJobInDto)
         {
-            return Ok(_jobManageService.GetAllJobEntries());
+            if (backgroundJobInDto.EnqueueAt == default)
+            {
+                backgroundJobInDto.Queue = string.IsNullOrEmpty(backgroundJobInDto.Queue) ? EnqueuedState.DefaultQueue : backgroundJobInDto.Queue;
+                await _jobManageService.BackgroundJobCreateAsync(backgroundJobInDto.TypeName, backgroundJobInDto.MethodName, backgroundJobInDto.Queue);
+            }
+            else 
+            {
+                await _jobManageService.BackgroundJobCreateAsync(backgroundJobInDto.TypeName, backgroundJobInDto.MethodName, backgroundJobInDto.EnqueueAt);
+            }
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("RecurringJob/{id:required}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public RecurringJobViewModel GetRecurringJob(string id)
+        {
+            return _jobManageService.GetRecurringJobById(id);
+        }
+
+        /// <summary>
+        /// 获取作业模板
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("JobEntries")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public IEnumerable<JobEntryViewModel> GetAllJobEntries()
+        {
+            return _jobManageService.GetAllJobEntries();
         }
 
     }
+
+    public class BackgroundJobInDto 
+    {
+        public string TypeName { get; set; }
+        public string MethodName { get; set; }
+        public string Queue { get; set; }
+        public DateTime EnqueueAt { get; set; }
+    }
+
 }

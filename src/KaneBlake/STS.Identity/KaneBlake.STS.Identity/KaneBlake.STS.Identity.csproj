@@ -4,21 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Remove="wwwroot\js\hangfire.custom.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="HangfireCustomDashboard\hangfire.custom.js" />
-    <None Remove="log20200421.txt" />
-    <None Remove="log20200507.txt" />
-    <None Remove="log20200511.txt" />
-    <None Remove="log20200512.txt" />
-  </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="HangfireCustomDashboard\hangfire.custom.js" />
-    <EmbeddedResource Include="wwwroot\js\hangfire.custom.js" />
   </ItemGroup>
 
   <ItemGroup>

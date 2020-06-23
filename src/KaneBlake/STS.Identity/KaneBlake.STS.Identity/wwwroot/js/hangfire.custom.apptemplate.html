@@ -1,0 +1,48 @@
+﻿<div>
+    <el-dialog title="增加周期任务" :visible.sync="dialogFormVisible" :close-on-click-modal="false" :before-close="handleClose">
+        <el-card class="box-card">
+            <el-form size="small" label-width="auto" :disabled="false" ref="dynamicFormRef">
+                <el-row :gutter="20">
+                    <el-col :offset="0" :span="18">
+                        <el-form-item label="任务模板">
+                            <el-cascader v-model="targetJob" :options="jobOptions" size="medium" @change="handleChange" style="display:block" ref="cascaderRef" clearable>
+                                <template slot-scope="{ node, data }">
+                                    <span>{{ data.label }}</span>
+                                    <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
+                                </template>
+                            </el-cascader>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item :label="jobTypeLable">
+                            <el-switch v-model="jobType" active-color="#13ce66" inactive-color="#409eff" active-value="recurringJob" inactive-value="backgroundJob" v-on:change="onJobTypeChanged"></el-switch>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-divider />
+                <div v-if="targetJob.length<2">
+                    <el-alert title="请先选择任务模板" type="warning" center show-icon></el-alert>
+                </div>
+                <div v-else>
+                    <!--禁止使用随机数作为v-for key:如果使用随机数最为key,在数组元素被修改的情况下,会重绘DOM,导致表单失去焦点--> 
+                    <el-row :gutter="20" v-for="(itemGroup, index) in dynamicFormView" :key="index">
+                        <el-col :span="Math.ceil(24/dynamicFormColNum)" v-for="(item, indexe) in itemGroup" :key="item.Key">
+                            <el-form-item :label="item.Key">
+                                <el-date-picker v-if="item.type=='date'" v-model="item.value" type="datetime" placeholder="选择日期时间" style="width:100%;"></el-date-picker>
+                                <el-input v-else v-model="item.value"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </div>
+
+
+
+            </el-form>
+        </el-card>
+
+        <div slot="footer" class="dialog-footer">
+            <el-button v-on:click="onCanceled">取 消</el-button>
+            <el-button type="primary" v-on:click="onSubmit">确 定</el-button>
+        </div>
+    </el-dialog>
+</div>

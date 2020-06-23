@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using KaneBlake.Basis.Extensions.Cryptography;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Http;
 
 namespace KaneBlake.STS.Identity.Quickstart
 {
@@ -24,6 +25,7 @@ namespace KaneBlake.STS.Identity.Quickstart
 
         public void OnResourceExecuting(ResourceExecutingContext context)
         {
+            context.HttpContext.Request.EnableBuffering();
             var _ = context.HttpContext.Request.Headers.FirstOrDefault(h => "Content-Type".Equals(h.Key)&& h.Value.Any(v=> "application/x-msgpack".Equals(v)));
             var __ = context.HttpContext.Request.Headers.FirstOrDefault(h => "form-data-format".Equals(h.Key) && h.Value.Any(v => "EncryptionForm".Equals(v)));
 

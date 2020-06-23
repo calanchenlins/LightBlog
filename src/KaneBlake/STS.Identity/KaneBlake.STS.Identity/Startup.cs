@@ -27,9 +27,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -111,11 +113,17 @@ namespace KaneBlake.STS.Identity
 
             services.AddTransient<IJobManageService, JobManageService>();
             services.AddSingleton<JobEntryResolver>();
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.Use(next => context =>
+            {
+                context.Request.EnableBuffering();
+                return next(context);
+            });
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -130,6 +138,9 @@ namespace KaneBlake.STS.Identity
             // Use Ngix to enable Compression
             app.UseResponseCompression();
 
+
+            // Set up custom content types - associating file extension to MIME type
+            var provider = new FileExtensionContentTypeProvider();
             app.UseStaticFiles();
 
 

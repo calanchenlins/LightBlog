@@ -23,6 +23,7 @@ namespace CoreWeb.Util.Infrastruct
         /// <param name="conStr"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
+        [JobTemplate]
         public static DataTable ReadDataTable(string sql, string conStr, List<SqlParameter> parameters = null)
         {
             using var conn = new SqlConnection(conStr);
@@ -41,6 +42,8 @@ namespace CoreWeb.Util.Infrastruct
             adapter.Dispose();
             return dt;
         }
+
+        [JobTemplate]
         public static void UpdateTable(DataSet ds, string conStr)
         {
             using var connection = new SqlConnection(conStr);

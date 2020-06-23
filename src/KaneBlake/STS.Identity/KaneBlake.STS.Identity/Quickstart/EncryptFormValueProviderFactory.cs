@@ -49,6 +49,7 @@ namespace KaneBlake.STS.Identity.Quickstart
             IFormCollection form;
             try
             {
+                request.Body.Position = 0;
                 var body = await request.BodyReader.ReadAsync();
                 var CiphertextArray = MessagePackSerializer.Deserialize<byte[][]>(body.Buffer, MessagePack.Resolvers.ContractlessStandardResolver.Options);
                 var plainText = new StringBuilder();

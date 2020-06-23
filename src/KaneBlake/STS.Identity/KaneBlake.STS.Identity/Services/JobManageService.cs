@@ -41,9 +41,8 @@ namespace KaneBlake.STS.Identity.Services
         private readonly IBackgroundJobClient _backgroundJobClient;
         private readonly JobStorage _jobStorage;
         private readonly JobEntryResolver _jobEntryResolver;
-        private readonly IActionContextAccessor  _actionContextAccessor;//IActionContextAccessor
 
-        public JobManageService(ILoggerFactory loggerFactory, IHttpContextAccessor httpContextAccessor, IServiceProvider serviceProvider, IRecurringJobManager recurringJobManager, JobEntryResolver jobEntryResolver, IBackgroundJobClient backgroundJobClient, JobStorage jobStorage, IActionContextAccessor actionContextAccessor)
+        public JobManageService(ILoggerFactory loggerFactory, IHttpContextAccessor httpContextAccessor, IServiceProvider serviceProvider, IRecurringJobManager recurringJobManager, JobEntryResolver jobEntryResolver, IBackgroundJobClient backgroundJobClient, JobStorage jobStorage)
         {
             _loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
             _logger = loggerFactory.CreateLogger(typeof(JobEntryResolver));
@@ -53,7 +52,6 @@ namespace KaneBlake.STS.Identity.Services
             _jobEntryResolver = jobEntryResolver ?? throw new ArgumentNullException(nameof(jobEntryResolver));
             _backgroundJobClient = backgroundJobClient ?? throw new ArgumentNullException(nameof(backgroundJobClient));
             _jobStorage = jobStorage ?? throw new ArgumentNullException(nameof(jobStorage));
-            _actionContextAccessor = actionContextAccessor ?? throw new ArgumentNullException(nameof(actionContextAccessor));
         }
 
         private async Task<Job> GetJobAsync(string targetTypeName, string targetMethodName)

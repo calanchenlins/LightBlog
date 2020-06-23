@@ -43,7 +43,9 @@ namespace KaneBlake.STS.Identity.HangfireCustomDashboard.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> AddRecurringJob([FromBody]RecurringJobInDto recurringJobInDto)
         {
+            //return Problem();
             await _jobManageService.RecurringJobAddOrUpdateAsync(recurringJobInDto);
+            //return Problem();
             return Ok();
         }
 

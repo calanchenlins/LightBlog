@@ -60,6 +60,7 @@ namespace KaneBlake.STS.Identity
             {
                 // it doesn't require tokens for requests made using the following safe HTTP methods: GET, HEAD, OPTIONS, and TRACE
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                options.Filters.Add(new WebApiExceptionFilter());
                 //options.OutputFormatters.Add(new MessagePackOutputFormatter(ContractlessStandardResolver.Options));
                 //options.InputFormatters.Clear();
                 //options.InputFormatters.Add(new MessagePackInputFormatter(ContractlessStandardResolver.Options));
@@ -124,7 +125,7 @@ namespace KaneBlake.STS.Identity
                 context.Request.EnableBuffering();
                 return next(context);
             });
-            if (env.IsDevelopment())
+            if (!env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }

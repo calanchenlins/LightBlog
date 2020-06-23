@@ -62,7 +62,6 @@ namespace KaneBlake.STS.Identity
                     message.ErrorDescription = null;
                 }
             }
-
             return View("Error", vm);
         }
 

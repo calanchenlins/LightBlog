@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -13,42 +14,32 @@ using System.Threading.Tasks;
 
 namespace KaneBlake.STS.Identity.Quickstart
 {
-    public class WebApiExceptionFilter : IActionFilter, IOrderedFilter
+    public class WebApiExceptionFilter : IAsyncExceptionFilter, IOrderedFilter
     {
         private ILogger _logger;
-        public WebApiExceptionFilter()
-        {
-        }
-
         public int Order { get; set; } = int.MaxValue - 10;
-
-        public void OnActionExecuted(ActionExecutedContext context)
+        public Task OnExceptionAsync(ExceptionContext context)
         {
-            
-            if (context.Exception != null && context.ActionDescriptor.FilterDescriptors.Any(fd => fd.Filter is ApiControllerAttribute _))
+            if (context.ExceptionHandled == false && context.Exception != null && context.ActionDescriptor.FilterDescriptors.Any(fd => fd.Filter is ApiControllerAttribute _))
             {
-                if (_logger == null) 
+                if (_logger == null)
                 {
                     var loggerFactory = context.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>();
                     _logger = loggerFactory.CreateLogger<WebApiExceptionFilter>();
                 }
                 var ProblemDetailsFactory = context.HttpContext?.RequestServices?.GetRequiredService<ProblemDetailsFactory>();
-                
+
                 var problemDetails = ProblemDetailsFactory.CreateProblemDetails(
                     context.HttpContext,
-                    statusCode: (int)HttpStatusCode.InternalServerError,
-                    detail:context.Exception.Message);
+                    statusCode: StatusCodes.Status500InternalServerError);
                 context.Result = new ObjectResult(problemDetails)
                 {
                     StatusCode = problemDetails.Status
                 };
                 context.ExceptionHandled = true;
-                _logger.LogError(context.Exception, "An error occurred while processing your request.");
+                _logger.LogError(context.Exception, "An error occurred while processing your request in path:{0}", context.HttpContext.Request.Path.Value);
             }
-        }
-
-        public void OnActionExecuting(ActionExecutingContext context)
-        {
+            return Task.CompletedTask;
         }
     }
 }

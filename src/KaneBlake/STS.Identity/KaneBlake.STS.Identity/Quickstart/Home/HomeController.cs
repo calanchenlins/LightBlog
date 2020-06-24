@@ -4,13 +4,17 @@
 
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
 using System;
 using System.Buffers;
 using System.IO.Pipelines;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,6 +27,7 @@ namespace KaneBlake.STS.Identity
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IWebHostEnvironment _environment;
         private readonly ILogger _logger;
+        private static readonly MediaTypeHeaderValue _textHtmlMediaType = new MediaTypeHeaderValue("text/html");
 
         public HomeController(IIdentityServerInteractionService interaction, IWebHostEnvironment environment, ILogger<HomeController> logger)
         {
@@ -44,7 +49,7 @@ namespace KaneBlake.STS.Identity
         }
 
         /// <summary>
-        /// Shows the error page
+        /// Shows the error page for identityserver
         /// </summary>
         public async Task<IActionResult> Error(string errorId)
         {
@@ -63,6 +68,23 @@ namespace KaneBlake.STS.Identity
                 }
             }
             return View("Error", vm);
+        }
+
+        /// <summary>
+        /// ErrorHandle for both API endpoints and MVC endpoints
+        /// </summary>
+        [Route("/error_handle")]
+        [IgnoreAntiforgeryToken]
+        [AllowAnonymous]
+        public IActionResult ErrorHandle()
+        {
+            var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+            _logger.LogError(exceptionHandlerPathFeature.Error, "An error occurred while processing your request in path:{0}", exceptionHandlerPathFeature.Path);
+            if (HttpContext.Request.GetTypedHeaders().Accept.Any(a => a.IsSubsetOf(_textHtmlMediaType))) 
+            {
+                return View("error_handle");
+            }
+            return Problem();
         }
 
         [HttpOptions]

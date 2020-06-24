@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using Hangfire;
@@ -22,6 +24,7 @@ using KaneBlake.STS.Identity.Services;
 using MessagePack.AspNetCoreMvcFormatter;
 using MessagePack.Resolvers;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -36,6 +39,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Polly;
 using Serilog;
 
 namespace KaneBlake.STS.Identity
@@ -60,7 +66,8 @@ namespace KaneBlake.STS.Identity
             {
                 // it doesn't require tokens for requests made using the following safe HTTP methods: GET, HEAD, OPTIONS, and TRACE
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-                options.Filters.Add(new WebApiExceptionFilter());
+                //options.Filters.Add(new WebApiExceptionFilter());
+                //options.Filters.Add<WebApiExceptionFilter>();
                 //options.OutputFormatters.Add(new MessagePackOutputFormatter(ContractlessStandardResolver.Options));
                 //options.InputFormatters.Clear();
                 //options.InputFormatters.Add(new MessagePackInputFormatter(ContractlessStandardResolver.Options));
@@ -131,7 +138,11 @@ namespace KaneBlake.STS.Identity
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                // app.UseExceptionHandler("/error_handle"); // errorHandlingPath: 改变请求路径后,后续中间件再次处理请求
+                // app.UseExceptionHandler(new ExceptionHandlerOptions() { ExceptionHandler = async context => await context.Response.WriteAsync("Unhandled exception occurred!") });// use RequestDelegate to handle exception:需要手动从IServiceProvider 中解析依赖的服务
+
+                app.UseExceptionHandler(errorApp => errorApp.UseMiddleware<ExceptionCustomHandlerMiddleware>());
+
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }

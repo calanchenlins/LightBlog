@@ -127,11 +127,6 @@ namespace KaneBlake.STS.Identity
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.Use(next => context =>
-            {
-                context.Request.EnableBuffering();
-                return next(context);
-            });
             if (!env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -141,11 +136,12 @@ namespace KaneBlake.STS.Identity
                 // app.UseExceptionHandler("/error_handle"); // errorHandlingPath: 改变请求路径后,后续中间件再次处理请求
                 // app.UseExceptionHandler(new ExceptionHandlerOptions() { ExceptionHandler = async context => await context.Response.WriteAsync("Unhandled exception occurred!") });// use RequestDelegate to handle exception:需要手动从IServiceProvider 中解析依赖的服务
 
-                app.UseExceptionHandler(errorApp => errorApp.UseMiddleware<ExceptionCustomHandlerMiddleware>());
+                app.UseExceptionHandler(errorApp => errorApp.UseMiddleware<ExceptionHandlerCustomMiddleware>());
 
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseMiddleware<RequestBufferingMiddleware>();
             app.UseHttpsRedirection();
             // Use Ngix to enable Compression
             app.UseResponseCompression();

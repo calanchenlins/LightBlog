@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using CoreWeb.Util.Services;
 using KaneBlake.Basis.Domain.Repositories;
 using LightBlog.Common.AOP.CommonCache;
 using LightBlog.Common.Diagnostics;
@@ -56,7 +57,7 @@ namespace LightBlog.Services
         }
 
 
-        public ServiceResponse<bool> Commenting(int blogId, CommentPostInDto input)
+        public ServiceResponse Commenting(int blogId, CommentPostInDto input)
         {
             var post = _postRepository.Get()
                 .Where(x => x.Id == input.BlogId)
@@ -68,12 +69,12 @@ namespace LightBlog.Services
                 post.AddComment(input.Content, user.UserId, user.UserName);
                 _postRepository.Complete();
                 s_diagnosticListener.WriteAddPostCommentAfter(post.Id);
-                return ServiceHelp<bool>.SetSuccessResponse(true);
+                return ServiceResponse.OK();
             }
-            return ServiceHelp<bool>.SetSuccessResponse(false);
+            return ServiceResponse.Unauthorized();
         }
 
-        public ServiceResponse<bool> Create(CreatPostInDto input)
+        public ServiceResponse Create(CreatPostInDto input)
         {
             var user = GetAuthenticatedUser();
             if (user.IsAuthenticated)
@@ -83,13 +84,13 @@ namespace LightBlog.Services
                 _postRepository.Add(post);
                 _postRepository.Complete();
                 s_diagnosticListener.WriteAddOrUpdatePostAfter(post);
-                return ServiceHelp<bool>.SetSuccessResponse(true);
+                return ServiceResponse.OK();
             }
-            return ServiceHelp<bool>.SetBadResponse();
+            return ServiceResponse.Unauthorized();
         }
 
 
-        public ServiceResponse<bool> Delete(int BlogId)
+        public ServiceResponse Delete(int BlogId)
         {
             var post = _postRepository.Get()
                 .Where(x => x.Id == BlogId)
@@ -99,12 +100,13 @@ namespace LightBlog.Services
                 _postRepository.Remove(post);
                 _postRepository.Complete();
                 s_diagnosticListener.WriteDeletePostAfter(post.Id);
+                return ServiceResponse.OK();
             }
-            return ServiceHelp<bool>.SetSuccessResponse(true);
+            return ServiceResponse.Unauthorized();
         }
 
 
-        public ServiceResponse<bool> Edit(int BlogId, EditPostInDto input)
+        public ServiceResponse Edit(int BlogId, EditPostInDto input)
         {
             var post = _postRepository.Get()
                 .Where(x => x.Id == input.BlogId)
@@ -114,8 +116,9 @@ namespace LightBlog.Services
                 post?.Edit(input.Title, input.EntryName, input.Content, input.Excerpt);
                 _postRepository.Complete();
                 s_diagnosticListener.WriteAddOrUpdatePostAfter(post);
+                return ServiceResponse.OK();
             }
-            return ServiceHelp<bool>.SetSuccessResponse(true);
+            return ServiceResponse.Unauthorized();
         }
 
 
@@ -128,10 +131,10 @@ namespace LightBlog.Services
             var postDeatil = _mapper.Map<PostDetailViewModel>(post);
             var comments = _mapper.Map<List<PostCommentViewModel>>(post.Comments);
             postDeatil.Comments = comments;
-            return ServiceHelp<PostDetailViewModel>.SetSuccessResponse(postDeatil);
+            return ServiceResponse.OK(postDeatil);
         }
 
-        public ServiceResponse<PostEditViewModel> GetPostForEditById(int blogId)
+        public PostEditViewModel GetPostForEditById(int blogId)
         {
             var post = _postRepository.Get()
                 .Where(x => x.Id == blogId)
@@ -139,9 +142,9 @@ namespace LightBlog.Services
             if ((post?.AuthorId ?? -1) == GetAuthenticatedUser().UserId)
             {
                 var postDeatil = _mapper.Map<PostEditViewModel>(post);
-                return ServiceHelp<PostEditViewModel>.SetSuccessResponse(postDeatil);
+                return postDeatil;
             }
-            return ServiceHelp<PostEditViewModel>.SetBadResponse();
+            return null;
         }
 
         public ServiceResponse<PostsViewModel> GetPagePostsByUser(string authorName, int startIndex = 0, int pageSize = 10, int pageIndex = 0)
@@ -159,7 +162,7 @@ namespace LightBlog.Services
                 vaildCount = AllItems - pageSize * pageIndex;
                 if (vaildCount <= 0)
                 {
-                    return ServiceHelp<PostsViewModel>.SetSuccessResponse(new PostsViewModel());
+                    return ServiceResponse.OK(new PostsViewModel());
                 }
             }
             else
@@ -178,7 +181,7 @@ namespace LightBlog.Services
             postsView.HasNextPage = AllItems > pageSize * (pageIndex + 1);
             postsView.HasLastPage = pageIndex <= 0 ? false : true;
             postsView.PostEntries = postEntries;
-            return ServiceHelp<PostsViewModel>.SetSuccessResponse(postsView);
+            return ServiceResponse.OK(postsView);
         }
 
         public ServiceResponse<PostsViewModel> GetPagePosts(int startIndex = 0, int pageSize = 10, int pageIndex = 0)
@@ -194,7 +197,7 @@ namespace LightBlog.Services
                 vaildCount = AllItems - pageSize * pageIndex;
                 if (vaildCount <= 0)
                 {
-                    return ServiceHelp<PostsViewModel>.SetSuccessResponse(new PostsViewModel());
+                    return ServiceResponse.OK(new PostsViewModel());
                 }
             }
             else
@@ -213,7 +216,7 @@ namespace LightBlog.Services
             postsView.HasNextPage = AllItems > pageSize * (pageIndex + 1);
             postsView.HasLastPage = pageIndex<=0?false:true;
             postsView.PostEntries = postEntries;
-            return ServiceHelp<PostsViewModel>.SetSuccessResponse(postsView);
+            return ServiceResponse.OK(postsView);
         }
 
     }

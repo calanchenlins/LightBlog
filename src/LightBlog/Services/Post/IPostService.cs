@@ -1,4 +1,5 @@
-﻿using LightBlog.Common.AOP.CommonCache;
+﻿using CoreWeb.Util.Services;
+using LightBlog.Common.AOP.CommonCache;
 using LightBlog.Infrastruct.Entities;
 using LightBlog.Models;
 using LightBlog.Services.InDto;
@@ -18,18 +19,18 @@ namespace LightBlog.Services
         [Caching(QueryKeys = new string[] { "blogId" })]
         ServiceResponse<PostDetailViewModel> GetPostById(int blogId);
 
-        ServiceResponse<PostEditViewModel> GetPostForEditById(int blogId);
+        PostEditViewModel GetPostForEditById(int blogId);
 
-        ServiceResponse<bool> Create(CreatPostInDto input);
-
-        [CachingSet(QuryTypeName = nameof(PostService), QueryMethodName = nameof(GetPostById), QueryKeys = new string[] { "BlogId" })]
-        ServiceResponse<bool> Edit(int BlogId,EditPostInDto input);
+        ServiceResponse Create(CreatPostInDto input);
 
         [CachingSet(QuryTypeName = nameof(PostService), QueryMethodName = nameof(GetPostById), QueryKeys = new string[] { "BlogId" })]
-        ServiceResponse<bool> Delete(int BlogId);
+        ServiceResponse Edit(int BlogId,EditPostInDto input);
+
+        [CachingSet(QuryTypeName = nameof(PostService), QueryMethodName = nameof(GetPostById), QueryKeys = new string[] { "BlogId" })]
+        ServiceResponse Delete(int BlogId);
 
         [CachingSet(QuryTypeName = nameof(PostService), QueryMethodName = nameof(GetPostById), QueryKeys = new string[] { "blogId" })]
         [CachingSet(QuryTypeName = nameof(PostService), QueryMethodName = nameof(GetPostById), QueryKeys = new string[] { "blogId" })]
-        ServiceResponse<bool> Commenting(int BlogId,CommentPostInDto input);
+        ServiceResponse Commenting(int BlogId,CommentPostInDto input);
     }
 }

@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Distributed;
 using LightBlog.Services.Cache;
+using CoreWeb.Util.Services;
 
 namespace LightBlog.Controllers
 {
@@ -56,7 +57,7 @@ namespace LightBlog.Controllers
         public IActionResult PostView(string BloggerName,int id)
         {
             var postDetail = _postService.GetPostById(id);
-            return View("/Views/Home/PostDetail.cshtml", postDetail.Response);
+            return View("/Views/Home/PostDetail.cshtml", postDetail.Data);
         }
 
         /// <summary>
@@ -68,7 +69,7 @@ namespace LightBlog.Controllers
         public IActionResult BlogView(string BloggerName)
         {
             var postDetail = _postService.GetPagePostsByUser(BloggerName,0,5,0);
-            return View("Index", postDetail.Response);
+            return View("Index", postDetail.Data);
         }
 
         #region Api
@@ -89,19 +90,16 @@ namespace LightBlog.Controllers
             ServiceResponse<PostsViewModel> postDetail;
             if ((BloggerName?.Trim()??"") == "")
             {
-                //postDetail = _postService.GetPagePosts(startIndex, pageSize, pageIndex);
-                postDetail = new ServiceResponse<PostsViewModel>();
                 var res = _homeCacheService.GetPagePosts(pageSize, pageIndex);
-                postDetail.SetSuccessResponse(res);
-                
+                postDetail = ServiceResponse.OK(res);
             }
             else
             {
                 postDetail = _postService.GetPagePostsByUser(BloggerName, startIndex, pageSize, pageIndex);
             }
-            if (postDetail?.Success ?? false)
+            if (postDetail.OKStatus)
             {
-                return Ok(postDetail.Response);
+                return Ok(postDetail.Data);
             }
             else
             {

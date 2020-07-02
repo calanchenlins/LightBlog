@@ -1,4 +1,5 @@
-﻿using KaneBlake.STS.Identity.Common;
+﻿using CoreWeb.Util.Services;
+using KaneBlake.STS.Identity.Common;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,17 +15,17 @@ using System.Threading.Tasks;
 
 namespace KaneBlake.STS.Identity.Quickstart
 {
-    public class ExceptionCustomHandlerMiddleware
+    public class ExceptionHandlerCustomMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly ApiBehaviorOptions _options;
         private readonly ILogger _logger;
 
-        public ExceptionCustomHandlerMiddleware(RequestDelegate next, ILoggerFactory loggerFactory, IOptions<ApiBehaviorOptions> options)
+        public ExceptionHandlerCustomMiddleware(RequestDelegate next, ILoggerFactory loggerFactory, IOptions<ApiBehaviorOptions> options)
         {
             _next = next;
             _options = options.Value;
-            _logger = loggerFactory.CreateLogger<ExceptionCustomHandlerMiddleware>();
+            _logger = loggerFactory.CreateLogger<ExceptionHandlerCustomMiddleware>();
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -93,7 +94,7 @@ namespace KaneBlake.STS.Identity.Quickstart
                 }
 
                 var stream = httpContext.Response.Body;
-                await System.Text.Json.JsonSerializer.SerializeAsync(stream, problemDetails);
+                await System.Text.Json.JsonSerializer.SerializeAsync(stream, ServiceResponse.InnerException(ex));
 
             }
         }

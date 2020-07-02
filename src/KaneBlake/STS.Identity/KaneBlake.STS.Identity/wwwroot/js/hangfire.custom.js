@@ -64,7 +64,6 @@
             await loadScriptAsync('/lib/element-ui/lib/index.js')
             let apptemplate = (await axios.get('/js/hangfire.custom.apptemplate.html', { responseType: 'html' })).data;
             let recurringJobs = (await axios.get('/hangfireapi/Manage/JobEntries')).data;
-            debugger
             let options = [...new Set(recurringJobs.map(job => job.typeName))].map(function (el) {
                 return { value: el, label: el };
             });
@@ -74,7 +73,7 @@
                         return { value: ele.methodName, label: ele.methodName, parameters: ele.parameters};
                     });
             })
-            debugger
+            
             if (window.location.href.includes('/recurring')) {
                 let RecurringJobAddOrUpdateButton = `
                     <button class="js-jobs-list-command btn btn-sm btn-primary js-job-custom-command recurring-job-update" disabled>
@@ -89,7 +88,7 @@
                 $('.custom-job-add').click(function () {
                     mainApp.customJobAdd();
                 });
-                debugger
+                
                 $._data($('.js-jobs-list').get(0), 'events').click.find(el => el.selector == ".js-jobs-list-command").selector = '.js-jobs-list-command:not(".js-job-custom-command")'
                 $('.recurring-job-update').click(function () {
                     var jobs = $(".js-jobs-list input[name='jobs[]']:checked").map(function () {
@@ -142,7 +141,7 @@
                                 FormView.push(temp)
                                 index = index + this.dynamicFormColNum;
                             } while (index < _dynamicForm.length);
-                            debugger
+                            
                             return FormView;
                         },
                         jobTypeLable: function ()
@@ -221,7 +220,7 @@
                                 url = '/hangfireapi/Manage/BackgroundJob/add';
                             }
                             let recurringJobs = (await axios.post(url, this.buildFormObject())).data;
-                            debugger
+                            
                             return
                             this.$refs['dynamicFormRef'].validate((valid) => {
                                 if (!valid) {

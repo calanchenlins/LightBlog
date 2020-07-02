@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoreWeb.Util.Services;
 using LightBlog.Infrastruct.Entities;
 using LightBlog.Services;
 using LightBlog.Services.InDto;
@@ -33,24 +34,23 @@ namespace LightBlog.Controllers
         [HttpGet]
         public IActionResult EditPost(int id)
         {
-            var result = _postService.GetPostForEditById(id);
-            if (result.Success)
+            var post = _postService.GetPostForEditById(id);
+            if (post == null)
             {
-                return View("EditPost", result.Response);
+                return NotFound();
             }
-            else
-            {
-                return Redirect($@"/blog/{_userService.UserName ?? ""}");
-            }
+            return View("EditPost", post);
         }
+
+        #region WebApi
 
         [HttpPost]
         public IActionResult SavePost(CreatPostInDto input)
         {
             var result = _postService.Create(input);
-            if (result.Success)
+            if (result.OKStatus)
             {
-                return Redirect($@"/blog/{_userService.UserName??""}");
+                return Redirect($@"/blog/{_userService.UserName ?? ""}");
             }
             else
             {
@@ -63,7 +63,7 @@ namespace LightBlog.Controllers
         public IActionResult EditPost(EditPostInDto input)
         {
             var result = _postService.Edit(input.BlogId, input);
-            if (result.Success)
+            if (result.OKStatus)
             {
                 return Redirect($@"/blog/{_userService.UserName ?? ""}");
             }
@@ -79,14 +79,14 @@ namespace LightBlog.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = _postService.Commenting(input.BlogId,input);
-                if (result.Success)
+                var result = _postService.Commenting(input.BlogId, input);
+                if (result.OKStatus)
                 {
                     return Ok();
                 }
                 else
                 {
-                    return BadRequest();
+                    return Redirect("/Account/Login?ReturnUrl=/");
                 }
             }
             return BadRequest();
@@ -96,9 +96,18 @@ namespace LightBlog.Controllers
         [HttpGet]
         public IActionResult DelPost(int id)
         {
-            _postService.Delete(id);
-            return Redirect($@"/blog/{_userService.UserName ?? ""}");
+            var result = _postService.Delete(id);
+            if (result.OKStatus)
+            {
+                return Redirect($@"/blog/{_userService.UserName ?? ""}");
+            }
+            else
+            {
+                return Redirect($@"/Account/Login?ReturnUrl=/");
+            }
         }
+
+        #endregion
 
     }
 }

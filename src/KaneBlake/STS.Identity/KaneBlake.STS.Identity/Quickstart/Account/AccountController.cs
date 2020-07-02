@@ -39,6 +39,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Builder;
+using CoreWeb.Util.Services;
+using System.Runtime.CompilerServices;
 
 namespace KaneBlake.STS.Identity
 {
@@ -88,6 +90,7 @@ namespace KaneBlake.STS.Identity
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl)
         {
+
             // build a model so we know what to show on the login page
             var vm = await BuildLoginViewModelAsync(returnUrl);
 
@@ -100,14 +103,12 @@ namespace KaneBlake.STS.Identity
             return View(vm);
         }
 
-        /// <summary>
-        /// Handle postback from username/password login
-        /// </summary>
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
         [ServiceFilter(typeof(EncryptFormFilterAttribute))]
-        public async Task<IActionResult> Login(LoginInputModel model, string button)
+        public async Task<ActionResult<ServiceResponse>> Login(LoginInputModel model, string button)
         {
             var context = await _interaction.GetAuthorizationContextAsync(model.ReturnUrl);
 
@@ -126,15 +127,14 @@ namespace KaneBlake.STS.Identity
                     {
                         // if the client is PKCE then we assume it's native, so this change in how to
                         // return the response is for better UX for the end user.
-                        return this.LoadingPage("Redirect", model.ReturnUrl);
+                        //return this.LoadingPage("Redirect", model.ReturnUrl);
                     }
-
-                    return Redirect(model.ReturnUrl);
+                    return ServiceResponse.Redirect(model.ReturnUrl);
                 }
                 else
                 {
                     // since we don't have a valid context, then we just go back to the home page
-                    return Redirect("~/");
+                    return ServiceResponse.Redirect("/");
                 }
             }
 
@@ -155,21 +155,22 @@ namespace KaneBlake.STS.Identity
                         {
                             // if the client is PKCE then we assume it's native, so this change in how to
                             // return the response is for better UX for the end user.
-                            return this.LoadingPage("Redirect", model.ReturnUrl);
+                            //return this.LoadingPage("Redirect", model.ReturnUrl);
+                            
                         }
 
                         // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
-                        return Redirect(model.ReturnUrl);
+                        return ServiceResponse.Redirect(model.ReturnUrl);
                     }
 
                     // request for a local page
                     if (Url.IsLocalUrl(model.ReturnUrl))
                     {
-                        return RedirectToLocal(model.ReturnUrl);
+                        return ServiceResponse.Redirect(model.ReturnUrl);
                     }
                     else if (string.IsNullOrEmpty(model.ReturnUrl))
                     {
-                        return RedirectToLocal("/");
+                        return ServiceResponse.Redirect("/");
                     }
                     else
                     {
@@ -177,20 +178,17 @@ namespace KaneBlake.STS.Identity
                         // user might have clicked on a malicious link - should be logged
                         // never throw new Exception() in business logic
                         _logger.LogWarning("invalid return URL:{0}", model.ReturnUrl);
+                        await HttpContext.SignOutAsync();
+                        return ServiceResponse.Redirect("/");
                         // throw new Exception("invalid return URL");
                     }
                 }
 
                 await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId: context?.ClientId));
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
-                ModelState.AddModelError(nameof(model.Username), "scasc");
             }
 
-
-            // something went wrong, show form with error
-            return BadRequest(ModelState);
-            var vm = await BuildLoginViewModelAsync(model);
-            return View(vm);
+            return ServiceResponse.BadRequest(new SerializableError(ModelState));
         }
 
 
@@ -287,7 +285,7 @@ namespace KaneBlake.STS.Identity
             var securityKey = (await _signingCredentialStore.GetSigningCredentialsAsync()).Key;
             if (securityKey is X509SecurityKey x509SecurityKey)
             {
-                var publickey = x509SecurityKey.Certificate.ExportRSAPublicKey();
+                var publickey = x509SecurityKey.Certificate.ExportRSAPKCS8PublicKey();
                 return Content(publickey);
             }
             return NoContent();

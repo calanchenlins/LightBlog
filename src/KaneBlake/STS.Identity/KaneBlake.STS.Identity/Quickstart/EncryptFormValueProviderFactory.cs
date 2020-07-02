@@ -58,7 +58,6 @@ namespace KaneBlake.STS.Identity.Quickstart
                 {
                     plainText.Append(AppInfo.Instance.Certificate.DecryptFromUTF8bytes(CiphertextArray[i]));
                 }
-
                 var formReader = new FormReader(plainText.ToString());
                 var formFields = await formReader.ReadFormAsync();
                 form = new FormCollection(formFields);

@@ -138,7 +138,7 @@
         id:'@Html.Raw(UserService.UserId)',
         name:'@Html.Raw(UserService.UserName)'
     }
-    debugger
+    
     var authFlag =@AuthFlag;
     var postContent = '@encoder.Encode(Model.Content)';
     var modelData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));

@@ -26,13 +26,17 @@ namespace KaneBlake.STS.Identity.Quickstart
             context.Request.EnableBuffering();
 
 #if DEBUG
-            
+
             try
             {
                 var body = await context.Request.BodyReader.ReadAsync();
                 var planText = Encoding.UTF8.GetString(body.Buffer.ToArray());
             }
             catch (Exception) { }
+            finally 
+            {
+                context.Request.Body.Position = 0;
+            }
             
 #endif
 

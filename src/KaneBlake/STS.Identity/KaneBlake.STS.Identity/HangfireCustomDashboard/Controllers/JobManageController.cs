@@ -41,7 +41,7 @@ namespace KaneBlake.STS.Identity.HangfireCustomDashboard.Controllers
         [HttpPost]
         [Route("RecurringJob/add")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> AddRecurringJob([FromBody]RecurringJobInDto recurringJobInDto)
+        public async Task<IActionResult> AddRecurringJob(RecurringJobInDto recurringJobInDto)
         {
             //return Problem();
             await _jobManageService.RecurringJobAddOrUpdateAsync(recurringJobInDto);

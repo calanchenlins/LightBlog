@@ -157,9 +157,10 @@
                             let _dynamicForm = this.fixedparameters.concat(this.dynamicForm);
                             let formDataObj = new Object();
                             _dynamicForm.forEach(el => {
-                                if (el.value.trim().length > 0) {
-                                    formDataObj[el.Key] = el.value;
-                                }
+                                //if (el.value.trim().length > 0) {
+                                //    formDataObj[el.Key] = el.value;
+                                //}
+                                formDataObj[el.Key] = el.value;
                             });
                             formDataObj.TypeName = this.targetJob[0];
                             formDataObj.MethodName = this.targetJob[1];

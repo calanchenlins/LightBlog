@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace KaneBlake.AspNetCore.Extensions
+namespace KaneBlake.AspNetCore.Extensions.MVC.ViewFeatures
 {
     public class TypedJsonTempDataSerializer : TempDataSerializer
     {

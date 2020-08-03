@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using KaneBlake.AspNetCore.Extensions.MVC.ViewFeatures;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Infrastructure;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -74,36 +75,6 @@ namespace KaneBlake.AspNetCore.Extensions.Hosting
                 }
             }
             return webHost;
-        }
-    }
-
-    public static class CustomMvcBuilderExtensions 
-    {
-        /// <summary>
-        /// Registers <TypedJsonTempDataSerializer> as the default <TempDataSerializer> in the<IServiceCollection>.
-        /// </summary>
-        /// <param name="builder"></param>
-        /// <returns></returns>
-        public static IMvcBuilder AddTypedJsonTempDataSerializer(this IMvcBuilder builder)
-        {
-            if (builder == null)
-            {
-                throw new ArgumentNullException(nameof(builder));
-            }
-
-            //var tempDataSerializers = builder.Services.Where(f =>
-            //    f.ServiceType == typeof(TempDataSerializer)).ToList();
-            //foreach (var tempDataSerializer in tempDataSerializers)
-            //{
-            //    // Replace the default implementation of TempDataSerializer
-            //    builder.Services.Remove(tempDataSerializer);
-            //}
-            //builder.Services.TryAddSingleton<TempDataSerializer, TypedJsonTempDataSerializer>();
-
-            var descriptor = ServiceDescriptor.Singleton(typeof(TempDataSerializer), typeof(TypedJsonTempDataSerializer));
-            builder.Services.Replace(descriptor);
-
-            return builder;
         }
     }
 }

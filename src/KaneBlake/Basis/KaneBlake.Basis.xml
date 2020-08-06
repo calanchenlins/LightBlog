@@ -64,6 +64,20 @@
             </summary>
         </member>
         <!-- Badly formed XML comment ignored for member "T:KaneBlake.Basis.Extensions.Common.Abstractions.Singleton`1" -->
+        <member name="T:KaneBlake.Basis.Extensions.Common.PipeReaderExtensions">
+            <summary>
+            Extensions of PipeReader
+            </summary>
+        </member>
+        <member name="M:KaneBlake.Basis.Extensions.Common.PipeReaderExtensions.ReadToEndAsync(System.IO.Pipelines.PipeReader,System.Threading.CancellationToken)">
+            <summary>
+            Asynchronously reads to the end of the current System.IO.Pipelines.PipeReader.
+            Requires a call to BodyReader.Advance after use ReadResult.Buffer
+            </summary>
+            <param name="pipeReader"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
         <member name="T:KaneBlake.Basis.Extensions.Cryptography.CertificateExtensions">
             <summary>
             Extensions to RSA Certificate

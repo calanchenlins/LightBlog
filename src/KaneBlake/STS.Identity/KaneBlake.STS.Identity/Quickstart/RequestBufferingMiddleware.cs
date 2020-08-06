@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KaneBlake.Basis.Extensions.Common;
 
 namespace KaneBlake.STS.Identity.Quickstart
 {
@@ -24,25 +25,29 @@ namespace KaneBlake.STS.Identity.Quickstart
         public async Task InvokeAsync(HttpContext context)
         {
             context.Request.EnableBuffering();
-
-#if DEBUG
-
             try
             {
-                var body = await context.Request.BodyReader.ReadAsync();
-                var planText = Encoding.UTF8.GetString(body.Buffer.ToArray());
+                // https://github.com/dotnet/aspnetcore/issues/24562
+                // Before reads to the end of HttpContext.Request.BodyReader(When ReadResult.IsCompleted is true)
+                // We shouldn't sets the position within HttpContext.Request.Body
+                // Otherwise, HttpContext.Request.BodyReader will repeatedly reads the stream after the Position 
+                var buffer = await context.Request.BodyReader.ReadToEndAsync();
+
+                // log Request.Body's content...
             }
-            catch (Exception) { }
+            catch (Exception ex) 
+            {
+                _logger.LogWarning(ex, "failed to log Request.Body.");
+            }
             finally 
             {
+                // we have to sets the position of HttpContext.Request.Body before reads HttpContext.Request.Body, 
                 context.Request.Body.Position = 0;
             }
-            
-#endif
-
 
             // Call the next delegate/middleware in the pipeline
             await _next(context);
+
         }
     }
 }

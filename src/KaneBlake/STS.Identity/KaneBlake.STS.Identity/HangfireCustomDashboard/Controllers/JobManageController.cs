@@ -2,6 +2,8 @@
 using System.Buffers;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
@@ -11,9 +13,11 @@ using System.Threading.Tasks;
 using Castle.Core.Internal;
 using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using CoreWeb.Util.Infrastruct;
+using CoreWeb.Util.Services;
 using Hangfire;
 using Hangfire.Logging;
 using Hangfire.States;
+using KaneBlake.STS.Identity.Quickstart;
 using KaneBlake.STS.Identity.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -86,6 +90,143 @@ namespace KaneBlake.STS.Identity.HangfireCustomDashboard.Controllers
             return _jobManageService.GetAllJobEntries();
         }
 
+
+        [HttpPost]
+        [Route("testApi/Problem")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [AllowAnonymous]
+        public async Task<IActionResult> ProblemC()
+        {
+            await Task.CompletedTask;
+            return Problem();
+        }
+
+        [HttpPost]
+        [Route("testApi/Problem400")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [AllowAnonymous]
+        public async Task<IActionResult> Problem400(Indto input)
+        {
+            await Task.CompletedTask;
+            return Problem();
+        }
+
+        [HttpPost]
+        [Route("testApi/Problem404")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [AllowAnonymous]
+        public async Task<IActionResult> Problem404()
+        {
+            await Task.CompletedTask;
+            return NotFound();
+        }
+
+        [HttpPost]
+        [Route("testApi/Problem204")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [AllowAnonymous]
+        public async Task<IActionResult> Problem204()
+        {
+            await Task.CompletedTask;
+            return NoContent();
+        }
+
+        [HttpPost]
+        [Route("testApi/ServiceResponse")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [AllowAnonymous]
+        [ServiceFilter(typeof(InjectResultActionFilter))]
+        public async Task<ActionResult<ServiceResponse>> ServiceResponseOk()
+        {
+            await Task.CompletedTask;
+            var res =  ServiceResponse.OK();
+            res.Extensions["traceId"] = Activity.Current?.Id ?? HttpContext?.TraceIdentifier;
+            res.Extensions["complexType"] = new { a = "a", b = "b" };
+            return res;
+        }
+
+        [HttpPost]
+        [Route("testApi/ServiceResponse2")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [AllowAnonymous]
+        [ServiceFilter(typeof(InjectResultActionFilter))]
+        public ActionResult<ServiceResponse> ServiceResponseOk2()
+        {
+            var res = ServiceResponse.OK();
+            res.Extensions["traceId"] = Activity.Current?.Id ?? HttpContext?.TraceIdentifier;
+            res.Extensions["complexType"] = new { a = "a", b = "b" };
+            return res;
+        }
+
+        [HttpPost]
+        [Route("testApi/ServiceResponse3")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [AllowAnonymous]
+        [ServiceFilter(typeof(InjectResultActionFilter))]
+        public ServiceResponse ServiceResponseOk3()
+        {
+            var res = ServiceResponse.OK();
+            res.Extensions["traceId"] = Activity.Current?.Id ?? HttpContext?.TraceIdentifier;
+            res.Extensions["complexType"] = new { a = "a", b = "b" };
+            return res;
+        }
+
+        [HttpPost]
+        [Route("testApi/ServiceResponse4")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [AllowAnonymous]
+        [ServiceFilter(typeof(InjectResultActionFilter))]
+        public IActionResult ServiceResponseOk4()
+        {
+            var res = ServiceResponse.OK();
+            res.Extensions["traceId"] = Activity.Current?.Id ?? HttpContext?.TraceIdentifier;
+            res.Extensions["complexType"] = new { a = "a", b = "b" };
+            return new ObjectResult(res);
+        }
+
+
+        [HttpPost]
+        [Route("testApi/ServiceResponseT")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [AllowAnonymous]
+        public async Task<ActionResult<ServiceResponse>> ServiceResponseOkT()
+        {
+            await Task.CompletedTask;
+            var res = ServiceResponse.OK(new { aa = "aa", bb = "bb" });
+            res.Extensions["traceId"] = Activity.Current?.Id ?? HttpContext?.TraceIdentifier;
+            res.Extensions["complexType"] = new { a = "a", b = "b" };
+            return res;
+        }
+
+        [HttpPost]
+        [Route("testApi/ServiceResponseIn")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [AllowAnonymous]
+        public async Task<ActionResult<ServiceResponse>> ServiceResponseOkIn(ServiceResponse input)
+        {
+            await Task.CompletedTask;
+            return input;
+        }
+
+        [HttpPost]
+        [Route("testApi/ServiceResponseInT")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [AllowAnonymous]
+        public async Task<ActionResult<ServiceResponse>> ServiceResponseOkInT(ServiceResponse<string> input)
+        {
+            await Task.CompletedTask;
+            return input;
+        }
+
+    }
+
+    public class Indto
+    {
+        [Required,MinLength(2)]
+        public string TypeName { get; set; }
+        public string MethodName { get; set; }
+        public string Queue { get; set; }
+        public DateTime EnqueueAt { get; set; }
     }
 
     public class BackgroundJobInDto 

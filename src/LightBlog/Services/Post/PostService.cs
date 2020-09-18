@@ -19,6 +19,7 @@ using static LightBlog.Models.PostsViewModel;
 
 namespace LightBlog.Services
 {
+    // todo:增加服务上下文 ServiceContext 承载Http中的非DTO数据(用户信息、账套信息等等)
     public class PostService : IPostService
     {
         private readonly IMapper _mapper;

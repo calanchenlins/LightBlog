@@ -222,10 +222,11 @@
         <!-- Badly formed XML comment ignored for member "M:CoreWeb.Util.Infrastruct.SqlClientHelp.ReadDataTable(System.String,System.String,System.Collections.Generic.List{Microsoft.Data.SqlClient.SqlParameter})" -->
         <member name="T:CoreWeb.Util.Services.ServiceResponse">
             <summary>
-            Service 层响应格式
+            Service、WebApi 层响应格式
+            自定义序列化: src\Mvc\Mvc.Core\src\Infrastructure\ProblemDetailsJsonConverter.cs
             </summary>
         </member>
-        <member name="P:CoreWeb.Util.Services.ServiceResponse.Code">
+        <member name="P:CoreWeb.Util.Services.ServiceResponse.StatusCode">
             <summary>
             服务接口响应状态码
             </summary>
@@ -233,6 +234,11 @@
         <member name="P:CoreWeb.Util.Services.ServiceResponse.Message">
             <summary>
             状态码: 2000/4000 之外的错误消息
+            </summary>
+        </member>
+        <member name="P:CoreWeb.Util.Services.ServiceResponse.Extensions">
+            <summary>
+            Gets the <see cref="T:System.Collections.Generic.IDictionary`2"/> for extension members.
             </summary>
         </member>
         <member name="P:CoreWeb.Util.Services.ServiceResponse.OKStatus">
@@ -281,20 +287,28 @@
             <param name="data"></param>
             <returns></returns>
         </member>
+        <member name="M:CoreWeb.Util.Services.ServiceResponse.BadRequest(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            状态码: 4000 错误的请求信息:参数检验失败等等
+            </summary>
+            <param name="modelState"></param>
+            <returns></returns>
+        </member>
         <member name="M:CoreWeb.Util.Services.ServiceResponse.BadRequest``1(``0)">
             <summary>
             状态码: 4000 错误的请求信息:参数检验失败等等
             </summary>
-            <param name="moelState"></param>
+            <typeparam name="T"></typeparam>
+            <param name="data"></param>
             <returns></returns>
         </member>
         <member name="T:CoreWeb.Util.Services.ServiceResponse`1">
             <summary>
-            包含泛型 Data 的 Service 层响应格式
+            包含泛型 Data 的 Service、WebApi 层响应格式
             </summary>
             <typeparam name="T"></typeparam>
         </member>
-        <member name="P:CoreWeb.Util.Services.ServiceResponse`1.Data">
+        <member name="P:CoreWeb.Util.Services.ServiceResponse`1.Result">
             <summary>
             状态码: 2000 响应数据/状态码: 3002 重定向Url
             </summary>

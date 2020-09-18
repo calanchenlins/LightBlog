@@ -107,7 +107,7 @@ namespace KaneBlake.STS.Identity
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
-        [ServiceFilter(typeof(EncryptFormFilterAttribute))]
+        [ServiceFilter(typeof(EncryptFormResourceFilterAttribute))]
         public async Task<ActionResult<ServiceResponse>> Login(LoginInputModel model, string button)
         {
             var context = await _interaction.GetAuthorizationContextAsync(model.ReturnUrl);
@@ -261,7 +261,7 @@ namespace KaneBlake.STS.Identity
         [AllowAnonymous]
         public IActionResult SignUp(string returnUrl = null)
         {
-            ViewData["ReturnUrl"] = returnUrl;
+            ViewData["ReturnUrl"] = returnUrl?? "/";
             return View(new SignUpViewModel());
         }
 
@@ -294,12 +294,12 @@ namespace KaneBlake.STS.Identity
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        [ServiceFilter(typeof(EncryptFormFilterAttribute))]
-        public async Task<IActionResult> SignUp(SignUpViewModel model, string returnUrl = null)
+        [ServiceFilter(typeof(EncryptFormResourceFilterAttribute))]
+        public async Task<ActionResult<ServiceResponse>> SignUp(SignUpViewModel model, string ReturnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
+            ReturnUrl ??= Url.Content("~/");
 
-            ViewData["ReturnUrl"] = returnUrl;
+            ViewData["ReturnUrl"] = ReturnUrl;
 
             if (!ModelState.IsValid) return BadRequest(ModelState);// 返回了 400 错误,会在浏览器控制台报错.;
 
@@ -307,13 +307,32 @@ namespace KaneBlake.STS.Identity
             if (user != null) 
             {
                 await _userService.SignInAsync(user, true);
-                return RedirectToLocal(returnUrl);
+
+                // request for a local page
+                if (Url.IsLocalUrl(ReturnUrl))
+                {
+                    return ServiceResponse.Redirect(ReturnUrl);
+                }
+                else if (string.IsNullOrEmpty(ReturnUrl))
+                {
+                    return ServiceResponse.Redirect("/");
+                }
+                else
+                {
+
+                    // user might have clicked on a malicious link - should be logged
+                    // never throw new Exception() in business logic
+                    _logger.LogWarning("invalid return URL:{0}", ReturnUrl);
+                    await HttpContext.SignOutAsync();
+                    return ServiceResponse.Redirect("/");
+                    // throw new Exception("invalid return URL");
+                }
+
             }
             ModelState.AddModelError(nameof(model.UserName), $"UserName '{model.UserName}' is already in use.");
 
             // If we got this far, something failed, redisplay form
-            return BadRequest(ModelState);
-            return View(model);
+            return ServiceResponse.BadRequest(new SerializableError(ModelState));
         }
 
         /// <summary>

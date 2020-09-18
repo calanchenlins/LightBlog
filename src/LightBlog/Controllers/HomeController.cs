@@ -57,7 +57,7 @@ namespace LightBlog.Controllers
         public IActionResult PostView(string BloggerName,int id)
         {
             var postDetail = _postService.GetPostById(id);
-            return View("/Views/Home/PostDetail.cshtml", postDetail.Data);
+            return View("/Views/Home/PostDetail.cshtml", postDetail.Result);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace LightBlog.Controllers
         public IActionResult BlogView(string BloggerName)
         {
             var postDetail = _postService.GetPagePostsByUser(BloggerName,0,5,0);
-            return View("Index", postDetail.Data);
+            return View("Index", postDetail.Result);
         }
 
         #region Api
@@ -99,7 +99,7 @@ namespace LightBlog.Controllers
             }
             if (postDetail.OKStatus)
             {
-                return Ok(postDetail.Data);
+                return Ok(postDetail.Result);
             }
             else
             {

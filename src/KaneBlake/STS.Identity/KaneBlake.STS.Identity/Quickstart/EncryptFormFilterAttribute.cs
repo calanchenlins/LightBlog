@@ -17,50 +17,35 @@ using System.IO.Pipelines;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Mvc;
+using CoreWeb.Util.Services;
+using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 
 namespace KaneBlake.STS.Identity.Quickstart
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public class EncryptFormFilterAttribute : Attribute,IAsyncResourceFilter
+    public class EncryptFormResourceFilterAttribute : Attribute,IAsyncResourceFilter
     {
-        private readonly EncryptFormValueProviderFactory _valueProviderFactory;
+        private readonly ILogger _logger;
 
-        public EncryptFormFilterAttribute(EncryptFormValueProviderFactory valueProviderFactory)
+        public EncryptFormResourceFilterAttribute(ILogger<EncryptFormResourceFilterAttribute> logger)
         {
-            _valueProviderFactory = valueProviderFactory ?? throw new ArgumentNullException(nameof(valueProviderFactory));
-
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task OnResourceExecutionAsync(ResourceExecutingContext context, ResourceExecutionDelegate next)
         {
-            //var _ = context.HttpContext.Request.Headers["Content-Type"].Any(v => "application/x-msgpack".Equals(v));
             var formEncrypted = context.HttpContext.Request.Headers["form-data-format"].Any(v => "EncryptionForm".Equals(v));
             if (formEncrypted)
             {
                 await DecryptBodyAsync(context.HttpContext);
             }
-            //var formValueProviderFactory = context.ValueProviderFactories
-            //    .OfType<FormValueProviderFactory>()
-            //    .FirstOrDefault();
-            //if (formValueProviderFactory != null)
-            //{
-            //    context.ValueProviderFactories.Remove(formValueProviderFactory);
-            //}
-
-            //var encryptFormValueProviderFactory = context.ValueProviderFactories
-            //    .OfType<EncryptFormValueProviderFactory>()
-            //    .FirstOrDefault();
-            //if (encryptFormValueProviderFactory == null)//&& context.HttpContext.Request.HasFormContentType
-            //{
-            //    // 默认按照顺序查找value
-            //    context.ValueProviderFactories.Insert(0, _valueProviderFactory);
-            //}
 
             var resultContext = await next();
             // Do something after the action executes.
         }
 
-        private async Task DecryptBodyAsync(HttpContext httpContext)
+        private async Task<int> DecryptBodyAsync(HttpContext httpContext)
         {
             try
             {
@@ -82,11 +67,45 @@ namespace KaneBlake.STS.Identity.Quickstart
                 request.Body = memoryStream;
                 request.HttpContext.Response.RegisterForDispose(memoryStream);
                 await originalBody.DisposeAsync();
+                return 1;
             }
             catch (Exception)
             {
                 throw;
             }
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+    public class InjectResultActionFilter : Attribute, IAsyncActionFilter, IOrderedFilter
+    {
+        private readonly ILogger _logger;
+
+        public InjectResultActionFilter(ILogger<InjectResultActionFilter> logger)
+        {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
+        public int Order { get; set; } = 1;
+
+        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+        {
+            var executedContext = await next();
+
+            // Inject HtttpContext's Info to ServiceResponse
+            if (!executedContext.Canceled && executedContext.Exception == null
+                && executedContext.Result is ObjectResult response // exclude JsonResult
+                && response.Value is ServiceResponse serviceResponse
+                && !serviceResponse.Extensions.ContainsKey("traceId"))
+            {
+                var traceId = Activity.Current?.Id ?? executedContext.HttpContext?.TraceIdentifier;
+                if (!serviceResponse.Extensions.TryAdd("traceId", traceId))
+                {
+                    _logger.LogWarning("append traceId:'{traceId}' to ServiceResponse.Extensions failed. ServiceResponse:{serviceResponse}", traceId, serviceResponse);
+                }
+
+            }
+
         }
     }
 }

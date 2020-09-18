@@ -52,7 +52,9 @@
                     {
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" asp-for="RememberLogin">
+                                @*<input type="checkbox" class="custom-control-input" asp-for="RememberLogin">*@
+                                <input type="checkbox" class="custom-control-input" id="RememberLogin" name="RememberLogin" value="true">
+                                @*<input type="checkbox" class="custom-control-input" name="@nameof(Model.RememberLogin)" value="true">*@
                                 <label class="custom-control-label" asp-for="RememberLogin">Remember My Login</label>
                             </div>
                         </div>

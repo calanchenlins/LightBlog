@@ -1,32 +1,29 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Buffers;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KaneBlake.Basis.Extensions.Common;
 
-namespace KaneBlake.STS.Identity.Quickstart
+namespace KaneBlake.AspNetCore.Extensions.Middleware
 {
     public class RequestBufferingMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly ILogger _logger;
 
-        public RequestBufferingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
+        public RequestBufferingMiddleware(RequestDelegate next, ILogger<RequestBufferingMiddleware> logger)
         {
             _next = next;
-            _logger = loggerFactory.CreateLogger<RequestBufferingMiddleware>();
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task InvokeAsync(HttpContext context)
         {
-            context.Request.EnableBuffering();
             try
             {
+                context.Request.EnableBuffering();
                 // https://github.com/dotnet/aspnetcore/issues/24562
                 // Before reads to the end of HttpContext.Request.BodyReader(When ReadResult.IsCompleted is true)
                 // We shouldn't sets the position within HttpContext.Request.Body
@@ -35,11 +32,11 @@ namespace KaneBlake.STS.Identity.Quickstart
 
                 // log Request.Body's content...
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 _logger.LogWarning(ex, "failed to log Request.Body.");
             }
-            finally 
+            finally
             {
                 // we have to sets the position of HttpContext.Request.Body before reads HttpContext.Request.Body, 
                 context.Request.Body.Position = 0;

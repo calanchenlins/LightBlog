@@ -87,13 +87,13 @@
             response => {
                 if (response.status === 200) {
                     // redirect
-                    if (response.data.code === 3002) {
+                    if (response.data.statusCode === 3002) {
                         window.location.replace(response.data.message);
                         return;
                     }
                     // model validate failed
-                    if (response.data.code === 4000) {
-                        let medelState = response.data.data;
+                    if (response.data.statusCode === 4000) {
+                        let medelState = response.data.result;
                         let customErrorMap = {};
                         for (let [key, value] of Object.entries(medelState)) {
                             let element = $form.find("[name='" + escapeCssMeta(key) + "']")[0]
@@ -109,7 +109,7 @@
                         onSubmitCustomErrors.apply($form, [customErrorMap]);
                         return;
                     }
-                    if (response.data.code === 5000) {
+                    if (response.data.statusCode === 5000) {
                         return;
                     }
                 }
@@ -127,7 +127,7 @@
                 return false;
             }
 
-            let formDataObj = _Qs.parse($form.serialize());
+            let formDataObj = _Qs.parse($form.serialize());// exclude <button/></button> <input type='submit'/>
             if (!Object.keys(formDataObj).includes(document.activeElement.name)) {
                 formDataObj[document.activeElement.name] = document.activeElement.value
             }

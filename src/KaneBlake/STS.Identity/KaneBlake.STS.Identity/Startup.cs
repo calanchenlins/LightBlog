@@ -4,13 +4,16 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mime;
 using System.Reflection;
 using System.Threading.Tasks;
+using CoreWeb.Util.Services;
 using Hangfire;
 using Hangfire.Dashboard;
 using Hangfire.Dashboard.Resources;
 using IdentityModel.Client;
 using IdentityServer4.Configuration;
+using KaneBlake.AspNetCore.Extensions.Middleware;
 using KaneBlake.Basis.Domain.Repositories;
 using KaneBlake.Basis.Extensions.Cryptography;
 using KaneBlake.STS.Identity.Common;
@@ -59,6 +62,35 @@ namespace KaneBlake.STS.Identity
         public AppOptions AppOptions { get; }
         public IWebHostEnvironment Env { get; set; }
 
+        private ProblemDetailsFactory _problemDetailsFactory;
+
+        internal static IActionResult ProblemDetailsInvalidModelStateResponse(ProblemDetailsFactory problemDetailsFactory, ActionContext context)
+        {
+            var problemDetails = problemDetailsFactory.CreateValidationProblemDetails(context.HttpContext, context.ModelState);
+            ObjectResult result;
+            problemDetails.Status = 200;
+            //if (problemDetails.Status == 400)
+            //{
+            //    // For compatibility with 2.x, continue producing BadRequestObjectResult instances if the status code is 400.
+            //    result = new BadRequestObjectResult(problemDetails);
+            //}
+            //else
+            //{
+            //    result = new ObjectResult(problemDetails)
+            //    {
+            //        StatusCode = problemDetails.Status,
+            //    };
+            //}
+            result = new ObjectResult(ServiceResponse.BadRequest(problemDetails))
+            {
+                StatusCode = problemDetails.Status,
+            };
+            result.ContentTypes.Add("application/problem+json");
+            result.ContentTypes.Add("application/problem+xml");
+
+            return result;
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -72,13 +104,24 @@ namespace KaneBlake.STS.Identity
                 //options.InputFormatters.Clear();
                 //options.InputFormatters.Add(new MessagePackInputFormatter(ContractlessStandardResolver.Options));
 
-            });
-            #if DEBUG
+            })
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    options.InvalidModelStateResponseFactory = context =>
+                    {
+                        // ProblemDetailsFactory depends on the ApiBehaviorOptions instance. We intentionally avoid constructor injecting
+                        // it in this options setup to to avoid a DI cycle.
+                        _problemDetailsFactory ??= context.HttpContext.RequestServices.GetRequiredService<ProblemDetailsFactory>();
+                        return ProblemDetailsInvalidModelStateResponse(_problemDetailsFactory, context);
+                    };
+                });
+
+#if DEBUG
             if (Env.IsDevelopment())
             {
                 builder.AddRazorRuntimeCompilation();
             }
-            #endif
+#endif
 
             // https://resources.infosecinstitute.com/the-breach-attack/
             // EnableForHttps = false£º
@@ -106,8 +149,8 @@ namespace KaneBlake.STS.Identity
             services.AddTransient<IRepository<User, int>, UserRepository>();
             services.AddTransient<IUserService<User>, UserService>();
 
-            services.AddSingleton<EncryptFormValueProviderFactory>();
-            services.AddScoped<EncryptFormFilterAttribute>();
+            services.AddScoped<EncryptFormResourceFilterAttribute>();
+            services.AddScoped<InjectResultActionFilter>();
 
             var jsPath = Hangfire.Dashboard.DashboardRoutes.Routes.Contains("/js[0-9]+") ? "/js[0-9]+" : "/js[0-9]{3}";
             //DashboardRoutes.Routes.Append(jsPath, new EmbeddedResourceDispatcher("application/javascript", Assembly.GetExecutingAssembly(),$"{typeof(Startup).Namespace}.HangfireCustomDashboard.hangfire.custom.js"));
@@ -174,7 +217,7 @@ namespace KaneBlake.STS.Identity
 
             app.UseHangfireDashboard(AppInfo.HangfirePath,new DashboardOptions
             {
-                Authorization = new[] { new HangfireDashboardAuthorizationFilter() }
+                Authorization = new[] { new HangfireDashboardAuthorizationFilter(AppInfo.HangfireLoginUrl) }
             });
 
             app.UseEndpoints(endpoints =>
@@ -256,12 +299,19 @@ namespace KaneBlake.STS.Identity
 
     public class HangfireDashboardAuthorizationFilter : IDashboardAuthorizationFilter
     {
+        private readonly string _hangfireLoginUrl;
+
+        public HangfireDashboardAuthorizationFilter(string hangfireLoginUrl)
+        {
+            _hangfireLoginUrl = hangfireLoginUrl ?? throw new ArgumentNullException(nameof(hangfireLoginUrl));
+        }
+
         public bool Authorize(DashboardContext context)
         {
             var httpContext = context.GetHttpContext();
             if (!httpContext.User.Identity.IsAuthenticated)
             {
-                httpContext.Response.Redirect(AppInfo.HangfireLoginUrl);
+                httpContext.Response.Redirect(_hangfireLoginUrl);
             }
 
             // Allow all authenticated users to see the Dashboard (potentially dangerous).

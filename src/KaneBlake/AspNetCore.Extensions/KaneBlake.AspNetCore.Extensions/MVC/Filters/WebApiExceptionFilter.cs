@@ -1,18 +1,16 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace KaneBlake.STS.Identity.Quickstart
+namespace KaneBlake.AspNetCore.Extensions.MVC.Filters
 {
     public class WebApiExceptionFilter : IAsyncExceptionFilter, IOrderedFilter
     {

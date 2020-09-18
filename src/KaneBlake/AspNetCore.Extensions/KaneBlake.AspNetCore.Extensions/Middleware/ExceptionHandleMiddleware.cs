@@ -1,19 +1,19 @@
 ﻿using CoreWeb.Util.Services;
-using KaneBlake.STS.Identity.Common;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Net.Http.Headers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace KaneBlake.STS.Identity.Quickstart
+namespace KaneBlake.AspNetCore.Extensions.Middleware
 {
     public class ExceptionHandlerCustomMiddleware
     {
@@ -21,11 +21,15 @@ namespace KaneBlake.STS.Identity.Quickstart
         private readonly ApiBehaviorOptions _options;
         private readonly ILogger _logger;
 
-        public ExceptionHandlerCustomMiddleware(RequestDelegate next, ILoggerFactory loggerFactory, IOptions<ApiBehaviorOptions> options)
+
+        private static readonly MediaTypeHeaderValue _textHtmlMediaType = new MediaTypeHeaderValue("text/html");
+        private static readonly MediaTypeHeaderValue _applicationProblemJsonMediaType = new MediaTypeHeaderValue("application/problem+json");
+
+        public ExceptionHandlerCustomMiddleware(RequestDelegate next, ILogger<ExceptionHandlerCustomMiddleware> logger, IOptions<ApiBehaviorOptions> options)
         {
             _next = next;
             _options = options.Value;
-            _logger = loggerFactory.CreateLogger<ExceptionHandlerCustomMiddleware>();
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -38,7 +42,8 @@ namespace KaneBlake.STS.Identity.Quickstart
             catch (Exception ex)
             {
                 _logger.LogCritical(ex, "An error occurred while handle exception.");
-                await Task.CompletedTask;
+                //await Task.CompletedTask;
+                throw;
             }
 
         }
@@ -53,11 +58,13 @@ namespace KaneBlake.STS.Identity.Quickstart
                 await Task.CompletedTask;
             }
 
-            _logger.LogError(ex, "An error occurred while processing your request in path:{0}", exceptionHandlerPathFeature.Path);
+            var traceId = Activity.Current?.Id ?? httpContext?.TraceIdentifier;
+            _logger.LogError(ex, "An error occurred while processing your request in path:{requestPath}, traceId:{traceId}", exceptionHandlerPathFeature.Path, traceId);
+
             httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            if (!httpContext.Request.GetTypedHeaders().Accept.Any(a => a.IsSubsetOf(AppInfo.TextHtmlMediaType)))
+            if (!httpContext.Request.GetTypedHeaders().Accept.Any(a => a.IsSubsetOf(_textHtmlMediaType)))
             {
-                httpContext.Response.ContentType = AppInfo.TextHtmlMediaType.MediaType.Value;
+                httpContext.Response.ContentType = _textHtmlMediaType.MediaType.Value;
 
                 await httpContext.Response.WriteAsync("<html lang=\"en\"><body>\r\n");
                 await httpContext.Response.WriteAsync("ERROR!<br><br>\r\n");
@@ -73,7 +80,7 @@ namespace KaneBlake.STS.Identity.Quickstart
             }
             else
             {
-                httpContext.Response.ContentType = AppInfo.ApplicationProblemJsonMediaType.MediaType.Value;
+                httpContext.Response.ContentType = _applicationProblemJsonMediaType.MediaType.Value;
 
                 var problemDetails = new ProblemDetails
                 {
@@ -87,7 +94,7 @@ namespace KaneBlake.STS.Identity.Quickstart
                     problemDetails.Type ??= clientErrorData.Link;
                 }
 
-                var traceId = Activity.Current?.Id ?? httpContext?.TraceIdentifier;
+
                 if (traceId != null)
                 {
                     problemDetails.Extensions["traceId"] = traceId;

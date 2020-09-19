@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using Castle.Core.Internal;
 using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using CoreWeb.Util.Infrastruct;
-using CoreWeb.Util.Services;
+using KaneBlake.Basis.Services;
 using Hangfire;
 using Hangfire.Logging;
 using Hangfire.States;
@@ -105,10 +105,11 @@ namespace KaneBlake.STS.Identity.HangfireCustomDashboard.Controllers
         [Route("testApi/Problem400")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [AllowAnonymous]
+        //[Produces("application/xml")]
         public async Task<IActionResult> Problem400(Indto input)
         {
             await Task.CompletedTask;
-            return Problem();
+            return new ObjectResult(ServiceResponse.OK(input));
         }
 
         [HttpPost]
@@ -135,7 +136,7 @@ namespace KaneBlake.STS.Identity.HangfireCustomDashboard.Controllers
         [Route("testApi/ServiceResponse")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [AllowAnonymous]
-        [ServiceFilter(typeof(InjectResultActionFilter))]
+        //[ServiceFilter(typeof(InjectResultActionFilter))]
         public async Task<ActionResult<ServiceResponse>> ServiceResponseOk()
         {
             await Task.CompletedTask;
@@ -149,7 +150,7 @@ namespace KaneBlake.STS.Identity.HangfireCustomDashboard.Controllers
         [Route("testApi/ServiceResponse2")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [AllowAnonymous]
-        [ServiceFilter(typeof(InjectResultActionFilter))]
+        //[ServiceFilter(typeof(InjectResultActionFilter))]
         public ActionResult<ServiceResponse> ServiceResponseOk2()
         {
             var res = ServiceResponse.OK();
@@ -162,7 +163,7 @@ namespace KaneBlake.STS.Identity.HangfireCustomDashboard.Controllers
         [Route("testApi/ServiceResponse3")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [AllowAnonymous]
-        [ServiceFilter(typeof(InjectResultActionFilter))]
+        //[ServiceFilter(typeof(InjectResultActionFilter))]
         public ServiceResponse ServiceResponseOk3()
         {
             var res = ServiceResponse.OK();
@@ -175,7 +176,7 @@ namespace KaneBlake.STS.Identity.HangfireCustomDashboard.Controllers
         [Route("testApi/ServiceResponse4")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [AllowAnonymous]
-        [ServiceFilter(typeof(InjectResultActionFilter))]
+        //[ServiceFilter(typeof(InjectResultActionFilter))]
         public IActionResult ServiceResponseOk4()
         {
             var res = ServiceResponse.OK();

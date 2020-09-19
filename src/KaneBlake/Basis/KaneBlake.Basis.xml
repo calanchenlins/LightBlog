@@ -63,7 +63,12 @@
             工作单元提交
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:KaneBlake.Basis.Extensions.Common.Abstractions.Singleton`1" -->
+        <member name="T:KaneBlake.Basis.Extensions.Common.Abstractions.Singleton`1">
+            <summary>
+            使用Lazy<T/> 实现单例模式
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
         <member name="T:KaneBlake.Basis.Extensions.Common.PipeReaderExtensions">
             <summary>
             Extensions of PipeReader
@@ -219,67 +224,68 @@
             <typeparam name="TEntity"></typeparam>
             <typeparam name="TSelf"></typeparam>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:CoreWeb.Util.Infrastruct.SqlClientHelp.ReadDataTable(System.String,System.String,System.Collections.Generic.List{Microsoft.Data.SqlClient.SqlParameter})" -->
-        <member name="T:CoreWeb.Util.Services.ServiceResponse">
+        <member name="T:KaneBlake.Basis.Services.ServiceResponse">
             <summary>
             Service、WebApi 层响应格式
             自定义序列化: src\Mvc\Mvc.Core\src\Infrastructure\ProblemDetailsJsonConverter.cs
             </summary>
+            <summary>
+            ServiceResponse 静态方法, 用于生成 ServiceResponse 实例
+            </summary>
         </member>
-        <member name="P:CoreWeb.Util.Services.ServiceResponse.StatusCode">
+        <member name="P:KaneBlake.Basis.Services.ServiceResponse.StatusCode">
             <summary>
             服务接口响应状态码
             </summary>
         </member>
-        <member name="P:CoreWeb.Util.Services.ServiceResponse.Message">
+        <member name="P:KaneBlake.Basis.Services.ServiceResponse.Message">
             <summary>
-            状态码: 2000/4000 之外的错误消息
+            状态码: 2000 之外的错误消息
             </summary>
         </member>
-        <member name="P:CoreWeb.Util.Services.ServiceResponse.Extensions">
+        <member name="P:KaneBlake.Basis.Services.ServiceResponse.Extensions">
             <summary>
             Gets the <see cref="T:System.Collections.Generic.IDictionary`2"/> for extension members.
             </summary>
         </member>
-        <member name="P:CoreWeb.Util.Services.ServiceResponse.OKStatus">
+        <member name="P:KaneBlake.Basis.Services.ServiceResponse.OKStatus">
             <summary>
             服务接口是否正常响应
             </summary>
         </member>
-        <member name="M:CoreWeb.Util.Services.ServiceResponse.OK">
+        <member name="M:KaneBlake.Basis.Services.ServiceResponse.OK">
             <summary>
             Code = 2000: 正常响应
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CoreWeb.Util.Services.ServiceResponse.Redirect(System.String)">
+        <member name="M:KaneBlake.Basis.Services.ServiceResponse.Redirect(System.String)">
             <summary>
             Code = 302: 重定向
             </summary>
             <param name="Url"></param>
             <returns></returns>
         </member>
-        <member name="M:CoreWeb.Util.Services.ServiceResponse.InnerException(System.Exception)">
+        <member name="M:KaneBlake.Basis.Services.ServiceResponse.InnerException">
             <summary>
-            状态码: 5000 内部异常 日志记录
+            状态码: 5000 内部异常
             </summary>
-            <param name="exception"></param>
             <returns></returns>
         </member>
-        <member name="M:CoreWeb.Util.Services.ServiceResponse.Forbid(System.String)">
+        <member name="M:KaneBlake.Basis.Services.ServiceResponse.Forbid(System.String)">
             <summary>
             状态码: 4003 禁止操作
             </summary>
             <param name="message"></param>
             <returns></returns>
         </member>
-        <member name="M:CoreWeb.Util.Services.ServiceResponse.Unauthorized">
+        <member name="M:KaneBlake.Basis.Services.ServiceResponse.Unauthorized">
             <summary>
             状态码: 4001 未授权
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CoreWeb.Util.Services.ServiceResponse.OK``1(``0)">
+        <member name="M:KaneBlake.Basis.Services.ServiceResponse.OK``1(``0)">
             <summary>
             Code = 2000: 正常响应
             </summary>
@@ -287,41 +293,55 @@
             <param name="data"></param>
             <returns></returns>
         </member>
-        <member name="M:CoreWeb.Util.Services.ServiceResponse.BadRequest(System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:KaneBlake.Basis.Services.ServiceResponse.BadRequest(System.Collections.Generic.IDictionary{System.String,System.String[]})">
             <summary>
             状态码: 4000 错误的请求信息:参数检验失败等等
             </summary>
             <param name="modelState"></param>
             <returns></returns>
         </member>
-        <member name="M:CoreWeb.Util.Services.ServiceResponse.BadRequest``1(``0)">
-            <summary>
-            状态码: 4000 错误的请求信息:参数检验失败等等
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="data"></param>
-            <returns></returns>
-        </member>
-        <member name="T:CoreWeb.Util.Services.ServiceResponse`1">
+        <member name="T:KaneBlake.Basis.Services.ServiceResponse`1">
             <summary>
             包含泛型 Data 的 Service、WebApi 层响应格式
             </summary>
             <typeparam name="T"></typeparam>
         </member>
-        <member name="P:CoreWeb.Util.Services.ServiceResponse`1.Result">
+        <member name="P:KaneBlake.Basis.Services.ServiceResponse`1.Result">
             <summary>
             状态码: 2000 响应数据/状态码: 3002 重定向Url
             </summary>
         </member>
-        <member name="T:CoreWeb.Util.Services.ServiceStatusCodes">
+        <member name="T:KaneBlake.Basis.Services.ServiceLocationResponse">
+            <summary>
+            服务重定向响应 状态码: 3002
+            </summary>
+        </member>
+        <member name="P:KaneBlake.Basis.Services.ServiceLocationResponse.Location">
+            <summary>
+            重定向地址
+            </summary>
+        </member>
+        <member name="T:KaneBlake.Basis.Services.ServiceProblemResponse`1">
+            <summary>
+            服务异常响应
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:KaneBlake.Basis.Services.ServiceProblemResponse`1.Errors">
+            <summary>
+            状态码: 4000 模型验证错误信息
+            </summary>
+        </member>
+        <member name="T:KaneBlake.Basis.Services.ServiceStatusCodes">
             <summary>
             服务响应状态码
             </summary>
         </member>
-        <member name="F:CoreWeb.Util.Services.ServiceStatusCodes.Status2000OK">
+        <member name="F:KaneBlake.Basis.Services.ServiceStatusCodes.Status2000OK">
             <summary>
             正常响应状态码
             </summary>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:CoreWeb.Util.Infrastruct.SqlClientHelp.ReadDataTable(System.String,System.String,System.Collections.Generic.List{Microsoft.Data.SqlClient.SqlParameter})" -->
     </members>
 </doc>

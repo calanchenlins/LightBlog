@@ -79,13 +79,11 @@ namespace KaneBlake.STS.Identity.Services
         public async Task<bool> ValidateCredentials(User user, string password)
         {
             await Task.CompletedTask;
-            return user is null ? false : user.ValidateCredentials(password);
+            return !(user is null) && user.ValidateCredentials(password);
         }
 
         public async Task<bool> UserNameExists(string userName)
         {
-            var t = _userRepository.Get().ToList();
-            var u = _userRepository.Get().Any(r => r.Username.Equals(userName));
             return await _userRepository.Get().AnyAsync(r => r.Username.Equals(userName));
         }
     }

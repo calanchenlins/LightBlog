@@ -39,8 +39,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Builder;
-using CoreWeb.Util.Services;
+using KaneBlake.Basis.Services;
 using System.Runtime.CompilerServices;
+using KaneBlake.AspNetCore.Extensions.MVC;
 
 namespace KaneBlake.STS.Identity
 {
@@ -60,7 +61,6 @@ namespace KaneBlake.STS.Identity
         private readonly IEventService _events;
         private readonly ILogger _logger;
         private readonly ISigningCredentialStore _signingCredentialStore;
-        private readonly IJobManageService _serviceProvider;
 
         public AccountController(
             IIdentityServerInteractionService interaction,
@@ -69,8 +69,7 @@ namespace KaneBlake.STS.Identity
             IEventService events,
             IUserService<User> userService,
             ILogger<AccountController> logger,
-            ISigningCredentialStore signingCredentialStore,
-            IJobManageService serviceProvider
+            ISigningCredentialStore signingCredentialStore
             )
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
@@ -80,7 +79,6 @@ namespace KaneBlake.STS.Identity
             _events = events;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _signingCredentialStore = signingCredentialStore ?? throw new ArgumentNullException(nameof(signingCredentialStore));
-            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
         }
 
         /// <summary>
@@ -90,7 +88,6 @@ namespace KaneBlake.STS.Identity
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl)
         {
-
             // build a model so we know what to show on the login page
             var vm = await BuildLoginViewModelAsync(returnUrl);
 
@@ -105,7 +102,6 @@ namespace KaneBlake.STS.Identity
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [AllowAnonymous]
         [ServiceFilter(typeof(EncryptFormResourceFilterAttribute))]
         public async Task<ActionResult<ServiceResponse>> Login(LoginInputModel model, string button)
@@ -188,7 +184,7 @@ namespace KaneBlake.STS.Identity
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
             }
 
-            return ServiceResponse.BadRequest(new SerializableError(ModelState));
+            return ServiceResponse.BadRequest(new SerializableModelError(ModelState));
         }
 
 
@@ -215,7 +211,6 @@ namespace KaneBlake.STS.Identity
         /// Handle logout page postback
         /// </summary>
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout(LogoutInputModel model)
         {
             // build a model so the logged out page knows what to display
@@ -293,7 +288,6 @@ namespace KaneBlake.STS.Identity
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         [ServiceFilter(typeof(EncryptFormResourceFilterAttribute))]
         public async Task<ActionResult<ServiceResponse>> SignUp(SignUpViewModel model, string ReturnUrl = null)
         {
@@ -332,7 +326,7 @@ namespace KaneBlake.STS.Identity
             ModelState.AddModelError(nameof(model.UserName), $"UserName '{model.UserName}' is already in use.");
 
             // If we got this far, something failed, redisplay form
-            return ServiceResponse.BadRequest(new SerializableError(ModelState));
+            return ServiceResponse.BadRequest(new SerializableModelError(ModelState));
         }
 
         /// <summary>

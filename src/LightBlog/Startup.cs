@@ -28,9 +28,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
-using OpenTelemetry.Trace.Configuration;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using System.IdentityModel.Tokens.Jwt;
+using OpenTelemetry.Trace;
 
 namespace LightBlog
 {
@@ -139,14 +139,13 @@ namespace LightBlog
             services.AddTransient<IRepository<User, int>, UserRepository>();
             services.AddTransient<IUserService<User>, UserService>();
 
-            var InstrumentationKey = Configuration["ApplicationInsightsInstrumentationKey"];
+            //var InstrumentationKey = Configuration["ApplicationInsightsInstrumentationKey"];
 
-            services.AddOpenTelemetry(builder => {
-                builder.AddRequestCollector()
-                .AddDependencyCollector()
-                .UseApplicationInsights(config => { config.InstrumentationKey = Configuration["ApplicationInsightsInstrumentationKey"]; });
-            });
-            //var y = new OpenTelemetry.Collector.Dependencies.
+            //services.AddOpenTelemetryTracing(
+            //    (builder) => builder
+            //            .AddAspNetCoreInstrumentation()
+            //            .AddJaegerExporter()
+            //            );
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                   .AddNewtonsoftJson(options =>

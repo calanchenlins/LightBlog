@@ -34,7 +34,7 @@ namespace KaneBlake.STS.Identity
                 Log.Information("Starting web host");
                 CreateHostBuilder(args).Build()
                     .MigrateDbContext<PersistedGrantDbContext>((_, __) => { })
-                    .MigrateDbContext<ConfigurationDbContext>((_, __) => { //DataSeeder.Seed(_);
+                    .MigrateDbContext<ConfigurationDbContext>((_, __) => { DataSeeder.Seed(_);
                 })
                     .Run();
                 return 0;

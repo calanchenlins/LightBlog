@@ -6,7 +6,7 @@ using System.Threading;
 namespace KaneBlake.Basis.Extensions.Common.Abstractions
 {
     /// <summary>
-    /// 使用Lazy<T>实现单例模式
+    /// 使用Lazy<T/> 实现单例模式
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class Singleton<T> where T : new()

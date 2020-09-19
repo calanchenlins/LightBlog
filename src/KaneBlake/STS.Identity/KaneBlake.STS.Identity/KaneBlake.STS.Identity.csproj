@@ -41,7 +41,6 @@
     <None Include="Views\Account\Login.cshtml" />
     <None Include="Views\Account\Logout.cshtml" />
     <None Include="Views\Account\SignUp.cshtml" />
-    <None Include="Views\Account\tt.cshtml" />
     <None Include="Views\Consent\Index.cshtml" />
     <None Include="Views\Device\Success.cshtml" />
     <None Include="Views\Device\UserCodeCapture.cshtml" />

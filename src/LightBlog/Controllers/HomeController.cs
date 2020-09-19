@@ -13,7 +13,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Distributed;
 using LightBlog.Services.Cache;
-using CoreWeb.Util.Services;
+using KaneBlake.Basis.Services;
 
 namespace LightBlog.Controllers
 {

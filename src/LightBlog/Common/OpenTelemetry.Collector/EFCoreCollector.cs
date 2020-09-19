@@ -1,9 +1,9 @@
-﻿using OpenTelemetry.Collector;
-using System;
+﻿using System;
 using OpenTelemetry.Trace;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OpenTelemetry.Instrumentation;
 
 namespace LightBlog.Common.OpenTelemetry.Collector
 {

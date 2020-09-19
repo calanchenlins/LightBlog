@@ -17,7 +17,7 @@ using System.IO.Pipelines;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Mvc;
-using CoreWeb.Util.Services;
+using KaneBlake.Basis.Services;
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 
@@ -96,6 +96,7 @@ namespace KaneBlake.STS.Identity.Quickstart
             if (!executedContext.Canceled && executedContext.Exception == null
                 && executedContext.Result is ObjectResult response // exclude JsonResult
                 && response.Value is ServiceResponse serviceResponse
+                && !serviceResponse.OKStatus
                 && !serviceResponse.Extensions.ContainsKey("traceId"))
             {
                 var traceId = Activity.Current?.Id ?? executedContext.HttpContext?.TraceIdentifier;

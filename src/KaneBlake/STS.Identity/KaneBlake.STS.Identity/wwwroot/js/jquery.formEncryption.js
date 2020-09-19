@@ -62,7 +62,7 @@
                 return publicKey;
             }
             let response = await axios.get('/Account/GetPublicKey');
-            //localStorage.setItem(storage_CachePublickey, response.data)
+            localStorage.setItem(storage_CachePublickey, response.data)
             return response.data;
         }
 
@@ -71,7 +71,7 @@
             timeout: 30000
         })
         formSubmitApi.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'; // tag XHR request
-        formSubmitApi.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded' //application/x-msgpack
+        formSubmitApi.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
         formSubmitApi.defaults.headers.post['form-data-format'] = 'EncryptionForm';
 
         formSubmitApi.interceptors.request.use(
@@ -88,12 +88,12 @@
                 if (response.status === 200) {
                     // redirect
                     if (response.data.statusCode === 3002) {
-                        window.location.replace(response.data.message);
+                        window.location.replace(response.data.location);
                         return;
                     }
                     // model validate failed
                     if (response.data.statusCode === 4000) {
-                        let medelState = response.data.result;
+                        let medelState = response.data.errors;
                         let customErrorMap = {};
                         for (let [key, value] of Object.entries(medelState)) {
                             let element = $form.find("[name='" + escapeCssMeta(key) + "']")[0]
@@ -101,7 +101,6 @@
                             if (element == undefined) {
                                 delete medelState[key]
                                 customErrorMap[key] = value
-                                console.log(value)
                             }
                         }
                         let formData = $form.data();
@@ -110,8 +109,11 @@
                         return;
                     }
                     if (response.data.statusCode === 5000) {
-                        return;
+                        onSubmitCustomErrors.apply($form, [{ '': response.data.message }]);
+                        return Promise.reject(response.data)
                     }
+                    onSubmitCustomErrors.apply($form, [{ '': 'data error.' }]);
+                    return Promise.reject(response.data)
                 }
 
                 return response.data // 等同于 return Promise.resolve(response.data) 

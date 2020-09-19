@@ -75,7 +75,8 @@
             })
             
             if (window.location.href.includes('/recurring')) {
-                let RecurringJobAddOrUpdateButton = `
+                if ($('.js-jobs-list').length > 0) {
+                    let RecurringJobAddOrUpdateButton = `
                     <button class="js-jobs-list-command btn btn-sm btn-primary js-job-custom-command recurring-job-update" disabled>
 	                    <span class="glyphicon glyphicon-edit"></span>
 	                    编辑定时任务
@@ -84,12 +85,19 @@
 	                    <span class="glyphicon glyphicon-plus-sign"></span>
 	                    创建任务
                     </button>`;
-                $('.btn-toolbar-top').append(RecurringJobAddOrUpdateButton);
+                    $('.btn-toolbar-top').append(RecurringJobAddOrUpdateButton);
+                    $._data($('.js-jobs-list').get(0), 'events').click.find(el => el.selector == ".js-jobs-list-command").selector = '.js-jobs-list-command:not(".js-job-custom-command")'
+                }
+                else {
+                    $('.alert.alert-info').html($('.alert.alert-info').html() +'? '+ '<a role="button" class="custom-job-add">新建作业</a>')
+                }
+                //'<a role="button" href="/Account/SignUp">Create an account</a>'
+
                 $('.custom-job-add').click(function () {
                     mainApp.customJobAdd();
                 });
                 
-                $._data($('.js-jobs-list').get(0), 'events').click.find(el => el.selector == ".js-jobs-list-command").selector = '.js-jobs-list-command:not(".js-job-custom-command")'
+
                 $('.recurring-job-update').click(function () {
                     var jobs = $(".js-jobs-list input[name='jobs[]']:checked").map(function () {
                         return $(this).val();
@@ -221,7 +229,7 @@
                                 url = '/hangfireapi/Manage/BackgroundJob/add';
                             }
                             let recurringJobs = (await axios.post(url, this.buildFormObject())).data;
-                            
+                            window.location.reload()
                             return
                             this.$refs['dynamicFormRef'].validate((valid) => {
                                 if (!valid) {

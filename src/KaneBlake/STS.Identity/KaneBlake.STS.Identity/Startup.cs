@@ -7,13 +7,14 @@ using System.Net;
 using System.Net.Mime;
 using System.Reflection;
 using System.Threading.Tasks;
-using CoreWeb.Util.Services;
+using KaneBlake.Basis.Services;
 using Hangfire;
 using Hangfire.Dashboard;
 using Hangfire.Dashboard.Resources;
 using IdentityModel.Client;
 using IdentityServer4.Configuration;
 using KaneBlake.AspNetCore.Extensions.Middleware;
+using KaneBlake.AspNetCore.Extensions.MVC;
 using KaneBlake.Basis.Domain.Repositories;
 using KaneBlake.Basis.Extensions.Cryptography;
 using KaneBlake.STS.Identity.Common;
@@ -33,6 +34,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
@@ -62,35 +64,6 @@ namespace KaneBlake.STS.Identity
         public AppOptions AppOptions { get; }
         public IWebHostEnvironment Env { get; set; }
 
-        private ProblemDetailsFactory _problemDetailsFactory;
-
-        internal static IActionResult ProblemDetailsInvalidModelStateResponse(ProblemDetailsFactory problemDetailsFactory, ActionContext context)
-        {
-            var problemDetails = problemDetailsFactory.CreateValidationProblemDetails(context.HttpContext, context.ModelState);
-            ObjectResult result;
-            problemDetails.Status = 200;
-            //if (problemDetails.Status == 400)
-            //{
-            //    // For compatibility with 2.x, continue producing BadRequestObjectResult instances if the status code is 400.
-            //    result = new BadRequestObjectResult(problemDetails);
-            //}
-            //else
-            //{
-            //    result = new ObjectResult(problemDetails)
-            //    {
-            //        StatusCode = problemDetails.Status,
-            //    };
-            //}
-            result = new ObjectResult(ServiceResponse.BadRequest(problemDetails))
-            {
-                StatusCode = problemDetails.Status,
-            };
-            result.ContentTypes.Add("application/problem+json");
-            result.ContentTypes.Add("application/problem+xml");
-
-            return result;
-        }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -98,21 +71,21 @@ namespace KaneBlake.STS.Identity
             {
                 // it doesn't require tokens for requests made using the following safe HTTP methods: GET, HEAD, OPTIONS, and TRACE
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-                //options.Filters.Add(new WebApiExceptionFilter());
-                //options.Filters.Add<WebApiExceptionFilter>();
-                //options.OutputFormatters.Add(new MessagePackOutputFormatter(ContractlessStandardResolver.Options));
-                //options.InputFormatters.Clear();
-                //options.InputFormatters.Add(new MessagePackInputFormatter(ContractlessStandardResolver.Options));
-
+                options.Filters.Add<InjectResultActionFilter>();
+                options.Conventions.Add(new InvalidModelStateFilterConvention());
             })
                 .ConfigureApiBehaviorOptions(options =>
                 {
+                    options.SuppressModelStateInvalidFilter = false;//avoid adding duplicate Convention: InvalidModelStateFilterConvention
                     options.InvalidModelStateResponseFactory = context =>
                     {
-                        // ProblemDetailsFactory depends on the ApiBehaviorOptions instance. We intentionally avoid constructor injecting
-                        // it in this options setup to to avoid a DI cycle.
-                        _problemDetailsFactory ??= context.HttpContext.RequestServices.GetRequiredService<ProblemDetailsFactory>();
-                        return ProblemDetailsInvalidModelStateResponse(_problemDetailsFactory, context);
+                        var response = ServiceResponse.BadRequest(new SerializableModelError(context.ModelState));
+                        var traceId = Activity.Current?.Id ?? context.HttpContext?.TraceIdentifier;
+                        response.Extensions.TryAdd("traceId", traceId);
+                        var result = new ObjectResult(response);
+                        result.ContentTypes.Add("application/problem+json");
+                        result.ContentTypes.Add("application/problem+xml");
+                        return result;
                     };
                 });
 

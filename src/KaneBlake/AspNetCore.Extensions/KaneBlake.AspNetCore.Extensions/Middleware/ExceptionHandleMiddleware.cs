@@ -1,4 +1,4 @@
-﻿using CoreWeb.Util.Services;
+﻿using KaneBlake.Basis.Services;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -101,7 +101,7 @@ namespace KaneBlake.AspNetCore.Extensions.Middleware
                 }
 
                 var stream = httpContext.Response.Body;
-                await System.Text.Json.JsonSerializer.SerializeAsync(stream, ServiceResponse.InnerException(ex));
+                await System.Text.Json.JsonSerializer.SerializeAsync(stream, ServiceResponse.InnerException());
 
             }
         }

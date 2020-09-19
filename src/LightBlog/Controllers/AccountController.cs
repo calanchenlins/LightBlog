@@ -34,6 +34,7 @@ namespace LightBlog.Controllers
         [HttpGet]
         public async Task<IActionResult> Login(string ReturnUrl)
         {
+            return Redirect("/");
             var user = User as ClaimsPrincipal;
 
             var token = await HttpContext.GetTokenAsync("access_token");
@@ -143,17 +144,18 @@ namespace LightBlog.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> LogOut()
         {
+
             if (_userService.IsAuthenticated())
             {
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
+                await HttpContext.SignOutAsync("oidc");
                 HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
             }
 
             // "Catalog" because UrlHelper doesn't support nameof() for controllers
             // https://github.com/aspnet/Mvc/issues/5853
             var homeUrl = Url.Action(nameof(HomeController.Index), "Home");
-            return new SignOutResult(OpenIdConnectDefaults.AuthenticationScheme,
+            return new SignOutResult(CookieAuthenticationDefaults.AuthenticationScheme,
                 new AuthenticationProperties { RedirectUri = homeUrl });
             //return Redirect("/");
         }

@@ -1,12 +1,12 @@
-﻿using KaneBlake.Basis.Extensions.Diagnostics.Abstractions;
-using KaneBlake.Basis.Extensions.Common;
+﻿using KaneBlake.Basis.Common.Diagnostics.Abstractions;
+using KaneBlake.Basis.Common.Extensions;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace KaneBlake.Basis.Extensions.Diagnostics
+namespace KaneBlake.Basis.Common.Diagnostics
 {
     /// <summary>
     /// 默认实现使用 Microsoft.Extensions.DiagnosticAdapter 作为适配器

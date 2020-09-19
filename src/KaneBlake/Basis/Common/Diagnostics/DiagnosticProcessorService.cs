@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace KaneBlake.Basis.Extensions.Diagnostics
+namespace KaneBlake.Basis.Common.Diagnostics
 {
     public class DiagnosticProcessorService : IExecutionService
     {

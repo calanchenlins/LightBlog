@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using KaneBlake.Basis.Extensions.Cryptography;
+using KaneBlake.Basis.Common.Cryptography;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Http;
 using MessagePack;

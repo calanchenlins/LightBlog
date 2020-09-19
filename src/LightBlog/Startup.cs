@@ -8,7 +8,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Extras.DynamicProxy;
 using AutoMapper;
-using KaneBlake.Basis.Extensions.Diagnostics.Abstractions;
+using KaneBlake.Basis.Common.Diagnostics.Abstractions;
 using KaneBlake.Basis.Domain.Repositories;
 using LightBlog.Common.AOP.CommonCache;
 using LightBlog.Common.Diagnostics;

@@ -4,6 +4,244 @@
         <name>KaneBlake.Basis</name>
     </assembly>
     <members>
+        <member name="T:KaneBlake.Basis.Common.Cryptography.CertificateExtensions">
+            <summary>
+            Extensions to RSA Certificate
+            </summary>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Cryptography.CertificateExtensions.GetX509Certificate(System.String,System.String)">
+            <summary>
+            Get pfx Certificate from filePath
+            </summary>
+            <param name="certificatePath"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Cryptography.CertificateExtensions.GetPKCS1PublicKeyASN1Body(System.Security.Cryptography.X509Certificates.X509Certificate2)">
+            <summary>
+            Attempts to export the current key in the PKCS#1 PublicKey format into byte[] without Prefix and Endfix
+            https://lapo.it/asn1js/
+            https://etherhack.co.uk/asymmetric/docs/rsa_key_breakdown.html
+            https://blog.csdn.net/pcjustin/article/details/79084232
+            https://tools.ietf.org/html/rfc3447#appendix-A.1.1
+            RSAPublicKey::= SEQUENCE {
+                modulus INTEGER,  --n
+                publicExponent INTEGER   --e
+            }
+            </summary>
+            <param name="certificate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Cryptography.CertificateExtensions.ExportRSAPKCS1PublicKeyMS(System.Security.Cryptography.X509Certificates.X509Certificate2)">
+            <summary>
+            Attempts to export the current key in the PKCS#1 RSAPublicKey format into string(Microsoft)
+            </summary>
+            <param name="certificate">current key</param>
+            <returns></returns>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Cryptography.CertificateExtensions.ExportRSAPKCS1PublicKey(System.Security.Cryptography.X509Certificates.X509Certificate2)">
+            <summary>
+            Attempts to export the current key in the PKCS#1 PublicKey format into string
+            </summary>
+            <param name="certificate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Cryptography.CertificateExtensions.ExportRSAPKCS8PublicKey(System.Security.Cryptography.X509Certificates.X509Certificate2)">
+            <summary>
+            Attempts to export the current key in the PKCS#8 PublicKey format into string
+            </summary>
+            <param name="certificate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Cryptography.CertificateExtensions.DecryptFromBase64String(System.Security.Cryptography.X509Certificates.X509Certificate2,System.String)">
+            <summary>
+            decrypt string from Base64String with RSAPrivateKey
+            </summary>
+            <param name="certificate"></param>
+            <param name="cipherB64str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Cryptography.CertificateExtensions.DecryptFromUTF8bytes(System.Security.Cryptography.X509Certificates.X509Certificate2,System.ReadOnlySpan{System.Byte})">
+            <summary>
+            decrypt string from ReadOnlySpan[byte] with RSAPrivateKey
+            </summary>
+            <param name="certificate"></param>
+            <param name="cipherBytes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Cryptography.CertificateExtensions.Decrypt(System.Security.Cryptography.X509Certificates.X509Certificate2,System.ReadOnlySpan{System.Byte})">
+            <summary>
+            decrypt data with RSAPrivateKey
+            </summary>
+            <param name="certificate"></param>
+            <param name="cipherBytes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Cryptography.CertificateExtensions.BytesPadLeft(System.Byte[],System.Int32)">
+            <summary>
+            数组高位补0x00
+            </summary>
+            <param name="data"></param>
+            <param name="length"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Cryptography.CertificateExtensions.BytesPadHigher(System.Byte[],System.Int32)">
+            <summary>
+            高位字节补0x00
+            </summary>
+            <param name="data"></param>
+            <param name="length"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Cryptography.CertificateExtensions.GetBytesTrim(System.Int32)">
+            <summary>
+            去除int整数数值 byte[] 中的高位0x00字节
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Cryptography.CertificateExtensions.CombineByteArray(System.Byte[][])">
+            <summary>
+            合并字节数组
+            </summary>
+            <param name="arrays"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Cryptography.CertificateExtensions.GetASN1_Data(System.Byte[],System.Byte[])">
+            <summary>
+            构建ASN1数据节点
+            [0x02,0x03,0x01,0x00,0x01]
+            [标识符(1 byte),数据长度(1 byte),{数据(n byte)}]
+            [标识符(1 byte),数据长度的长度(1 byte),{数据长度(n byte)},{数据(n byte)}]
+            https://www.cnblogs.com/NathanYang/p/9951282.html
+            不支持构建 bit流长度 %8 != 0 的 BIT STRING,比如 BIT STRING (4 bit) 1111
+            </summary>
+            <param name="tag"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:KaneBlake.Basis.Common.DataAnnotations.CheckConstraintInAttribute">
+            <summary>
+            CheckConstraint validation attribute
+            </summary>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.DataAnnotations.CheckConstraintInAttribute.#ctor(System.Object[])">
+            <summary>
+            初始化 <see cref="T:KaneBlake.Basis.Common.DataAnnotations.CheckConstraintInAttribute"/> 类的实例.
+            </summary>
+            <param name="validValues"></param>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.DataAnnotations.CheckConstraintInAttribute.FormatErrorMessage(System.String)">
+            <summary>
+            格式化字段验证失败时的错误消息
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.DataAnnotations.CheckConstraintInAttribute.IsValid(System.Object)">
+            <summary>
+            使用 Equals 方法判断字段是否合法, 非基础类型需要重写 Equals 方法
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:KaneBlake.Basis.Common.Diagnostics.DiagnosticAdapterProcessorObserver">
+            <summary>
+            支持属性绑定和对象绑定
+            性能: 对象、属性绑定(80ns) > Microsoft.Extensions.DiagnosticAdapter(140ns)
+            </summary>
+        </member>
+        <member name="T:KaneBlake.Basis.Common.Diagnostics.DiagnosticProcessorObserver">
+            <summary>
+            默认实现使用 Microsoft.Extensions.DiagnosticAdapter 作为适配器
+            方法参数只支持属性绑定(匿名对象和非匿名对象在性能上基本无差别)
+            </summary>
+        </member>
+        <member name="T:KaneBlake.Basis.Common.Extensions.PipeReaderExtensions">
+            <summary>
+            Extensions of PipeReader
+            </summary>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Extensions.PipeReaderExtensions.ReadToEndAsync(System.IO.Pipelines.PipeReader,System.Threading.CancellationToken)">
+            <summary>
+            Asynchronously reads to the end of the current System.IO.Pipelines.PipeReader.
+            Requires a call to BodyReader.Advance after use ReadResult.Buffer
+            </summary>
+            <param name="pipeReader"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:KaneBlake.Basis.Common.Serialization.DateTimeConverter">
+            <summary>
+             Converts an value of DateTime to or from JSON.
+             反序列化失败时返回默认值, 和不传递该参数的行为一致
+             <see href="https://docs.microsoft.com/zh-cn/dotnet/standard/datetime/system-text-json-support"/>
+            </summary>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Serialization.DateTimeConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            Reads and converts the JSON to type DateTime.
+            </summary>
+            <param name="reader"></param>
+            <param name="typeToConvert"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Serialization.DateTimeConverter.Write(System.Text.Json.Utf8JsonWriter,System.DateTime,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            Writes a value of DateTime as JSON.
+            </summary>
+            <param name="writer"></param>
+            <param name="value"></param>
+            <param name="options"></param>
+        </member>
+        <member name="T:KaneBlake.Basis.Common.Serialization.DateTimeNullableConverter">
+            <summary>
+            Converts an value of DateTime? to or from JSON.
+            </summary>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Serialization.DateTimeNullableConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            Reads and converts the JSON to type DateTime?.
+            </summary>
+            <param name="reader"></param>
+            <param name="typeToConvert"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Serialization.DateTimeNullableConverter.Write(System.Text.Json.Utf8JsonWriter,System.Nullable{System.DateTime},System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            Writes a value of DateTime? as JSON.
+            </summary>
+            <param name="writer"></param>
+            <param name="value"></param>
+            <param name="options"></param>
+        </member>
+        <member name="T:KaneBlake.Basis.Common.Singleton`1">
+            <summary>
+            基于 Lazy<T/> 的单例模式实现
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="F:KaneBlake.Basis.Common.Singleton`1.lazyT">
+            <summary>
+            静态字段是线程安全的
+            实现单例模式的重点：对静态字段只能初始化一次
+            </summary>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Singleton`1.#cctor">
+            <summary>
+            静态构造函数：初始化所有静态成员（只会被执行一次）
+            默认Lazy<T/>构造函数使用ExecutionAndPublication双检锁技术
+            PublicationOnly:通过CompareExchange实现
+            T的构造函数只能是Func<T/>
+            </summary>
+        </member>
+        <member name="P:KaneBlake.Basis.Common.Singleton`1.Instance">
+            <summary>
+            通过 Lazy.Value 的懒加载实现延迟访问
+            </summary>
+        </member>
         <member name="T:KaneBlake.Basis.Domain.Entities.AggregateRoot`1">
             <summary>
             聚合根抽象类
@@ -50,7 +288,45 @@
             <summary>
             聚合根实现泛型仓储接口
             </summary>
-            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TEntity">实体类</typeparam>
+            <typeparam name="TPrimaryKey">主键类型</typeparam>
+        </member>
+        <member name="M:KaneBlake.Basis.Domain.Repositories.IRepository`2.Get">
+            <summary>
+            返回 IQueryable 查询
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:KaneBlake.Basis.Domain.Repositories.IRepository`2.Get(`1)">
+            <summary>
+            根据主键查找实体
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KaneBlake.Basis.Domain.Repositories.IRepository`2.Add(`0)">
+            <summary>
+            增加实体
+            </summary>
+            <param name="entity"></param>
+        </member>
+        <member name="M:KaneBlake.Basis.Domain.Repositories.IRepository`2.Remove(`1)">
+            <summary>
+            根据主键删除实体
+            </summary>
+            <param name="ID"></param>
+        </member>
+        <member name="M:KaneBlake.Basis.Domain.Repositories.IRepository`2.Remove(`0)">
+            <summary>
+            删除实体
+            </summary>
+            <param name="entity"></param>
+        </member>
+        <member name="M:KaneBlake.Basis.Domain.Repositories.IRepository`2.Count">
+            <summary>
+            获取实体数量
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:KaneBlake.Basis.Domain.Uow.IUnitOfWork">
             <summary>
@@ -63,157 +339,9 @@
             工作单元提交
             </summary>
         </member>
-        <member name="T:KaneBlake.Basis.Extensions.Common.Abstractions.Singleton`1">
-            <summary>
-            使用Lazy<T/> 实现单例模式
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="T:KaneBlake.Basis.Extensions.Common.PipeReaderExtensions">
-            <summary>
-            Extensions of PipeReader
-            </summary>
-        </member>
-        <member name="M:KaneBlake.Basis.Extensions.Common.PipeReaderExtensions.ReadToEndAsync(System.IO.Pipelines.PipeReader,System.Threading.CancellationToken)">
-            <summary>
-            Asynchronously reads to the end of the current System.IO.Pipelines.PipeReader.
-            Requires a call to BodyReader.Advance after use ReadResult.Buffer
-            </summary>
-            <param name="pipeReader"></param>
-            <param name="cancellationToken"></param>
-            <returns></returns>
-        </member>
-        <member name="T:KaneBlake.Basis.Extensions.Cryptography.CertificateExtensions">
-            <summary>
-            Extensions to RSA Certificate
-            </summary>
-        </member>
-        <member name="M:KaneBlake.Basis.Extensions.Cryptography.CertificateExtensions.GetX509Certificate(System.String,System.String)">
-            <summary>
-            Get pfx Certificate from filePath
-            </summary>
-            <param name="certificatePath"></param>
-            <param name="password"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KaneBlake.Basis.Extensions.Cryptography.CertificateExtensions.GetPKCS1PublicKeyASN1Body(System.Security.Cryptography.X509Certificates.X509Certificate2)">
-            <summary>
-            Attempts to export the current key in the PKCS#1 PublicKey format into byte[] without Prefix and Endfix
-            https://lapo.it/asn1js/
-            https://etherhack.co.uk/asymmetric/docs/rsa_key_breakdown.html
-            https://blog.csdn.net/pcjustin/article/details/79084232
-            https://tools.ietf.org/html/rfc3447#appendix-A.1.1
-            RSAPublicKey::= SEQUENCE {
-                modulus INTEGER,  --n
-                publicExponent INTEGER   --e
-            }
-            </summary>
-            <param name="certificate"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KaneBlake.Basis.Extensions.Cryptography.CertificateExtensions.ExportRSAPKCS1PublicKeyMS(System.Security.Cryptography.X509Certificates.X509Certificate2)">
-            <summary>
-            Attempts to export the current key in the PKCS#1 RSAPublicKey format into string(Microsoft)
-            </summary>
-            <param name="certificate">current key</param>
-            <returns></returns>
-        </member>
-        <member name="M:KaneBlake.Basis.Extensions.Cryptography.CertificateExtensions.ExportRSAPKCS1PublicKey(System.Security.Cryptography.X509Certificates.X509Certificate2)">
-            <summary>
-            Attempts to export the current key in the PKCS#1 PublicKey format into string
-            </summary>
-            <param name="certificate"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KaneBlake.Basis.Extensions.Cryptography.CertificateExtensions.ExportRSAPKCS8PublicKey(System.Security.Cryptography.X509Certificates.X509Certificate2)">
-            <summary>
-            Attempts to export the current key in the PKCS#8 PublicKey format into string
-            </summary>
-            <param name="certificate"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KaneBlake.Basis.Extensions.Cryptography.CertificateExtensions.DecryptFromBase64String(System.Security.Cryptography.X509Certificates.X509Certificate2,System.String)">
-            <summary>
-            decrypt string from Base64String with RSAPrivateKey
-            </summary>
-            <param name="certificate"></param>
-            <param name="cipherB64str"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KaneBlake.Basis.Extensions.Cryptography.CertificateExtensions.DecryptFromUTF8bytes(System.Security.Cryptography.X509Certificates.X509Certificate2,System.ReadOnlySpan{System.Byte})">
-            <summary>
-            decrypt string from ReadOnlySpan[byte] with RSAPrivateKey
-            </summary>
-            <param name="certificate"></param>
-            <param name="cipherBytes"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KaneBlake.Basis.Extensions.Cryptography.CertificateExtensions.Decrypt(System.Security.Cryptography.X509Certificates.X509Certificate2,System.ReadOnlySpan{System.Byte})">
-            <summary>
-            decrypt data with RSAPrivateKey
-            </summary>
-            <param name="certificate"></param>
-            <param name="cipherBytes"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KaneBlake.Basis.Extensions.Cryptography.CertificateExtensions.BytesPadLeft(System.Byte[],System.Int32)">
-            <summary>
-            数组高位补0x00
-            </summary>
-            <param name="data"></param>
-            <param name="length"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KaneBlake.Basis.Extensions.Cryptography.CertificateExtensions.BytesPadHigher(System.Byte[],System.Int32)">
-            <summary>
-            高位字节补0x00
-            </summary>
-            <param name="data"></param>
-            <param name="length"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KaneBlake.Basis.Extensions.Cryptography.CertificateExtensions.GetBytesTrim(System.Int32)">
-            <summary>
-            去除int整数数值 byte[] 中的高位0x00字节
-            </summary>
-            <param name="value"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KaneBlake.Basis.Extensions.Cryptography.CertificateExtensions.CombineByteArray(System.Byte[][])">
-            <summary>
-            合并字节数组
-            </summary>
-            <param name="arrays"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KaneBlake.Basis.Extensions.Cryptography.CertificateExtensions.GetASN1_Data(System.Byte[],System.Byte[])">
-            <summary>
-            构建ASN1数据节点
-            [0x02,0x03,0x01,0x00,0x01]
-            [标识符(1 byte),数据长度(1 byte),{数据(n byte)}]
-            [标识符(1 byte),数据长度的长度(1 byte),{数据长度(n byte)},{数据(n byte)}]
-            https://www.cnblogs.com/NathanYang/p/9951282.html
-            不支持构建 bit流长度 %8 != 0 的 BIT STRING,比如 BIT STRING (4 bit) 1111
-            </summary>
-            <param name="tag"></param>
-            <param name="data"></param>
-            <returns></returns>
-        </member>
-        <member name="T:KaneBlake.Basis.Extensions.Diagnostics.DiagnosticAdapterProcessorObserver">
-            <summary>
-            支持属性绑定和对象绑定
-            性能: 对象、属性绑定(80ns) > Microsoft.Extensions.DiagnosticAdapter(140ns)
-            </summary>
-        </member>
-        <member name="T:KaneBlake.Basis.Extensions.Diagnostics.DiagnosticProcessorObserver">
-            <summary>
-            默认实现使用 Microsoft.Extensions.DiagnosticAdapter 作为适配器
-            方法参数只支持属性绑定(匿名对象和非匿名对象在性能上基本无差别)
-            </summary>
-        </member>
         <member name="T:KaneBlake.Basis.Infrastruct.EntityFrameworkCore.EFRepository`1">
             <summary>
-            EF对IRepository的实现
+            EntityFrameworkCore 对 IRepository 的实现
             </summary>
             <typeparam name="TEntity"></typeparam>
         </member>

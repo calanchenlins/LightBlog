@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace KaneBlake.Basis.Extensions.Hangfire
+namespace KaneBlake.Basis.Common.Hangfire
 {
     [AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public class JobTemplateAttribute : Attribute

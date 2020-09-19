@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
-namespace KaneBlake.Basis.Extensions.Cryptography
+namespace KaneBlake.Basis.Common.Cryptography
 {
     /// <summary>
     /// Extensions to RSA Certificate

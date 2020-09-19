@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using KaneBlake.Basis.Extensions.Diagnostics;
+using KaneBlake.Basis.Common.Diagnostics;
 using KaneBlake.Basis.Services;
 
 [assembly: HostingStartup(typeof(KaneBlake.AspNetCore.Extensions.Hosting.ExtensionServiceHostingStartup))]

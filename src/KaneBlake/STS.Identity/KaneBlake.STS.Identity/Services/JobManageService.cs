@@ -4,7 +4,7 @@ using Hangfire;
 using Hangfire.Common;
 using Hangfire.States;
 using Hangfire.Storage;
-using KaneBlake.Basis.Extensions.Hangfire;
+using KaneBlake.Basis.Common.Hangfire;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
@@ -27,6 +28,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace KaneBlake.STS.Identity.Services
@@ -406,6 +408,98 @@ namespace KaneBlake.STS.Identity.Services
                 job = Job.FromExpression(methodCall);
             }
             return job;
+        }
+    }
+
+
+    internal interface IScopedProcessingService
+    {
+        Task DoWork(CancellationToken stoppingToken);
+    }
+
+    internal class ScopedProcessingService : IScopedProcessingService
+    {
+        private int executionCount = 0;
+        private readonly ILogger _logger;
+
+        public ScopedProcessingService(ILogger<ScopedProcessingService> logger)
+        {
+            _logger = logger;
+        }
+
+        public async Task DoWork(CancellationToken stoppingToken)
+        {
+            await Task.Run(() =>
+            {
+                while (true)
+                {
+                    // 模拟后台任务
+                    Thread.Sleep(1000000);
+
+
+                    // 防止后台任务线程持续抢占CPU
+                    Thread.Sleep(1);
+                }
+            }, stoppingToken);
+
+
+            while (!stoppingToken.IsCancellationRequested)
+            {
+
+                await Task.Run(() =>
+                {
+                    // 模拟后台任务
+                    executionCount++;
+                    _logger.LogInformation("Scoped Processing Service is working. Count: {Count}", executionCount);
+                    Thread.Sleep(1000000);
+
+                },stoppingToken);
+
+            }
+        }
+    }
+    public class ConsumeScopedServiceHostedService : BackgroundService
+    {
+        private readonly ILogger<ConsumeScopedServiceHostedService> _logger;
+
+        public ConsumeScopedServiceHostedService(IServiceProvider services,
+            ILogger<ConsumeScopedServiceHostedService> logger)
+        {
+            Services = services;
+            _logger = logger;
+        }
+
+        public IServiceProvider Services { get; }
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            _logger.LogInformation(
+                "Consume Scoped Service Hosted Service running.");
+
+            await DoWork(stoppingToken);
+        }
+
+        private async Task DoWork(CancellationToken stoppingToken)
+        {
+            _logger.LogInformation(
+                "Consume Scoped Service Hosted Service is working.");
+
+            using (var scope = Services.CreateScope())
+            {
+                var scopedProcessingService =
+                    scope.ServiceProvider
+                        .GetRequiredService<IScopedProcessingService>();
+
+                await scopedProcessingService.DoWork(stoppingToken);
+            }
+        }
+
+        public override async Task StopAsync(CancellationToken stoppingToken)
+        {
+            _logger.LogInformation(
+                "Consume Scoped Service Hosted Service is stopping.");
+
+            await Task.CompletedTask;
         }
     }
 

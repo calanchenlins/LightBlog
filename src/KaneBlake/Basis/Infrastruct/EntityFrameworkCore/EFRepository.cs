@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace KaneBlake.Basis.Infrastruct.EntityFrameworkCore
 {
     /// <summary>
-    /// EF对IRepository的实现
+    /// EntityFrameworkCore 对 IRepository 的实现
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     public abstract class EFRepository<TEntity> : IRepository<TEntity, int> where TEntity : class, IEntity<int>

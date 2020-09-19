@@ -1,11 +1,11 @@
-﻿using KaneBlake.Basis.Extensions.Diagnostics.Abstractions;
+﻿using KaneBlake.Basis.Common.Diagnostics.Abstractions;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace KaneBlake.Basis.Extensions.Diagnostics
+namespace KaneBlake.Basis.Common.Diagnostics
 {
     /// <summary>
     /// 支持属性绑定和对象绑定

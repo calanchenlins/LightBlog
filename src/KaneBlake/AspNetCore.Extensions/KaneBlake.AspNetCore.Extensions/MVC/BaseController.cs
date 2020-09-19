@@ -6,8 +6,11 @@ using System.Text;
 
 namespace KaneBlake.AspNetCore.Extensions.MVC
 {
-    //[ServiceFilter(typeof(ModelStateInvalidFilter))]
-    //public class BaseController: ControllerBase
-    //{
-    //}
+    public class BaseController : ControllerBase
+    {
+        //public new JsonResult Json(object data)
+        //{
+        //    return new CustomJsonResult(data);
+        //}
+    }
 }

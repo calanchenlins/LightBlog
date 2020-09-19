@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace KaneBlake.Basis.Extensions.Common
+namespace KaneBlake.Basis.Common.Extensions
 {
     /// <summary>
     /// Extensions of PipeReader

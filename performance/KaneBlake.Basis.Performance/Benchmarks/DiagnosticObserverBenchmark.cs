@@ -7,8 +7,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using Microsoft.Extensions.DiagnosticAdapter;
-using KaneBlake.Basis.Extensions.Diagnostics.Abstractions;
-using KaneBlake.Basis.Extensions.Diagnostics;
+using KaneBlake.Basis.Common.Diagnostics.Abstractions;
+using KaneBlake.Basis.Common.Diagnostics;
 
 namespace KaneBlake.Basis.Performance.Benchmarks
 {

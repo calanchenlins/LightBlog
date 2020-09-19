@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using KaneBlake.Basis.Extensions.Logging;
+using KaneBlake.Basis.Common.Logging;
 using LightBlog.Infrastruct.Context;
 using LightBlog.Data;
 using Autofac.Extensions.DependencyInjection;
-using KaneBlake.Basis.Extensions.Common;
+using KaneBlake.Basis.Common.Common;
 using KaneBlake.AspNetCore.Extensions.Hosting;
 
 namespace LightBlog

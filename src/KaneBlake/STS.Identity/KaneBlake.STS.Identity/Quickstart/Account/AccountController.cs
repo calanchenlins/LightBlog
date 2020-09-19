@@ -12,7 +12,7 @@ using IdentityServer4.Stores;
 using IdentityServer4.Test;
 using KaneBlake.STS.Identity.Infrastruct.Entities;
 using KaneBlake.STS.Identity.Services;
-using KaneBlake.Basis.Extensions.Cryptography;
+using KaneBlake.Basis.Common.Cryptography;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

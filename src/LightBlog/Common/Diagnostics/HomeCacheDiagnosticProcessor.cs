@@ -1,5 +1,5 @@
-﻿using KaneBlake.Basis.Extensions.Diagnostics;
-using KaneBlake.Basis.Extensions.Diagnostics.Abstractions;
+﻿using KaneBlake.Basis.Common.Diagnostics;
+using KaneBlake.Basis.Common.Diagnostics.Abstractions;
 using LightBlog.Infrastruct.Entities;
 using LightBlog.Services.Cache;
 using System;

@@ -58,6 +58,7 @@ namespace KaneBlake.STS.Identity.HangfireCustomDashboard.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> CreateBackgroundJob(BackgroundJobInDto backgroundJobInDto)
         {
+            var t = backgroundJobInDto.EnqueueAt.ToUniversalTime();
             if (backgroundJobInDto.EnqueueAt == default)
             {
                 backgroundJobInDto.Queue = string.IsNullOrEmpty(backgroundJobInDto.Queue) ? EnqueuedState.DefaultQueue : backgroundJobInDto.Queue;
@@ -108,7 +109,20 @@ namespace KaneBlake.STS.Identity.HangfireCustomDashboard.Controllers
         //[Produces("application/xml")]
         public async Task<IActionResult> Problem400(Indto input)
         {
+            //var ty = input.EnqueueAt.ToUniversalTime();
             await Task.CompletedTask;
+            //input.EnqueueAt = input.EnqueueAt.ToLocalTime();
+            var tby = new DateTime(2019, 7, 26);
+            var tgf = tby.ToUniversalTime();
+            var gfss = tgf.ToLocalTime();
+            var tjhj = tby.ToLocalTime();
+            var tgfd = DateTime.Now;
+
+            tby = DateTime.UtcNow;
+
+            var tgtf = DateTimeOffset.Now;
+            var gasa= DateTimeOffset.UtcNow;
+
             return new ObjectResult(ServiceResponse.OK(input));
         }
 
@@ -193,9 +207,13 @@ namespace KaneBlake.STS.Identity.HangfireCustomDashboard.Controllers
         public async Task<ActionResult<ServiceResponse>> ServiceResponseOkT()
         {
             await Task.CompletedTask;
-            var res = ServiceResponse.OK(new { aa = "aa", bb = "bb" });
+            var res = ServiceResponse.OK(new { aa = "                aa           ", bb = "           bb             " });
             res.Extensions["traceId"] = Activity.Current?.Id ?? HttpContext?.TraceIdentifier;
-            res.Extensions["complexType"] = new { a = "a", b = "b" };
+            res.Extensions["complexType"] = new { AdminRes = "a", b = "                      b                  ", c = DateTime.Now };
+            var dict = new Dictionary<string, string>();
+            dict.Add("ServiceResponseIn", "ServiceResponseIn");
+            res.Extensions["dict"] = dict;
+            //ObjectResult
             return res;
         }
 
@@ -227,7 +245,8 @@ namespace KaneBlake.STS.Identity.HangfireCustomDashboard.Controllers
         public string TypeName { get; set; }
         public string MethodName { get; set; }
         public string Queue { get; set; }
-        public DateTime EnqueueAt { get; set; }
+        [Required]
+        public DateTime? EnqueueAt { get; set; }
     }
 
     public class BackgroundJobInDto 

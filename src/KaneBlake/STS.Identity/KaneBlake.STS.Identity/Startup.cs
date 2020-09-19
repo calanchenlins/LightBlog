@@ -16,7 +16,7 @@ using IdentityServer4.Configuration;
 using KaneBlake.AspNetCore.Extensions.Middleware;
 using KaneBlake.AspNetCore.Extensions.MVC;
 using KaneBlake.Basis.Domain.Repositories;
-using KaneBlake.Basis.Extensions.Cryptography;
+using KaneBlake.Basis.Common.Cryptography;
 using KaneBlake.STS.Identity.Common;
 using KaneBlake.STS.Identity.Common.IdentityServer4Config;
 using KaneBlake.STS.Identity.HangfireCustomDashboard;
@@ -48,6 +48,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Polly;
 using Serilog;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using KaneBlake.Basis.Common.Serialization;
 
 namespace KaneBlake.STS.Identity
 {
@@ -74,6 +77,21 @@ namespace KaneBlake.STS.Identity
                 options.Filters.Add<InjectResultActionFilter>();
                 options.Conventions.Add(new InvalidModelStateFilterConvention());
             })
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase; // Use 'camelCase' casing.
+                    options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+
+                    // In AspNetCore, when PropertyNamingPolicy's value is CamelCase or null, PropertyNameCaseInsensitive's value will be set true
+                    options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+                    /// 2020-09-19T10:46:27.000+00:00  反序列化 => 本地时间    序列化   =>   本地时间(系统时区)   2020-09-19T18:46:27+08:00
+                    /// 2020-09-19T10:46:27.000Z       反序列化 => UTC时间    |序列化  |=>  |UTC时间             2020-09-19T10:46:27Z
+                    /// 2020-09-19T10:46:27.000        反序列化 => 时区未确定  序列化   =>   时区未确定           2020-09-19T10:46:27.000
+                    options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
+                    options.JsonSerializerOptions.Converters.Add(new DateTimeNullableConverter());
+                })
                 .ConfigureApiBehaviorOptions(options =>
                 {
                     options.SuppressModelStateInvalidFilter = false;//avoid adding duplicate Convention: InvalidModelStateFilterConvention
@@ -138,6 +156,10 @@ namespace KaneBlake.STS.Identity
             services.AddTransient<IJobManageService, JobManageService>();
             services.AddSingleton<JobEntryResolver>();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+
+
+            services.AddHostedService<ConsumeScopedServiceHostedService>();
+            services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

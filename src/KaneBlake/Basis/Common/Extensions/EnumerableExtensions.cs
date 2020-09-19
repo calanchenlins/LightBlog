@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace KaneBlake.Basis.Extensions.Common
+namespace KaneBlake.Basis.Common.Extensions
 {
     internal static class EnumerableExtensions
     {

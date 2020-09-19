@@ -1,4 +1,4 @@
-﻿using KaneBlake.Basis.Extensions.Cryptography;
+﻿using KaneBlake.Basis.Common.Cryptography;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Net.Http.Headers;

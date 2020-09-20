@@ -171,14 +171,14 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="T:KaneBlake.Basis.Common.Serialization.DateTimeConverter">
+        <member name="T:KaneBlake.Basis.Common.Serialization.DateTimeJsonConverter">
             <summary>
              Converts an value of DateTime to or from JSON.
              反序列化失败时返回默认值, 和不传递该参数的行为一致
              <see href="https://docs.microsoft.com/zh-cn/dotnet/standard/datetime/system-text-json-support"/>
             </summary>
         </member>
-        <member name="M:KaneBlake.Basis.Common.Serialization.DateTimeConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
+        <member name="M:KaneBlake.Basis.Common.Serialization.DateTimeJsonConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
             <summary>
             Reads and converts the JSON to type DateTime.
             </summary>
@@ -187,7 +187,7 @@
             <param name="options"></param>
             <returns></returns>
         </member>
-        <member name="M:KaneBlake.Basis.Common.Serialization.DateTimeConverter.Write(System.Text.Json.Utf8JsonWriter,System.DateTime,System.Text.Json.JsonSerializerOptions)">
+        <member name="M:KaneBlake.Basis.Common.Serialization.DateTimeJsonConverter.Write(System.Text.Json.Utf8JsonWriter,System.DateTime,System.Text.Json.JsonSerializerOptions)">
             <summary>
             Writes a value of DateTime as JSON.
             </summary>
@@ -195,12 +195,13 @@
             <param name="value"></param>
             <param name="options"></param>
         </member>
-        <member name="T:KaneBlake.Basis.Common.Serialization.DateTimeNullableConverter">
+        <member name="T:KaneBlake.Basis.Common.Serialization.DateTimeNullableJsonConverter">
             <summary>
             Converts an value of DateTime? to or from JSON.
+            可空值类型默认使用其值类型的 JsonConverter
             </summary>
         </member>
-        <member name="M:KaneBlake.Basis.Common.Serialization.DateTimeNullableConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
+        <member name="M:KaneBlake.Basis.Common.Serialization.DateTimeNullableJsonConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
             <summary>
             Reads and converts the JSON to type DateTime?.
             </summary>
@@ -209,9 +210,31 @@
             <param name="options"></param>
             <returns></returns>
         </member>
-        <member name="M:KaneBlake.Basis.Common.Serialization.DateTimeNullableConverter.Write(System.Text.Json.Utf8JsonWriter,System.Nullable{System.DateTime},System.Text.Json.JsonSerializerOptions)">
+        <member name="M:KaneBlake.Basis.Common.Serialization.DateTimeNullableJsonConverter.Write(System.Text.Json.Utf8JsonWriter,System.Nullable{System.DateTime},System.Text.Json.JsonSerializerOptions)">
             <summary>
             Writes a value of DateTime? as JSON.
+            </summary>
+            <param name="writer"></param>
+            <param name="value"></param>
+            <param name="options"></param>
+        </member>
+        <member name="T:KaneBlake.Basis.Common.Serialization.StringTrimJsonConverter">
+            <summary>
+            Converts an value of string to or from JSON.
+            </summary>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Serialization.StringTrimJsonConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            Reads and converts the JSON to type string.
+            </summary>
+            <param name="reader"></param>
+            <param name="typeToConvert"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Serialization.StringTrimJsonConverter.Write(System.Text.Json.Utf8JsonWriter,System.String,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            Writes a value of string as JSON.
             </summary>
             <param name="writer"></param>
             <param name="value"></param>

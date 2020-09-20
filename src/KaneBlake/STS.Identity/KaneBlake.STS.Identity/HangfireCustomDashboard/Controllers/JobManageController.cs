@@ -111,6 +111,10 @@ namespace KaneBlake.STS.Identity.HangfireCustomDashboard.Controllers
         {
             //var ty = input.EnqueueAt.ToUniversalTime();
             await Task.CompletedTask;
+
+            //var hj = input.EnqueueAt.Value;
+
+            //input.EnqueueAt = default;
             //input.EnqueueAt = input.EnqueueAt.ToLocalTime();
             var tby = new DateTime(2019, 7, 26);
             var tgf = tby.ToUniversalTime();
@@ -207,14 +211,14 @@ namespace KaneBlake.STS.Identity.HangfireCustomDashboard.Controllers
         public async Task<ActionResult<ServiceResponse>> ServiceResponseOkT()
         {
             await Task.CompletedTask;
-            var res = ServiceResponse.OK(new { aa = "                aa           ", bb = "           bb             " });
+            var res = ServiceResponse.OK(new { aa = "                aa测试中文bb           ", bb = "           bb             " });
             res.Extensions["traceId"] = Activity.Current?.Id ?? HttpContext?.TraceIdentifier;
             res.Extensions["complexType"] = new { AdminRes = "a", b = "                      b                  ", c = DateTime.Now };
             var dict = new Dictionary<string, string>();
             dict.Add("ServiceResponseIn", "ServiceResponseIn");
             res.Extensions["dict"] = dict;
             //ObjectResult
-            return res;
+            return ServiceResponse.OK("aascsacvs测试中文fdsvdvsdcv жаркоfsdvs");
         }
 
         [HttpPost]

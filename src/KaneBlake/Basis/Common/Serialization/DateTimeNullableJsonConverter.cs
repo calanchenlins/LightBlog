@@ -8,29 +8,27 @@ using System.Text.Json.Serialization;
 namespace KaneBlake.Basis.Common.Serialization
 {
     /// <summary>
-    ///  Converts an value of DateTime to or from JSON.
-    ///  反序列化失败时返回默认值, 和不传递该参数的行为一致
-    ///  <see href="https://docs.microsoft.com/zh-cn/dotnet/standard/datetime/system-text-json-support"/>
+    /// Converts an value of DateTime? to or from JSON.
+    /// 可空值类型默认使用其值类型的 JsonConverter
     /// </summary>
-    public class DateTimeConverter : JsonConverter<DateTime>
+    public class DateTimeNullableJsonConverter : JsonConverter<DateTime?>
     {
         /// <summary>
-        /// Reads and converts the JSON to type DateTime.
+        /// Reads and converts the JSON to type DateTime?.
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="typeToConvert"></param>
         /// <param name="options"></param>
         /// <returns></returns>
-        public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override DateTime? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            Debug.Assert(typeToConvert == typeof(DateTime));
+            Debug.Assert(typeToConvert == typeof(DateTime?));
 
             if (reader.TokenType != JsonTokenType.String)
             {
                 return default;
             }
 
-            // ModelState validate failed when Exception occurs.
             if (!reader.TryGetDateTime(out DateTime value))
             {
                 if (!DateTime.TryParse(reader.GetString(), out value))
@@ -38,18 +36,22 @@ namespace KaneBlake.Basis.Common.Serialization
                     return default;
                 }
             }
+
             return value;
         }
 
         /// <summary>
-        /// Writes a value of DateTime as JSON.
+        /// Writes a value of DateTime? as JSON.
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="value"></param>
         /// <param name="options"></param>
-        public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, DateTime? value, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(value);
+            if (value.HasValue)
+            {
+                writer.WriteStringValue(value.Value);
+            }
         }
     }
 }

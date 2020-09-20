@@ -89,8 +89,9 @@ namespace KaneBlake.STS.Identity
                     /// 2020-09-19T10:46:27.000+00:00  反序列化 => 本地时间    序列化   =>   本地时间(系统时区)   2020-09-19T18:46:27+08:00
                     /// 2020-09-19T10:46:27.000Z       反序列化 => UTC时间    |序列化  |=>  |UTC时间             2020-09-19T10:46:27Z
                     /// 2020-09-19T10:46:27.000        反序列化 => 时区未确定  序列化   =>   时区未确定           2020-09-19T10:46:27.000
-                    options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
-                    options.JsonSerializerOptions.Converters.Add(new DateTimeNullableConverter());
+                    options.JsonSerializerOptions.Converters.Add(new DateTimeJsonConverter());
+                    options.JsonSerializerOptions.Converters.Add(new DateTimeNullableJsonConverter());
+                    options.JsonSerializerOptions.Converters.Add(new StringTrimJsonConverter());
                 })
                 .ConfigureApiBehaviorOptions(options =>
                 {

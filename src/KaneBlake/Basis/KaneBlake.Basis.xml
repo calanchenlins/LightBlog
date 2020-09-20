@@ -493,6 +493,26 @@
             正常响应状态码
             </summary>
         </member>
+        <member name="T:KaneBlake.Basis.Services.ServiceResponseExtensions">
+            <summary>
+            ServiceResponse 扩展方法
+            </summary>
+        </member>
+        <member name="M:KaneBlake.Basis.Services.ServiceResponseExtensions.TryAddTraceId(KaneBlake.Basis.Services.ServiceResponse,System.String)">
+            <summary>
+            设置 traceId 的值
+            </summary>
+            <param name="serviceResponse"></param>
+            <param name="traceId"></param>
+        </member>
+        <member name="M:KaneBlake.Basis.Services.ServiceResponseExtensions.ContainsTraceId(KaneBlake.Basis.Services.ServiceResponse)">
+            <summary>
+            判断扩展字段中是否包含 traceId
+            </summary>
+            <param name="serviceResponse"></param>
+            <param name=""></param>
+            <returns></returns>
+        </member>
         <!-- Badly formed XML comment ignored for member "M:CoreWeb.Util.Infrastruct.SqlClientHelp.ReadDataTable(System.String,System.String,System.Collections.Generic.List{Microsoft.Data.SqlClient.SqlParameter})" -->
     </members>
 </doc>

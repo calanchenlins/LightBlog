@@ -100,7 +100,7 @@ namespace KaneBlake.STS.Identity
                     {
                         var response = ServiceResponse.BadRequest(new SerializableModelError(context.ModelState));
                         var traceId = Activity.Current?.Id ?? context.HttpContext?.TraceIdentifier;
-                        response.Extensions.TryAdd("traceId", traceId);
+                        response.TryAddTraceId(traceId);
                         var result = new ObjectResult(response);
                         result.ContentTypes.Add("application/problem+json");
                         result.ContentTypes.Add("application/problem+xml");

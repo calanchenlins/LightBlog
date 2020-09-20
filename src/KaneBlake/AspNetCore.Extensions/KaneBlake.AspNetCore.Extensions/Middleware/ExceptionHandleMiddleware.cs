@@ -36,18 +36,15 @@ namespace KaneBlake.AspNetCore.Extensions.Middleware
         {
             try
             {
-                // await _next(context);//Status404NotFound Middleware
                 await HandleException(context);
             }
             catch (Exception ex)
             {
                 _logger.LogCritical(ex, "An error occurred while handle exception.");
-                //await Task.CompletedTask;
                 throw;
             }
 
         }
-
 
         private async Task HandleException(HttpContext httpContext)
         {
@@ -55,14 +52,18 @@ namespace KaneBlake.AspNetCore.Extensions.Middleware
             var ex = exceptionHandlerPathFeature?.Error;
             if (ex == null)
             {
-                await Task.CompletedTask;
+                return;
             }
 
             var traceId = Activity.Current?.Id ?? httpContext?.TraceIdentifier;
             _logger.LogError(ex, "An error occurred while processing your request in path:{requestPath}, traceId:{traceId}", exceptionHandlerPathFeature.Path, traceId);
 
-            httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            if (!httpContext.Request.GetTypedHeaders().Accept.Any(a => a.IsSubsetOf(_textHtmlMediaType)))
+            var headers = httpContext.Request.GetTypedHeaders();
+            var acceptHeader = headers.Accept;
+
+            httpContext.Response.StatusCode = StatusCodes.Status200OK;
+
+            if (acceptHeader != null && acceptHeader.Any(a => a.IsSubsetOf(_textHtmlMediaType)))
             {
                 httpContext.Response.ContentType = _textHtmlMediaType.MediaType.Value;
 
@@ -80,28 +81,15 @@ namespace KaneBlake.AspNetCore.Extensions.Middleware
             }
             else
             {
+                // Todo: 参考 ObjectResult 内容协商
+
                 httpContext.Response.ContentType = _applicationProblemJsonMediaType.MediaType.Value;
 
-                var problemDetails = new ProblemDetails
-                {
-                    Status = StatusCodes.Status500InternalServerError
-                };
-
-
-                if (_options.ClientErrorMapping.TryGetValue(StatusCodes.Status500InternalServerError, out var clientErrorData))
-                {
-                    problemDetails.Title ??= clientErrorData.Title;
-                    problemDetails.Type ??= clientErrorData.Link;
-                }
-
-
-                if (traceId != null)
-                {
-                    problemDetails.Extensions["traceId"] = traceId;
-                }
+                var response = ServiceResponse.InnerException();
+                response.TryAddTraceId(traceId);
 
                 var stream = httpContext.Response.Body;
-                await System.Text.Json.JsonSerializer.SerializeAsync(stream, ServiceResponse.InnerException());
+                await System.Text.Json.JsonSerializer.SerializeAsync(stream, response);
 
             }
         }

@@ -106,6 +106,7 @@ namespace KaneBlake.STS.Identity
         [ServiceFilter(typeof(EncryptFormResourceFilterAttribute))]
         public async Task<ActionResult<ServiceResponse>> Login(LoginInputModel model, string button)
         {
+
             var context = await _interaction.GetAuthorizationContextAsync(model.ReturnUrl);
 
             // the user clicked the "cancel" button

@@ -97,10 +97,10 @@ namespace KaneBlake.STS.Identity.Quickstart
                 && executedContext.Result is ObjectResult response // exclude JsonResult
                 && response.Value is ServiceResponse serviceResponse
                 && !serviceResponse.OKStatus
-                && !serviceResponse.Extensions.ContainsKey("traceId"))
+                && !serviceResponse.ContainsTraceId())
             {
                 var traceId = Activity.Current?.Id ?? executedContext.HttpContext?.TraceIdentifier;
-                if (!serviceResponse.Extensions.TryAdd("traceId", traceId))
+                if (!serviceResponse.TryAddTraceId(traceId))
                 {
                     _logger.LogWarning("append traceId:'{traceId}' to ServiceResponse.Extensions failed. ServiceResponse:{serviceResponse}", traceId, serviceResponse);
                 }

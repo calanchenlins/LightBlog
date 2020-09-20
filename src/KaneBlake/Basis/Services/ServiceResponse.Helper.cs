@@ -117,4 +117,31 @@ namespace KaneBlake.Basis.Services
         }
         #endregion
     }
+
+    /// <summary>
+    /// ServiceResponse 扩展方法
+    /// </summary>
+    public static class ServiceResponseExtensions 
+    {
+        /// <summary>
+        /// 设置 traceId 的值
+        /// </summary>
+        /// <param name="serviceResponse"></param>
+        /// <param name="traceId"></param>
+        public static bool TryAddTraceId(this ServiceResponse serviceResponse, string traceId)
+        {
+            return serviceResponse.Extensions.TryAdd("traceId", traceId);
+        }
+
+        /// <summary>
+        /// 判断扩展字段中是否包含 traceId
+        /// </summary>
+        /// <param name="serviceResponse"></param>
+        /// <param name=""></param>
+        /// <returns></returns>
+        public static bool ContainsTraceId(this ServiceResponse serviceResponse)
+        {
+            return serviceResponse.Extensions.ContainsKey("traceId");
+        }
+    }
 }

@@ -31,6 +31,9 @@ namespace KaneBlake.AspNetCore.Extensions.Middleware
                 var buffer = await context.Request.BodyReader.ReadToEndAsync();
 
                 // log Request.Body's content...
+                var bufferHex = BitConverter.ToString(buffer.ToArray());
+                _logger.LogInformation("Request.Body's content:\n{body}", bufferHex);
+
             }
             catch (Exception ex)
             {

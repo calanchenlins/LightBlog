@@ -56,7 +56,7 @@ namespace KaneBlake.AspNetCore.Extensions.Middleware
             }
 
             var traceId = Activity.Current?.Id ?? httpContext?.TraceIdentifier;
-            _logger.LogError(ex, "An error occurred while processing your request in path:{requestPath}, traceId:{traceId}", exceptionHandlerPathFeature.Path, traceId);
+            _logger.LogError(ex, "An error occurred while processing your request in path: {RequestMethod} {RequestPath}, traceId:{TraceId}", httpContext.Request.Method, exceptionHandlerPathFeature.Path, traceId);
 
             var headers = httpContext.Request.GetTypedHeaders();
             var acceptHeader = headers.Accept;

@@ -6,7 +6,6 @@ using IdentityServer4.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace KaneBlake.STS.Identity.Infrastruct
@@ -110,10 +109,10 @@ namespace KaneBlake.STS.Identity.Infrastruct
         /// <returns></returns>
         public static IEnumerable<Client> GetClients()
         {
-            var claims = new List<Claim>
+            var claims = new List<ClientClaim>
             {
                 // 在客户端凭证模式中,会在键上加"client_"前缀,再写入token
-                new Claim("client_define_claim", "定义客户端时设置的claim,将会直接写入token!")
+                new ClientClaim("client_define_claim", "定义客户端时设置的claim,将会直接写入token!")
             };
 
             return new List<Client>

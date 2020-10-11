@@ -3,7 +3,6 @@
 }
 @model LoginViewModel
 
-
 <!DOCTYPE html>
 <html class="h-100">
 <head>
@@ -29,7 +28,7 @@
                         <img src="~/icon_48px.png" class="">
                     </a>
                 </div>
-                <h4 class="font-weight-light">Sign in to KaneBlake</h4>
+                <h4 class="font-weight-light">@H["Sign in to KaneBlake"]</h4>
                 <hr />
             </div>
             <form asp-action="Login" id="form1" data-encrypted-form="true">
@@ -37,16 +36,15 @@
 
                 <fieldset>
                     <div class="form-group">
-                        <label class="font-weight-bold" asp-for="Username"></label>
-                        <input class="form-control" placeholder="Username" asp-for="Username" autofocus>
-                        <span asp-validation-for="Username" class="text-danger"></span>
+                        <label class="font-weight-bold" asp-for="UserName"></label>
+                        <input class="form-control" asp-for="UserName" autofocus>
+                        <span asp-validation-for="UserName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label class="font-weight-bold d-block" asp-for="Password">
-                            Password
-                            <a class="float-right text-decoration-none font-weight-normal font-size-1" href="/password_reset">Forgot password?</a>
+                            <a class="float-right text-decoration-none font-weight-normal font-size-1" href="/password_reset">@H["Forgot password"]?</a>
                         </label>
-                        <input type="password" class="form-control" placeholder="Password" asp-for="Password" autocomplete="off">
+                        <input type="password" class="form-control" asp-for="Password" autocomplete="off">
                     </div>
                     @if (Model.AllowRememberLogin)
                     {
@@ -55,20 +53,20 @@
                                 @*<input type="checkbox" class="custom-control-input" asp-for="RememberLogin">*@
                                 <input type="checkbox" class="custom-control-input" id="RememberLogin" name="RememberLogin" value="true">
                                 @*<input type="checkbox" class="custom-control-input" name="@nameof(Model.RememberLogin)" value="true">*@
-                                <label class="custom-control-label" asp-for="RememberLogin">Remember My Login</label>
+                                <label class="custom-control-label" asp-for="RememberLogin"></label>
                             </div>
                         </div>
 
                     }
                     <div class="text-danger validation-summary-valid" data-valmsg-custom="true"><ul></ul></div>
                     <div class="form-group">
-                        <button class="btn btn-primary btn-block" type="submit" name="button" value="login">Sign in</button>
+                        <button class="btn btn-primary btn-block" type="submit" name="button" value="login">@H["Sign In"]</button>
                     </div>
                 </fieldset>
             </form>
             <p class="create-account-callout mt-3 text-center py-3 border rounded bg-light">
-                New to KaneBlake?
-                <a asp-action="SignUp" asp-controller="Account" asp-route-returnurl="@Model.ReturnUrl" role="button">Create an account</a>.
+                @H["New to KaneBlake"]?
+                <a asp-action="SignUp" asp-controller="Account" asp-route-returnurl="@Model.ReturnUrl" role="button">@H["Create an account"]</a>.
             </p>
         </div>
     </div>

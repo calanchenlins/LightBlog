@@ -42,6 +42,8 @@ using Microsoft.AspNetCore.Builder;
 using KaneBlake.Basis.Services;
 using System.Runtime.CompilerServices;
 using KaneBlake.AspNetCore.Extensions.MVC;
+using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace KaneBlake.STS.Identity
 {
@@ -62,6 +64,11 @@ namespace KaneBlake.STS.Identity
         private readonly IEventService _events;
         private readonly ILogger _logger;
         private readonly ISigningCredentialStore _signingCredentialStore;
+        private readonly IEnumerable<IStringLocalizerFactory> _stringLocalizerFactory;
+        private readonly IStringLocalizer<AccountController> S;
+        private readonly IHtmlLocalizer<AccountController> H;
+        private readonly IViewLocalizer T;
+
 
         public AccountController(
             IIdentityServerInteractionService interaction,
@@ -70,7 +77,12 @@ namespace KaneBlake.STS.Identity
             IEventService events,
             IUserService<User> userService,
             ILogger<AccountController> logger,
-            ISigningCredentialStore signingCredentialStore
+            ISigningCredentialStore signingCredentialStore,
+            IStringLocalizer<AccountController> stringLocalizer,
+            IHtmlLocalizer<AccountController> htmlLocalizer,
+            IViewLocalizer viewLocalizer,
+            IEnumerable<IStringLocalizerFactory> stringLocalizerFactory,
+            IStringLocalizerFactory factory
             )
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
@@ -80,6 +92,10 @@ namespace KaneBlake.STS.Identity
             _events = events;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _signingCredentialStore = signingCredentialStore ?? throw new ArgumentNullException(nameof(signingCredentialStore));
+            _stringLocalizerFactory = stringLocalizerFactory;
+            S = stringLocalizer ?? throw new ArgumentNullException(nameof(stringLocalizer));
+            H = htmlLocalizer;
+            T = viewLocalizer;
         }
 
         /// <summary>
@@ -89,6 +105,12 @@ namespace KaneBlake.STS.Identity
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl)
         {
+            //var a = H["123"];
+            //var b = S["456"];
+            //var C = T["789"];
+            //var c = _viewLocalizer.GetAllStrings().ToList();
+
+
             // build a model so we know what to show on the login page
             var vm = await BuildLoginViewModelAsync(returnUrl);
 
@@ -138,7 +160,7 @@ namespace KaneBlake.STS.Identity
 
             if (ModelState.IsValid)
             {
-                var user = await _userService.FindByUsername(model.Username);
+                var user = await _userService.FindByUsername(model.UserName);
 
                 // validate username/password against in-memory store
                 if (await _userService.ValidateCredentials(user, model.Password))
@@ -182,7 +204,7 @@ namespace KaneBlake.STS.Identity
                     }
                 }
 
-                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId: context?.Client.ClientId));
+                await _events.RaiseAsync(new UserLoginFailureEvent(model.UserName, "invalid credentials", clientId: context?.Client.ClientId));
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
             }
 
@@ -385,7 +407,7 @@ namespace KaneBlake.STS.Identity
                 {
                     EnableLocalLogin = local,
                     ReturnUrl = returnUrl,
-                    Username = context?.LoginHint,
+                    UserName = context?.LoginHint,
                 };
 
                 if (!local)
@@ -428,7 +450,7 @@ namespace KaneBlake.STS.Identity
                 AllowRememberLogin = AccountOptions.AllowRememberLogin,
                 EnableLocalLogin = allowLocal && AccountOptions.AllowLocalLogin,
                 ReturnUrl = returnUrl,
-                Username = context?.LoginHint,
+                UserName = context?.LoginHint,
                 ExternalProviders = providers.ToArray()
             };
         }
@@ -436,7 +458,7 @@ namespace KaneBlake.STS.Identity
         private async Task<LoginViewModel> BuildLoginViewModelAsync(LoginInputModel model)
         {
             var vm = await BuildLoginViewModelAsync(model.ReturnUrl);
-            vm.Username = model.Username;
+            vm.UserName = model.UserName;
             vm.RememberLogin = model.RememberLogin;
             return vm;
         }

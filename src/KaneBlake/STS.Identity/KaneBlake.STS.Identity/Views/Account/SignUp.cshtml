@@ -1,4 +1,7 @@
 ﻿@model SignUpViewModel
+@using Microsoft.Extensions.Localization
+@inject IHtmlLocalizer<KaneBlake.STS.Identity.SignUpViewModel> HL
+@inject IStringLocalizer<KaneBlake.STS.Identity.SignUpViewModel> SL
 @{
     ViewData["Title"] = "SignUp";
     var ReturnUrl = ViewData["ReturnUrl"].ToString();
@@ -6,7 +9,7 @@
 
 <div class="sign-up-container">
     <div class="d-none d-md-block">
-        <h1 class="font-size-4 text-center">Create your account</h1>
+        <h1 class="font-size-4 text-center">@H["Create your account"]</h1>
         <hr />
     </div>
 
@@ -38,7 +41,7 @@
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <button class="btn btn-primary btn-block" type="submit" name="button" value="SignUp">Sign up</button>
+                <button class="btn btn-primary btn-block" type="submit" name="button" value="SignUp">@H["Sign Up"]</button>
             </div>
         </form>
     </div>

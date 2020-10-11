@@ -51,6 +51,9 @@ using Serilog;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using KaneBlake.Basis.Common.Serialization;
+using Microsoft.AspNetCore.Mvc.Razor;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace KaneBlake.STS.Identity
 {
@@ -70,6 +73,7 @@ namespace KaneBlake.STS.Identity
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             IMvcBuilder builder = services.AddControllersWithViews(options =>
             {
                 // it doesn't require tokens for requests made using the following safe HTTP methods: GET, HEAD, OPTIONS, and TRACE
@@ -77,6 +81,8 @@ namespace KaneBlake.STS.Identity
                 options.Filters.Add<InjectResultActionFilter>();
                 options.Conventions.Add(new InvalidModelStateFilterConvention());
             })
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization()
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase; // Use 'camelCase' casing.
@@ -114,6 +120,19 @@ namespace KaneBlake.STS.Identity
                 builder.AddRazorRuntimeCompilation();
             }
 #endif
+
+            //services.AddLocalization(options => options.ResourcesPath = "Localization");
+            services.AddPortableObjectLocalization(options => options.ResourcesPath = "Localization");
+
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[] { "zh-CN", "zh", "en-US", "en" };
+
+                options.SetDefaultCulture(supportedCultures[0])
+                    .AddSupportedCultures(supportedCultures)
+                    .AddSupportedUICultures(supportedCultures);
+            });
 
             // https://resources.infosecinstitute.com/the-breach-attack/
             // EnableForHttps = false£º
@@ -215,6 +234,8 @@ namespace KaneBlake.STS.Identity
             {
                 Authorization = new[] { new HangfireDashboardAuthorizationFilter(AppInfo.HangfireLoginUrl) }
             });
+
+            app.UseRequestLocalization();
 
             app.UseEndpoints(endpoints =>
             {

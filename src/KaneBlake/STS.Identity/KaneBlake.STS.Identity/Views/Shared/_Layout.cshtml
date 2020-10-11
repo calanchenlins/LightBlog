@@ -42,7 +42,7 @@
                             <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="@KaneBlake.STS.Identity.Common.AppInfo.HangfirePath"> Hangfire <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="@KaneBlake.STS.Identity.Common.AppInfo.HangfirePath"> @H["Hangfire"] <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -57,25 +57,25 @@
                     </ul>
                     <div class="navbar-nav ml-auto">
                         <form class="form-inline my-2 my-lg-0">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                            <input class="form-control mr-sm-2" type="search" placeholder="@H["Search"]" aria-label="Search">
                         </form>
                         <ul class="navbar-nav">
                             @if (!string.IsNullOrWhiteSpace(name))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link btn" asp-action="MyProfile" asp-controller="Account" role="button">My&nbsp;Profile</a>
+                                    <a class="nav-link btn" asp-action="MyProfile" asp-controller="Account" role="button">@H["My Profile"]</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link btn btn-outline-secondary" asp-action="Logout" asp-controller="Account" role="button">Logout</a>
+                                    <a class="nav-link btn btn-outline-secondary" asp-action="Logout" asp-controller="Account" role="button">@H["Logout"]</a>
                                 </li>
                             }
                             else
                             {
                                 <li class="nav-item mx-auto">
-                                    <a class="nav-link btn" asp-action="Login" asp-controller="Account" role="button">Sign&nbsp;In</a>
+                                    <a class="nav-link btn" asp-action="Login" asp-controller="Account" role="button">@H["Sign In"]</a>
                                 </li>
                                 <li class="nav-item mx-auto">
-                                    <a class="nav-link btn btn-outline-secondary px-5 px-lg-1 px-xl-1" asp-action="SignUp" asp-controller="Account" asp-route-returnUrl="/" role="button">Sign&nbsp;Up</a>
+                                    <a class="nav-link btn btn-outline-secondary px-5 px-lg-1 px-xl-1" asp-action="SignUp" asp-controller="Account" asp-route-returnUrl="/" role="button">@H["Sign Up"]</a>
                                 </li>
 
 

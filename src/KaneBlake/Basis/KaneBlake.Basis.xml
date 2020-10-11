@@ -171,6 +171,11 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
+        <member name="T:KaneBlake.Basis.Common.Localization.JsonFileStringLocalizerFactory.AttributeKey">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:KaneBlake.Basis.Common.Serialization.DateTimeJsonConverter">
             <summary>
              Converts an value of DateTime to or from JSON.

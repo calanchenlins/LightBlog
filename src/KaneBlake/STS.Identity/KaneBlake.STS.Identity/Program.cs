@@ -42,6 +42,9 @@ namespace KaneBlake.STS.Identity
             catch (Exception ex)
             {
                 Log.Fatal(ex, "Host terminated unexpectedly");
+                // Set exit code: The return value from Main is treated as the exit code for the process. 
+                // Returning an integer enables the program to communicate status information to other programs or scripts that invoke the executable file. 
+                // If void is returned from Main, the exit code will be implicitly 0. 
                 return 1;
             }
             finally

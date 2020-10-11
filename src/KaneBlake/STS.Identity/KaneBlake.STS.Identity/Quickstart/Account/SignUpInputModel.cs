@@ -16,6 +16,7 @@ namespace KaneBlake.STS.Identity
     {
         [Required]
         [Remote(action: "VerifyUserName", controller: "Account")]
+        [Display(Name = "UserName")]
         public string UserName { get; set; }
 
         [Required]
@@ -23,13 +24,14 @@ namespace KaneBlake.STS.Identity
         [Display(Name = "Email Address")]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 12)]
+        [Required, StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 12)]
         [DataType(DataType.Password)]
+        [Display(Name = "Password", Prompt = "Please input password")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "'{0}' and '{1}' do not match.")]
+        [Display(Name = "ConfirmPassword")]
         public string ConfirmPassword { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

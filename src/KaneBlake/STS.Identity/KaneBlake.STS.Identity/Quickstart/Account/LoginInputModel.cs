@@ -11,9 +11,12 @@ namespace KaneBlake.STS.Identity
     public class LoginInputModel
     {
         [Required]
-        public string Username { get; set; }
+        [Display(Name = "UserName")]
+        public string UserName { get; set; }
         [Required]
+        [Display(Name = "Password")]
         public string Password { get; set; }
+        [Display(Name = "Remember My Login")]
         public bool RememberLogin { get; set; }
         public string ReturnUrl { get; set; }
     }

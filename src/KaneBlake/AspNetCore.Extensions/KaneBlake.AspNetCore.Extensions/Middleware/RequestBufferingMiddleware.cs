@@ -32,7 +32,10 @@ namespace KaneBlake.AspNetCore.Extensions.Middleware
 
                 // log Request.Body's content...
                 var bufferHex = BitConverter.ToString(buffer.ToArray());
-                _logger.LogInformation("Request.Body's content:\n{body}", bufferHex);
+                if (bufferHex.Length > 0) 
+                {
+                    _logger.LogInformation("Request.Body's content:\n{body}", bufferHex);
+                }
 
             }
             catch (Exception ex)

@@ -31,10 +31,21 @@ namespace KaneBlake.Basis.Common.Serialization
 
             if (!reader.TryGetDateTime(out DateTime value))
             {
-                if (!DateTime.TryParse(reader.GetString(), out value))
+                var text = reader.GetString();
+                if (!DateTime.TryParse(text, out value))
                 {
-                    return default;
+                    if (!double.TryParse(text, out var unixTimeStamp))
+                    {
+                        return default;
+                    }
+                    value = DateTime.UnixEpoch.AddMilliseconds(unixTimeStamp);
                 }
+
+            }
+
+            if (value.Kind.Equals(DateTimeKind.Unspecified))
+            {
+                value = value.ToLocalTime();
             }
 
             return value;

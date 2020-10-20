@@ -35,7 +35,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaneBlake.AspNetCore.Extens
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaneBlake.STS.Identity", "src\KaneBlake\STS.Identity\KaneBlake.STS.Identity\KaneBlake.STS.Identity.csproj", "{F491930C-1302-45D0-8BC2-2C3E9DA220ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hangfire.Dashboard.Management", "src\KaneBlake\Hangfire\Hangfire.Dashboard.Management\Hangfire.Dashboard.Management.csproj", "{2A131BFB-8C83-4F52-A185-4CFE2BE9F3AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hangfire.Dashboard.Management", "src\KaneBlake\Hangfire\Hangfire.Dashboard.Management\Hangfire.Dashboard.Management.csproj", "{2A131BFB-8C83-4F52-A185-4CFE2BE9F3AD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{9A47FC93-1800-4C5A-9BBE-28735A44B85D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaneBlake.Build.Core", "src\KaneBlake\Build\KaneBlake.Build.Core\KaneBlake.Build.Core.csproj", "{978E9FDC-B181-43A5-AC9D-C53549F9EB9D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaneBlake.Build", "src\KaneBlake\Build\KaneBlake.Build\KaneBlake.Build.csproj", "{7F5BCA30-31EA-4A78-9391-672E530C10DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +77,14 @@ Global
 		{2A131BFB-8C83-4F52-A185-4CFE2BE9F3AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A131BFB-8C83-4F52-A185-4CFE2BE9F3AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A131BFB-8C83-4F52-A185-4CFE2BE9F3AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{978E9FDC-B181-43A5-AC9D-C53549F9EB9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{978E9FDC-B181-43A5-AC9D-C53549F9EB9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{978E9FDC-B181-43A5-AC9D-C53549F9EB9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{978E9FDC-B181-43A5-AC9D-C53549F9EB9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F5BCA30-31EA-4A78-9391-672E530C10DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F5BCA30-31EA-4A78-9391-672E530C10DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F5BCA30-31EA-4A78-9391-672E530C10DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F5BCA30-31EA-4A78-9391-672E530C10DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,6 +98,9 @@ Global
 		{9171D1D7-499C-42BD-89F2-A523EB55E247} = {DE736364-2FF7-4E76-9F3F-BCCA2DF7C67F}
 		{F491930C-1302-45D0-8BC2-2C3E9DA220ED} = {DE736364-2FF7-4E76-9F3F-BCCA2DF7C67F}
 		{2A131BFB-8C83-4F52-A185-4CFE2BE9F3AD} = {DE736364-2FF7-4E76-9F3F-BCCA2DF7C67F}
+		{9A47FC93-1800-4C5A-9BBE-28735A44B85D} = {DE736364-2FF7-4E76-9F3F-BCCA2DF7C67F}
+		{978E9FDC-B181-43A5-AC9D-C53549F9EB9D} = {9A47FC93-1800-4C5A-9BBE-28735A44B85D}
+		{7F5BCA30-31EA-4A78-9391-672E530C10DF} = {9A47FC93-1800-4C5A-9BBE-28735A44B85D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {40B31C11-0E2F-4F50-8684-4C275C88FEB8}

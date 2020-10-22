@@ -108,8 +108,13 @@ namespace KaneBlake.VSTool
                 return;
             }
 
-
             var project = _dte2.SelectedItems.Item(1).Project;
+            var projectItem = _dte2.SelectedItems.Item(1).ProjectItem;
+            if (project == null) 
+            {
+                project = projectItem.ContainingProject;
+            }
+
             if (project == null)
             {
                 return;
@@ -177,7 +182,8 @@ namespace KaneBlake.VSTool
                         UseShellExecute = false,
                         CreateNoWindow = true,
                         RedirectStandardInput = true,
-                        RedirectStandardOutput = false,
+                        // when RedirectStandardOutput set true, it will block RedirectStandardInput
+                        RedirectStandardOutput = false, 
                         RedirectStandardError = false,
                     };
                     process.Start();

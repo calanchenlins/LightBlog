@@ -38,6 +38,11 @@
     <Groups>
       <Group guid="guidCommonToolsCommandPackageCmdSet" id="MyMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE"/>
+        <!--IDM_VS_CTXT_PROJNODE   IDM_VS_CTXT_ITEMNODE-->
+      </Group>
+      <Group guid="guidCommonToolsCommandPackageCmdSet" id="MyMenu2Group" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE"/>
+        <!--IDM_VS_CTXT_PROJNODE   IDM_VS_CTXT_ITEMNODE-->
       </Group>
     </Groups>
 
@@ -54,6 +59,22 @@
           If you do not want an image next to your command, remove the Icon node /> -->
       <Button guid="guidCommonToolsCommandPackageCmdSet" id="CommonToolsCommandId" priority="0x0100" type="Button">
         <Parent guid="guidCommonToolsCommandPackageCmdSet" id="MyMenuGroup" />
+        <Icon guid="guidImages" id="bmpPic1" />
+        <Strings>
+          <ButtonText>Fix Files In Project</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidCommonToolsCommandPackageCmdSet" id="CommonTools2CommandId" priority="0x0200" type="Button">
+        <Parent guid="guidCommonToolsCommandPackageCmdSet" id="MyMenuGroup" />
+        <Icon guid="guidImages" id="bmpPic1" />
+        <Strings>
+          <ButtonText>Fix Files In Solution</ButtonText>
+        </Strings>
+      </Button>
+
+
+      <Button guid="guidCommonToolsCommandPackageCmdSet" id="CommonTools3CommandId" priority="0x0100" type="Button">
+        <Parent guid="guidCommonToolsCommandPackageCmdSet" id="MyMenu2Group" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
           <ButtonText>Fix File</ButtonText>
@@ -79,7 +100,10 @@
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidCommonToolsCommandPackageCmdSet" value="{f6b75515-a717-4baf-abf1-ffaaa774b8a5}">
       <IDSymbol name="MyMenuGroup" value="0x1020" />
+      <IDSymbol name="MyMenu2Group" value="0x1040" />
       <IDSymbol name="CommonToolsCommandId" value="0x0100" />
+      <IDSymbol name="CommonTools2CommandId" value="0x0200" />
+      <IDSymbol name="CommonTools3CommandId" value="0x0300" />
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{922d9313-314f-4fee-a3ba-1f0e0c367e7f}" >

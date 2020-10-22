@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -118,6 +119,9 @@ namespace KaneBlake.VSTool
 
             if (menuCommand.CommandID.ID == PkgCmdIDList.cmdidKaneBlakeBuild)
             {
+                var stopwatch = new Stopwatch();
+                stopwatch.Start();
+
                 // Locate LanguageService Version
                 // https://github.com/dotnet/roslyn/blob/master/docs/wiki/NuGet-packages.md
 
@@ -130,6 +134,40 @@ namespace KaneBlake.VSTool
                 var projectDir = Path.GetDirectoryName(vsProject.FilePath);
                 var affectedFilesCount = 0;
 
+                var commands = new List<string>();
+                foreach (var document in vsProject.Documents)
+                {
+                    var fileExtension = Path.GetExtension(document.FilePath);
+                    var fileExtensions = new string[] { ".cs", ".vb" };
+                    if (!document.FilePath.EndsWith(".cshtml.g.cs") && fileExtensions.Contains(fileExtension))
+                    {
+                        var fileName = Path.GetFileName(document.FilePath);
+                        var text = document.GetTextAsync().ConfigureAwait(false).GetAwaiter().GetResult().ToString();
+                        var newFilePath = Path.ChangeExtension(document.FilePath, $"{fileExtension}cp");
+
+                        File.Delete(document.FilePath);
+
+                        if (File.Exists(document.FilePath))
+                        {
+                            OutputGeneralPane($"File Delete failed: {document.FilePath}");
+                        }
+
+                        using (var sw = new StreamWriter(newFilePath, false, Encoding.UTF8))
+                        {
+                            sw.AutoFlush = true;
+                            sw.WriteLine(text);
+                            sw.Flush();
+                        }
+                        if (!File.Exists(newFilePath))
+                        {
+                            OutputGeneralPane($"File Generate failed: {newFilePath}");
+                        }
+
+                        commands.Add($@"rename {newFilePath} {fileName}");
+                    }
+
+                }
+
                 using (var process = new System.Diagnostics.Process())
                 {
                     process.StartInfo = new ProcessStartInfo()
@@ -139,48 +177,34 @@ namespace KaneBlake.VSTool
                         UseShellExecute = false,
                         CreateNoWindow = true,
                         RedirectStandardInput = true,
-                        RedirectStandardOutput = true,
-                        RedirectStandardError = true,
+                        RedirectStandardOutput = false,
+                        RedirectStandardError = false,
                     };
                     process.Start();
                     process.StandardInput.AutoFlush = true;
 
-
-                    foreach (var document in vsProject.Documents)
+                    foreach (var commandText in commands) 
                     {
-                        var fileExtension = Path.GetExtension(document.FilePath);
-                        var fileExtensions = new string[] { ".cs", ".vb" };
-                        if (!document.FilePath.EndsWith(".cshtml.g.cs") && fileExtensions.Contains(fileExtension))
-                        {
-                            var fileName = Path.GetFileName(document.FilePath);
-                            var text = document.GetTextAsync().ConfigureAwait(false).GetAwaiter().GetResult().ToString();
-                            var newFilePath = Path.ChangeExtension(document.FilePath, $".{fileExtensions}cp");
+                        process.StandardInput.WriteLine(commandText);
+                        process.StandardInput.Flush();
 
-                            File.Delete(document.FilePath);
-
-                            using (var sw = new StreamWriter(newFilePath, false, Encoding.UTF8))
-                            {
-                                sw.WriteLine(text);
-                            }
-
-                            process.StandardInput.WriteLine($@"rename {newFilePath} {fileName}");
-
-                            affectedFilesCount++;
-                        }
-
+                        affectedFilesCount++;
                     }
 
                     process.StandardInput.WriteLine("exit");
+
                     if (!process.WaitForExit(10000))
                     {
                         process.Kill();
                     }
                 }
 
+                stopwatch.Stop();
+
                 // Show a message box to prove we were here
                 VsShellUtilities.ShowMessageBox(
                     this,
-                    $"Process Sucess.\n {affectedFilesCount} Files affected!",
+                    $"Process Sucess.\n {affectedFilesCount} Files affected! Time:{stopwatch.ElapsedMilliseconds} ms",
                     "",
                     OLEMSGICON.OLEMSGICON_INFO,
                     OLEMSGBUTTON.OLEMSGBUTTON_OK,
@@ -189,6 +213,72 @@ namespace KaneBlake.VSTool
             }
 
         }
+
+        private void OutputGeneralPane(string text) 
+        {
+            OutputString(VSConstants.OutputWindowPaneGuid.GeneralPane_guid, text);
+        }
+
+        private void OutputDebugPane(string text)
+        {
+            OutputString(VSConstants.OutputWindowPaneGuid.DebugPane_guid, text);
+        }
+
+        private void OutputBuildPane(string text)
+        {
+            OutputString(VSConstants.OutputWindowPaneGuid.BuildOutputPane_guid, text);
+        }
+
+        /// <summary>
+        /// https://docs.microsoft.com/zh-cn/visualstudio/extensibility/extending-the-output-window?view=vs-2019
+        /// </summary>
+        /// <param name="paneGuid"></param>
+        /// <param name="text"></param>
+        private void OutputString(Guid paneGuid, string text)// WriteToGeneralOutputWindowPane  LogMessageOutputWindow
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            const int VISIBLE = 1;
+            const int DO_NOT_CLEAR_WITH_SOLUTION = 0;
+
+            IVsOutputWindow outputWindow;
+            IVsOutputWindowPane outputWindowPane = null;
+            int hr;
+
+            // The General pane is not created by default. 
+            // Querying for SVsGeneralOutputWindowPane service will cause the General output pane to be created if it hasn't yet been created
+            if (paneGuid.Equals(VSConstants.OutputWindowPaneGuid.GeneralPane_guid))
+            {
+                outputWindowPane = (IVsOutputWindowPane)GetService(typeof(SVsGeneralOutputWindowPane));
+                Assumes.Present(outputWindowPane);
+            }
+            else 
+            {
+                outputWindow = (IVsOutputWindow)GetService(typeof(SVsOutputWindow));
+                Assumes.Present(outputWindow);
+
+                // Get the pane
+                hr = outputWindow.GetPane(ref paneGuid, out outputWindowPane);
+
+                if (outputWindowPane == null) 
+                {
+                    // Create a new pane if not exists
+                    hr = outputWindow.CreatePane(ref paneGuid,"New Pane\n", VISIBLE, DO_NOT_CLEAR_WITH_SOLUTION);
+                    ErrorHandler.ThrowOnFailure(hr);
+                    outputWindow.GetPane(ref paneGuid, out outputWindowPane);
+                }
+
+                
+            }
+
+            // Output the text
+            if (outputWindowPane != null)
+            {
+                outputWindowPane.Activate();
+                outputWindowPane.OutputString(text + Environment.NewLine);
+            }
+        }
+
+
         #endregion
     }
 

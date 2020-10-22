@@ -43,6 +43,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaneBlake.Build.Core", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaneBlake.Build", "src\KaneBlake\Build\KaneBlake.Build\KaneBlake.Build.csproj", "{7F5BCA30-31EA-4A78-9391-672E530C10DF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaneBlake.VSTool", "src\KaneBlake\Build\KaneBlake.VSTool\KaneBlake.VSTool.csproj", "{51FBD235-4FED-4D9B-8CB5-63E1408E5C81}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,10 @@ Global
 		{7F5BCA30-31EA-4A78-9391-672E530C10DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F5BCA30-31EA-4A78-9391-672E530C10DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F5BCA30-31EA-4A78-9391-672E530C10DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51FBD235-4FED-4D9B-8CB5-63E1408E5C81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51FBD235-4FED-4D9B-8CB5-63E1408E5C81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51FBD235-4FED-4D9B-8CB5-63E1408E5C81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51FBD235-4FED-4D9B-8CB5-63E1408E5C81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,6 +107,7 @@ Global
 		{9A47FC93-1800-4C5A-9BBE-28735A44B85D} = {DE736364-2FF7-4E76-9F3F-BCCA2DF7C67F}
 		{978E9FDC-B181-43A5-AC9D-C53549F9EB9D} = {9A47FC93-1800-4C5A-9BBE-28735A44B85D}
 		{7F5BCA30-31EA-4A78-9391-672E530C10DF} = {9A47FC93-1800-4C5A-9BBE-28735A44B85D}
+		{51FBD235-4FED-4D9B-8CB5-63E1408E5C81} = {9A47FC93-1800-4C5A-9BBE-28735A44B85D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {40B31C11-0E2F-4F50-8684-4C275C88FEB8}

@@ -93,131 +93,162 @@ namespace KaneBlake.VSTool
 
             if (await GetServiceAsync(typeof(IMenuCommandService)) is OleMenuCommandService oleMenuCommandService)
             {
-                var menuCommandId3 = new CommandID(GuidList.guidDbContextPackageCmdSet,
-                    (int)PkgCmdIDList.cmdidKaneBlakeBuild);
-                var menuItem3 = new OleMenuCommand(OnProjectContextMenuInvokeHandler, menuCommandId3);
-                oleMenuCommandService.AddCommand(menuItem3);
+                var menuCommandId1 = new CommandID(GuidList.guidDbContextPackageCmdSet,
+                    (int)PkgCmdIDList.cmdidVstFileEncoding);
+                var menuItem1 = new OleMenuCommand(OnProjectContextMenuInvokeHandler, menuCommandId1);
+                oleMenuCommandService.AddCommand(menuItem1);
+
+                var menuCommandId2 = new CommandID(GuidList.guidDbContextPackageCmdSet,
+                    (int)PkgCmdIDList.cmdidVstFileEncodingAll);
+                var menuItem2 = new OleMenuCommand(OnProjectContextMenuInvokeHandler, menuCommandId2);
+                oleMenuCommandService.AddCommand(menuItem2);
             }
         }
 
         private void OnProjectContextMenuInvokeHandler(object sender, EventArgs e)
         {
+
+
             ThreadHelper.ThrowIfNotOnUIThread();
             if (!(sender is MenuCommand menuCommand) || _dte2.SelectedItems.Count != 1)
             {
                 return;
             }
 
-            var project = _dte2.SelectedItems.Item(1).Project;
-            var projectItem = _dte2.SelectedItems.Item(1).ProjectItem;
-            if (project == null) 
+            var selectedProject = _dte2.SelectedItems.Item(1).Project;
+            var selectedProjectItem = _dte2.SelectedItems.Item(1).ProjectItem;
+            if (selectedProject == null) 
             {
-                project = projectItem.ContainingProject;
+                selectedProject = selectedProjectItem.ContainingProject;
             }
 
-            if (project == null)
+            if (selectedProject == null)
             {
                 return;
             }
 
-            var projectName = project.Name;
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
 
-            if (menuCommand.CommandID.ID == PkgCmdIDList.cmdidKaneBlakeBuild)
+            var selectedProjectName = selectedProject.Name;
+
+            // Locate LanguageService Version
+            // https://github.com/dotnet/roslyn/blob/master/docs/wiki/NuGet-packages.md
+
+            var componentModel = (IComponentModel)GetService(typeof(SComponentModel));
+            Assumes.Present(componentModel);
+            var workspace = componentModel.GetService<VisualStudioWorkspace>();
+            var projects = workspace.CurrentSolution.Projects;
+
+            if (menuCommand.CommandID.ID == PkgCmdIDList.cmdidVstFileEncoding)
             {
-                var stopwatch = new Stopwatch();
-                stopwatch.Start();
-
-                // Locate LanguageService Version
-                // https://github.com/dotnet/roslyn/blob/master/docs/wiki/NuGet-packages.md
-
-                var componentModel = (IComponentModel)GetService(typeof(SComponentModel));
-                Assumes.Present(componentModel);
-                var workspace = componentModel.GetService<VisualStudioWorkspace>();
-                var vsProject = workspace.CurrentSolution.Projects
-                    .FirstOrDefault(p => p.Name.Equals(projectName));
-
-                var projectDir = Path.GetDirectoryName(vsProject.FilePath);
-                var affectedFilesCount = 0;
-
-                var commands = new List<string>();
-                foreach (var document in vsProject.Documents)
-                {
-                    var fileExtension = Path.GetExtension(document.FilePath);
-                    var fileExtensions = new string[] { ".cs", ".vb" };
-                    if (!document.FilePath.EndsWith(".cshtml.g.cs") && fileExtensions.Contains(fileExtension))
-                    {
-                        var fileName = Path.GetFileName(document.FilePath);
-                        var text = document.GetTextAsync().ConfigureAwait(false).GetAwaiter().GetResult().ToString();
-                        var newFilePath = Path.ChangeExtension(document.FilePath, $"{fileExtension}cp");
-
-                        File.Delete(document.FilePath);
-
-                        if (File.Exists(document.FilePath))
-                        {
-                            OutputGeneralPane($"File Delete failed: {document.FilePath}");
-                        }
-
-                        using (var sw = new StreamWriter(newFilePath, false, Encoding.UTF8))
-                        {
-                            sw.AutoFlush = true;
-                            sw.WriteLine(text);
-                            sw.Flush();
-                        }
-                        if (!File.Exists(newFilePath))
-                        {
-                            OutputGeneralPane($"File Generate failed: {newFilePath}");
-                        }
-
-                        commands.Add($@"rename {newFilePath} {fileName}");
-                    }
-
-                }
-
-                using (var process = new System.Diagnostics.Process())
-                {
-                    process.StartInfo = new ProcessStartInfo()
-                    {
-                        FileName = "cmd.exe",
-                        Arguments = "",
-                        UseShellExecute = false,
-                        CreateNoWindow = true,
-                        RedirectStandardInput = true,
-                        // when RedirectStandardOutput set true, it will block RedirectStandardInput
-                        RedirectStandardOutput = false, 
-                        RedirectStandardError = false,
-                    };
-                    process.Start();
-                    process.StandardInput.AutoFlush = true;
-
-                    foreach (var commandText in commands) 
-                    {
-                        process.StandardInput.WriteLine(commandText);
-                        process.StandardInput.Flush();
-
-                        affectedFilesCount++;
-                    }
-
-                    process.StandardInput.WriteLine("exit");
-
-                    if (!process.WaitForExit(10000))
-                    {
-                        process.Kill();
-                    }
-                }
-
-                stopwatch.Stop();
-
-                // Show a message box to prove we were here
-                VsShellUtilities.ShowMessageBox(
-                    this,
-                    $"Process Sucess.\n {affectedFilesCount} Files affected! Time:{stopwatch.ElapsedMilliseconds} ms",
-                    "",
-                    OLEMSGICON.OLEMSGICON_INFO,
-                    OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+                projects = projects.Where(p => p.Name.Equals(selectedProjectName));
+            }
+            else if (menuCommand.CommandID.ID == PkgCmdIDList.cmdidVstFileEncodingAll)
+            {
 
             }
+            else 
+            {
+                return;
+            }
 
+            var affectedFilesCount = 0;
+            var commands = new List<string>();
+
+            var logContext = "";
+            try 
+            {
+                foreach (var project in projects)
+                {
+                    var projectDir = Path.GetDirectoryName(project.FilePath);
+
+                    foreach (var document in project.Documents)
+                    {
+                        logContext = document.FilePath;
+                        var fileExtension = Path.GetExtension(document.FilePath);
+                        var fileExtensions = new string[] { ".cs", ".vb" };
+                        if (!document.FilePath.EndsWith(".cshtml.g.cs") && fileExtensions.Contains(fileExtension) && File.Exists(document.FilePath))
+                        {
+                            var fileName = Path.GetFileName(document.FilePath);
+                            var text = document.GetTextAsync().ConfigureAwait(false).GetAwaiter().GetResult().ToString();
+                            var newFilePath = Path.ChangeExtension(document.FilePath, $"{fileExtension}cp");
+
+                            File.Delete(document.FilePath);
+
+                            if (File.Exists(document.FilePath))
+                            {
+                                OutputGeneralPane($"File Delete failed: {document.FilePath}");
+                            }
+
+                            using (var sw = new StreamWriter(newFilePath, false, Encoding.UTF8))
+                            {
+                                sw.AutoFlush = true;
+                                sw.WriteLine(text);
+                                sw.Flush();
+                            }
+                            if (!File.Exists(newFilePath))
+                            {
+                                OutputGeneralPane($"File Generate failed: {newFilePath}");
+                            }
+
+                            commands.Add($@"rename ""{newFilePath}"" ""{fileName}"" ");
+
+                        }
+
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                OutputGeneralPane($"File Fixe failed with Exception: {logContext}");
+                OutputGeneralPane(ex.ToString());
+            }
+
+
+            using (var process = new System.Diagnostics.Process())
+            {
+                process.StartInfo = new ProcessStartInfo()
+                {
+                    FileName = "cmd.exe",
+                    Arguments = "",
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    RedirectStandardInput = true,
+                    // when RedirectStandardOutput set true, it will block RedirectStandardInput
+                    RedirectStandardOutput = false,
+                    RedirectStandardError = false,
+                };
+                process.Start();
+                process.StandardInput.AutoFlush = true;
+
+                foreach (var commandText in commands)
+                {
+                    process.StandardInput.WriteLine(commandText);
+                    process.StandardInput.Flush();
+
+                    affectedFilesCount++;
+                }
+
+                process.StandardInput.WriteLine("exit");
+
+                if (!process.WaitForExit(10000))
+                {
+                    process.Kill();
+                }
+            }
+
+            stopwatch.Stop();
+
+            // Show a message box to prove we were here
+            VsShellUtilities.ShowMessageBox(
+                this,
+                $"Process Sucess.\n {affectedFilesCount} Files affected! Time:{stopwatch.ElapsedMilliseconds} ms",
+                "",
+                OLEMSGICON.OLEMSGICON_INFO,
+                OLEMSGBUTTON.OLEMSGBUTTON_OK,
+                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
         }
 
         private void OutputGeneralPane(string text) 
@@ -297,6 +328,7 @@ namespace KaneBlake.VSTool
 
     internal static class PkgCmdIDList
     {
-        public const uint cmdidKaneBlakeBuild = 0x0100;
+        public const uint cmdidVstFileEncoding = 0x0002;
+        public const uint cmdidVstFileEncodingAll = 0x0003;
     }
 }

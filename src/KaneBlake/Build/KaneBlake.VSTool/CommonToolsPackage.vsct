@@ -36,16 +36,31 @@
          group as the part of a menu contained between two lines. The parent of a group
          must be a menu. -->
     <Groups>
-      <Group guid="guidCommonToolsCommandPackageCmdSet" id="MyMenuGroup" priority="0x0600">
+      <Group guid="guidCommonToolsCommandPackageCmdSet" id="cmdidVstProjectMenuGroup" priority="0x0100">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE"/>
-        <!--IDM_VS_CTXT_PROJNODE   IDM_VS_CTXT_ITEMNODE-->
       </Group>
-      <Group guid="guidCommonToolsCommandPackageCmdSet" id="MyMenu2Group" priority="0x0600">
+      
+      <Group guid="guidCommonToolsCommandPackageCmdSet" id="cmdidVstFileEncodingProjectMenuItemsGroup" priority="0x0100">
+        <Parent guid="guidCommonToolsCommandPackageCmdSet" id="cmdidVstProjectMenu" />
+      </Group>
+        
+      <!--<Group guid="guidCommonToolsCommandPackageCmdSet" id="cmdidVSTItemMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE"/>
-        <!--IDM_VS_CTXT_PROJNODE   IDM_VS_CTXT_ITEMNODE-->
-      </Group>
+      </Group>-->
+    
+    
     </Groups>
 
+    <Menus>
+      <Menu guid="guidCommonToolsCommandPackageCmdSet" id="cmdidVstProjectMenu" priority="0x0100" type="Menu">
+        <Parent guid="guidCommonToolsCommandPackageCmdSet" id="cmdidVstProjectMenuGroup" />
+        <Strings>
+          <CommandName>Kane Blake Tools</CommandName>
+          <ButtonText>Kane Blake Tools</ButtonText>
+        </Strings>
+      </Menu>
+    </Menus>
+    
     <!--Buttons section. -->
     <!--This section defines the elements the user can interact with, like a menu command or a button
         or combo box in a toolbar. -->
@@ -57,29 +72,27 @@
               <CommandFlag>DefaultInvisible</CommandFlag>
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
-      <Button guid="guidCommonToolsCommandPackageCmdSet" id="CommonToolsCommandId" priority="0x0100" type="Button">
-        <Parent guid="guidCommonToolsCommandPackageCmdSet" id="MyMenuGroup" />
+      
+      <Button guid="guidCommonToolsCommandPackageCmdSet" id="cmdidVstFileEncoding" priority="0x0100" type="Button">
+        <Parent guid="guidCommonToolsCommandPackageCmdSet" id="cmdidVstFileEncodingProjectMenuItemsGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
+          <CommandName>cmdidVstFileEncoding</CommandName>
           <ButtonText>Fix Files In Project</ButtonText>
         </Strings>
       </Button>
-      <Button guid="guidCommonToolsCommandPackageCmdSet" id="CommonTools2CommandId" priority="0x0200" type="Button">
-        <Parent guid="guidCommonToolsCommandPackageCmdSet" id="MyMenuGroup" />
+      
+      <Button guid="guidCommonToolsCommandPackageCmdSet" id="cmdidVstFileEncodingAll" priority="0x0200" type="Button">
+        <Parent guid="guidCommonToolsCommandPackageCmdSet" id="cmdidVstFileEncodingProjectMenuItemsGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
+          <CommandName>cmdidVstFileEncodingAll</CommandName>
           <ButtonText>Fix Files In Solution</ButtonText>
         </Strings>
       </Button>
 
-
-      <Button guid="guidCommonToolsCommandPackageCmdSet" id="CommonTools3CommandId" priority="0x0100" type="Button">
-        <Parent guid="guidCommonToolsCommandPackageCmdSet" id="MyMenu2Group" />
-        <Icon guid="guidImages" id="bmpPic1" />
-        <Strings>
-          <ButtonText>Fix File</ButtonText>
-        </Strings>
-      </Button>
     </Buttons>
 
     <!--The bitmaps section is used to define the bitmaps that are used for the commands.-->
@@ -99,11 +112,22 @@
 
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidCommonToolsCommandPackageCmdSet" value="{f6b75515-a717-4baf-abf1-ffaaa774b8a5}">
-      <IDSymbol name="MyMenuGroup" value="0x1020" />
-      <IDSymbol name="MyMenu2Group" value="0x1040" />
-      <IDSymbol name="CommonToolsCommandId" value="0x0100" />
-      <IDSymbol name="CommonTools2CommandId" value="0x0200" />
-      <IDSymbol name="CommonTools3CommandId" value="0x0300" />
+    
+      <!-- Project Item Menu Entries -->
+
+      <IDSymbol name="cmdidVstProjectMenuGroup" value="0x0100" />
+      <IDSymbol name="cmdidVstFileEncodingProjectMenuItemsGroup" value="0x0200" />
+      
+      <!-- Project Menu Entries -->
+      
+      <IDSymbol name="cmdidVstProjectMenu" value="0x0001" />
+      <IDSymbol name="cmdidVstFileEncoding" value="0x0002" />
+      <IDSymbol name="cmdidVstFileEncodingAll" value="0x0003" />
+      
+    
+      
+      
+    
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{922d9313-314f-4fee-a3ba-1f0e0c367e7f}" >

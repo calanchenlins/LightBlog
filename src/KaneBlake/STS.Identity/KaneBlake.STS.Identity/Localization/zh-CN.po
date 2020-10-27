@@ -24,7 +24,7 @@ msgstr "作业调度"
 #: Views\Account\Login.cshtml:31
 msgctxt "Views.Account.Login"
 msgid "Sign in to KaneBlake"
-msgstr "加 入 KaneBlake"
+msgstr "加 入 Kane Blake"
 
 #. <button class="btn btn-primary btn-block" type="submit" name="button" value="SignUp">@H["Sign Up"]</button>
 #: Views\Account\SignUp.cshtml:44

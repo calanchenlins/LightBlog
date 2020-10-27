@@ -20,6 +20,10 @@ namespace KaneBlake.Build.Core.Localization
         public async Task Visit(DataStructure dataStructure)
         {
             var project = dataStructure.Project;
+            if (project == null) 
+            {
+                return;
+            }
             var projectPath = dataStructure.ProjectDirectory;
             var POEntries = dataStructure.LocalizerEntries;
             var solution = project.Solution;

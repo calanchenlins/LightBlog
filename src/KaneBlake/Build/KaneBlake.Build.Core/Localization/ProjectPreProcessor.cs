@@ -17,8 +17,11 @@ namespace KaneBlake.Build.Core.Localization
     {
         public int Order { get; set; } = int.MinValue;
 
+        private DataStructure _data;
+
         public async Task Visit(DataStructure dataStructure)
         {
+            _data = dataStructure;
             dataStructure.Project = await OpenProjectWithRazorGenerateCommandAsync(dataStructure.ProjectDirectory);
         }
 
@@ -43,6 +46,8 @@ namespace KaneBlake.Build.Core.Localization
             var projectFilePath = Directory.GetFiles(projectDirectory, "*.csproj", SearchOption.TopDirectoryOnly).FirstOrDefault();
             if (projectFilePath == null)
             {
+                Console.WriteLine($"command exit: Cannot find any project file in {projectDirectory}.");
+                _data.Exited = true;
                 return project;
             }
 

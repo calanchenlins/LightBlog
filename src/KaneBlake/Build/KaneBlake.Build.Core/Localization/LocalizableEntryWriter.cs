@@ -23,7 +23,7 @@ namespace KaneBlake.Build.Core.Localization
             var projectName = dataStructure.Project.Name;
             var projectPath = dataStructure.ProjectDirectory;
             var localizerEntries = dataStructure.LocalizerEntries;
-            var POFilePath = Path.Combine(projectPath, language + ".po");
+            var POFilePath = Path.Combine(projectPath, "Localization", language + ".po");
 
             POCatalog catalog = null;
             if (File.Exists(POFilePath))
@@ -43,6 +43,13 @@ namespace KaneBlake.Build.Core.Localization
                 {
                     var diagnostics = result.Diagnostics;
                     // examine diagnostics, display an error, etc...
+                    foreach (var diagnostic in diagnostics)
+                    {
+                        if (diagnostic.Severity.Equals(Karambolo.PO.DiagnosticSeverity.Error)) 
+                        {
+                            Console.WriteLine($"Error has occurred while Parse the PO file: {POFilePath}");
+                        }
+                    }
                 }
             }
             if (catalog == null)

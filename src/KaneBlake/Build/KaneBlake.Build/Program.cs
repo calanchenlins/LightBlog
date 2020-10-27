@@ -6,15 +6,25 @@ namespace KaneBlake.Build
 {
     class Program
     {
-        //dotnet-KaneBlake 
+        //dotnet-KaneBlake LocaleGenerate
         static async Task<int> Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-            var projectPath = @"C:\Users\Administrator\Desktop\SampleSolution\DNC.RazorClassLibrary";
-            //projectPath = @"C:\WorkStation\Code\GitHubCode\LightBlog\src\KaneBlake\STS.Identity\KaneBlake.STS.Identity";
+            if (args.Length == 0) 
+            {
+                return 1;
+            }
+            var task = args[0];
+            if (task.Equals("LocaleGenerate")) 
+            {
+                var projectPath = string.Empty;
+                if (args.Length > 1) 
+                {
+                    projectPath = args[1];
+                }
+                var service = new BuildService();
+                await service.Execute(projectPath);
+            }
 
-            var service = new BuildService();
-            await service.Execute(projectPath);
             return 0;
         }
     }

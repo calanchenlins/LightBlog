@@ -14,6 +14,7 @@ namespace KaneBlake.Build.Core.Localization
         public IList<LocalizableEntry> LocalizerEntries { get; private set; }
 
         private readonly List<IVisitor> Visitors;
+        public bool Exited { get; set; }
 
         public DataStructure(string projectDirectory)
         {
@@ -32,7 +33,10 @@ namespace KaneBlake.Build.Core.Localization
             var orderedVisitors = Visitors.OrderBy(v => v.Order);
             foreach (var visitor in orderedVisitors)
             {
-                await visitor.Visit(this);
+                if (!Exited) 
+                {
+                    await visitor.Visit(this);
+                }
             }
         }
     }

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="KaneBlake.VSTool.567b77e1-2daf-43f6-9263-3e71ed743b1c" Version="3.2" Language="en-US" Publisher="Kane-Blake" />
+        <Identity Id="KaneBlake.VSTool.567b77e1-2daf-43f6-9263-3e71ed743b1c" Version="1.0" Language="en-US" Publisher="Kane-Blake" />
         <DisplayName>KaneBlake.VSTool</DisplayName>
         <Description xml:space="preserve">Visual Studio Commmon ToolCommmon</Description>
     </Metadata>

@@ -9,12 +9,7 @@ namespace KaneBlake.Basis.Performance
         static void Main(string[] args)
         {
             var summary = BenchmarkRunner.Run(typeof(Program).Assembly);
-            //var th = new DiagnosticObserverBenchmark();
-            //th.WriteMessage();
-            //th.WriteMessagep();
-            //th.WriteMessagepno();
-            //th.WriteMessageMSno();
-            //th.WriteMessageMS();
+
         }
     }
 }

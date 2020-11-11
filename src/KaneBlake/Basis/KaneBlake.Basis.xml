@@ -223,6 +223,19 @@
             <param name="value"></param>
             <param name="options"></param>
         </member>
+        <member name="T:KaneBlake.Basis.Common.Serialization.JsonExtensions">
+            <summary>
+            Extension Methods based on <see cref="N:System.Text.Json"/>
+            </summary>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Serialization.JsonExtensions.Configure(System.Text.Json.JsonSerializerOptions,System.Action{System.Text.Json.JsonSerializerOptions})">
+            <summary>
+            Configure <see cref="T:System.Text.Json.JsonSerializerOptions"/> With default Vaule
+            </summary>
+            <param name="options"></param>
+            <param name="action"></param>
+            <returns></returns>
+        </member>
         <member name="T:KaneBlake.Basis.Common.Serialization.StringTrimJsonConverter">
             <summary>
             Converts an value of string to or from JSON.

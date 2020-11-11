@@ -1,11 +1,10 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
-
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace KaneBlake.STS.Identity
+namespace KaneBlake.AspNetCore.Extensions.MVC.Filters
 {
     public class SecurityHeadersAttribute : ActionFilterAttribute
     {
@@ -42,7 +41,7 @@ namespace KaneBlake.STS.Identity
                 // https://stackoverflow.com/questions/60632559/how-to-add-report-to-content-security-policy-directly-in-web-config
                 // https://community.brave.com/t/reporting-api-does-not-send-reports-in-dev-beta/74232
                 // reports are queued indefinitely in localhost 
-                if (!context.HttpContext.Request.Host.Host.Equals("localhost")) 
+                if (!context.HttpContext.Request.Host.Host.Equals("localhost"))
                 {
                     csp += "report-to csp-endpoint;";
                     if (!context.HttpContext.Response.Headers.ContainsKey("Report-To"))

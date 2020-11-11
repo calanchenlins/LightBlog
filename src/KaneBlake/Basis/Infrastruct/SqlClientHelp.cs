@@ -37,7 +37,11 @@ namespace CoreWeb.Util.Infrastruct
             cmd.ExecuteNonQuery();
             cmd.CommandText = sql;
             parameters?.ForEach(parm => cmd.Parameters.Add(parm));
-            var adapter = new SqlDataAdapter(cmd);
+            var adapter = new SqlDataAdapter(cmd)
+            {
+                MissingSchemaAction = MissingSchemaAction.AddWithKey,
+                MissingMappingAction = MissingMappingAction.Passthrough
+            };
             adapter.Fill(dt);
             adapter.Dispose();
             return dt;

@@ -23,10 +23,7 @@ using KaneBlake.STS.Identity.HangfireCustomDashboard;
 using KaneBlake.STS.Identity.Infrastruct.Context;
 using KaneBlake.STS.Identity.Infrastruct.Entities;
 using KaneBlake.STS.Identity.Infrastruct.Repository;
-using KaneBlake.STS.Identity.Quickstart;
 using KaneBlake.STS.Identity.Services;
-using MessagePack.AspNetCoreMvcFormatter;
-using MessagePack.Resolvers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -54,6 +51,8 @@ using KaneBlake.Basis.Common.Serialization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
+using KaneBlake.AspNetCore.Extensions.MVC.Filters;
+using System.Security.Cryptography.X509Certificates;
 
 namespace KaneBlake.STS.Identity
 {
@@ -112,7 +111,7 @@ namespace KaneBlake.STS.Identity
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
-                var supportedCultures = new[] { "zh-CN", "zh", "en-US", "en" };
+                var supportedCultures = new[] { "zh-CN", "en-US" };
 
                 options.SetDefaultCulture(supportedCultures[0])
                     .AddSupportedCultures(supportedCultures)
@@ -124,11 +123,12 @@ namespace KaneBlake.STS.Identity
             // Disable compression on dynamically generated pages which over secure connections to avoid security problems.
             services.AddResponseCompression();
 
-            services.AddStackExchangeRedisCache(options =>
-            {
-                options.Configuration = "localhost:5000";
-                options.InstanceName = "LightBlogCache";
-            });
+            //Microsoft.Extensions.Caching.StackExchangeRedis
+            //services.AddStackExchangeRedisCache(options =>
+            //{
+            //    options.Configuration = "localhost:5000";
+            //    options.InstanceName = "LightBlogCache";
+            //});
 
             ConfigureIdentityServer(services);
 
@@ -146,6 +146,7 @@ namespace KaneBlake.STS.Identity
             services.AddTransient<IUserService<User>, UserService>();
 
             services.AddScoped<EncryptFormResourceFilterAttribute>();
+            services.AddSingleton(AppInfo.Instance.Certificate);
             services.AddScoped<InjectResultActionFilter>();
 
             var jsPath = Hangfire.Dashboard.DashboardRoutes.Routes.Contains("/js[0-9]+") ? "/js[0-9]+" : "/js[0-9]{3}";
@@ -165,6 +166,7 @@ namespace KaneBlake.STS.Identity
 
             services.AddHostedService<ConsumeScopedServiceHostedService>();
             services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -226,6 +228,7 @@ namespace KaneBlake.STS.Identity
             {
                 endpoints.MapDefaultControllerRoute();
             });
+
         }
 
 

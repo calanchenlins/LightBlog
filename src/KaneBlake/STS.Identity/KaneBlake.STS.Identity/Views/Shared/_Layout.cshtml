@@ -1,11 +1,21 @@
-﻿@using IdentityServer4.Extensions
-@{
-    string name = null;
-    if (!true.Equals(ViewData["signed-out"]))
-    {
-        name = Context.User?.GetDisplayName();
-    }
+﻿@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.Extensions.Options
+@inject IOptions<RequestLocalizationOptions> requestLocalizationOptions
+
+@{ 
+    var requestCultureFeature = Context.Features.Get<IRequestCultureFeature>();
+
+    var currUICultureName = requestCultureFeature.RequestCulture.UICulture.NativeName;
+
+    var supportedUICultures = requestLocalizationOptions.Value.SupportedUICultures
+        .Select(c => new { Value = c.Name, Text = c.NativeName })
+        .ToList();
+    var requestPath = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
 }
+
+
+
 <!DOCTYPE html>
 <html class="h-100">
 <head>
@@ -21,7 +31,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-    
+
 <!--Sticky footer with fixed navbar-->
 <body class="d-flex flex-column h-100">
     <header>
@@ -60,14 +70,26 @@
                             <input class="form-control mr-sm-2" type="search" placeholder="@H["Search"]" aria-label="Search">
                         </form>
                         <ul class="navbar-nav">
-                            @if (!string.IsNullOrWhiteSpace(name))
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @H["Languages"]
+                                </a>
+                                <form class="dropdown-menu" asp-controller="Account" asp-action="SetLanguage" asp-route-returnUrl="@requestPath" method="post">
+                                    @foreach (var culture in supportedUICultures) 
+                                    {
+                                        <button class="dropdown-item" type="submit" name="culture" value="@culture.Value">@culture.Text</button>
+                                    }
+                                </form>
+                            </li>
+                            @if (Context.User.Identity.IsAuthenticated)
                             {
                                 <li class="nav-item">
                                     <a class="nav-link btn" asp-action="MyProfile" asp-controller="Account" role="button">@H["My Profile"]</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link btn btn-outline-secondary" asp-action="Logout" asp-controller="Account" role="button">@H["Logout"]</a>
-                                </li>
+                                </li> 
+                                        
                             }
                             else
                             {
@@ -77,8 +99,7 @@
                                 <li class="nav-item mx-auto">
                                     <a class="nav-link btn btn-outline-secondary px-5 px-lg-1 px-xl-1" asp-action="SignUp" asp-controller="Account" asp-route-returnUrl="/" role="button">@H["Sign Up"]</a>
                                 </li>
-
-
+                                                        
                             }
                         </ul>
                     </div>

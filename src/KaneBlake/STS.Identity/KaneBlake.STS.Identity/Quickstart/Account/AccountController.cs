@@ -9,7 +9,6 @@ using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
-using IdentityServer4.Test;
 using KaneBlake.STS.Identity.Infrastruct.Entities;
 using KaneBlake.STS.Identity.Services;
 using KaneBlake.Basis.Common.Cryptography;
@@ -22,28 +21,16 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Buffers.Text;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using System.Security.Cryptography;
-using KaneBlake.STS.Identity.Quickstart;
-using Hangfire;
-using Hangfire.Common;
-using System.Linq.Expressions;
-using CoreWeb.Util.Infrastruct;
-using Microsoft.AspNetCore.WebUtilities;
-using System.Reflection;
 using System.Collections.Generic;
-using Microsoft.Extensions.Primitives;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Builder;
 using KaneBlake.Basis.Services;
 using System.Runtime.CompilerServices;
 using KaneBlake.AspNetCore.Extensions.MVC;
 using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.AspNetCore.Localization;
+using KaneBlake.AspNetCore.Extensions.MVC.Filters;
 
 namespace KaneBlake.STS.Identity
 {
@@ -308,6 +295,19 @@ namespace KaneBlake.STS.Identity
                 return Content(publickey);
             }
             return NoContent();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+
+            return LocalRedirect(returnUrl);
         }
 
         [HttpPost]

@@ -1,27 +1,27 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MessagePack;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Threading.Tasks;
 using KaneBlake.Basis.Common.Cryptography;
-using KaneBlake.STS.Identity.Common;
-using MessagePack;
-using static MessagePack.MessagePackSerializer;
-using System.Text;
+using Microsoft.AspNetCore.WebUtilities;
 
-namespace KaneBlake.STS.Identity.Quickstart
+namespace KaneBlake.AspNetCore.Extensions.MVC.ModelBinding
 {
+
     public class EncryptFormValueProviderFactory : IValueProviderFactory
     {
+        private readonly X509Certificate2 _certificate;
 
-        public EncryptFormValueProviderFactory()
+
+        public EncryptFormValueProviderFactory(X509Certificate2 certificate)
         {
+            _certificate = certificate ?? throw new ArgumentNullException(nameof(certificate));
         }
 
         /// <inheritdoc />
@@ -33,8 +33,8 @@ namespace KaneBlake.STS.Identity.Quickstart
             }
 
             var request = context.ActionContext.HttpContext.Request;
-            if (request.ContentType.Equals("application/x-msgpack") 
-                && request.Headers.Any(h => "form-data-format".Equals(h.Key) && h.Value.Any(v => "EncryptionForm".Equals(v))) )
+            if (request.ContentType.Equals("application/x-msgpack")
+                && request.Headers.Any(h => "form-data-format".Equals(h.Key) && h.Value.Any(v => "EncryptionForm".Equals(v))))
             {
                 // Allocating a Task only when the body is form data with RsaEncryption.
                 return AddValueProviderAsync(context);
@@ -43,7 +43,7 @@ namespace KaneBlake.STS.Identity.Quickstart
             return Task.CompletedTask;
         }
 
-        private static async Task AddValueProviderAsync(ValueProviderFactoryContext context)
+        private async Task AddValueProviderAsync(ValueProviderFactoryContext context)
         {
             var request = context.ActionContext.HttpContext.Request;
             IFormCollection form;
@@ -56,7 +56,7 @@ namespace KaneBlake.STS.Identity.Quickstart
 
                 for (int i = 0; i < CiphertextArray.Length; i++)
                 {
-                    plainText.Append(AppInfo.Instance.Certificate.DecryptFromUTF8bytes(CiphertextArray[i]));
+                    plainText.Append(_certificate.DecryptFromUTF8bytes(CiphertextArray[i]));
                 }
                 var formReader = new FormReader(plainText.ToString());
                 var formFields = await formReader.ReadFormAsync();

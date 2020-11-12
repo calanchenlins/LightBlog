@@ -38,7 +38,7 @@ namespace KaneBlake.STS.Identity.Services
 
         public Task SignInAsync(User user, bool rememberLogin)
         {
-            _logger.LogDebug("SignInAsync");
+            _logger.LogInformation("{UserName} login sucess.", user.Username);
             // only set explicit expiration here if user chooses "remember me". 
             // otherwise we rely upon expiration configured in cookie middleware.
             AuthenticationProperties props = null;
@@ -52,6 +52,7 @@ namespace KaneBlake.STS.Identity.Services
             };
 
             // issue authentication cookie with subject ID and username
+            // ToDo: config AdditionalClaims
             var isuser = new IdentityServerUser(user.Id.ToString())
             {
                 DisplayName = user.Username

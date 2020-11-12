@@ -85,7 +85,8 @@ namespace KaneBlake.STS.Identity
                 .AddJsonOptions(options => options.JsonSerializerOptions.Configure())
                 .ConfigureApiBehaviorOptions(options =>
                 {
-                    options.SuppressModelStateInvalidFilter = false;//avoid adding duplicate Convention: InvalidModelStateFilterConvention
+                    // avoid adding duplicate Convention: InvalidModelStateFilterConvention
+                    options.SuppressModelStateInvalidFilter = false;
                     options.InvalidModelStateResponseFactory = context =>
                     {
                         var response = ServiceResponse.BadRequest(new SerializableModelError(context.ModelState));
@@ -105,9 +106,7 @@ namespace KaneBlake.STS.Identity
             }
 #endif
 
-            //services.AddLocalization(options => options.ResourcesPath = "Localization");
             services.AddPortableObjectLocalization(options => options.ResourcesPath = "Localization");
-
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
@@ -118,17 +117,22 @@ namespace KaneBlake.STS.Identity
                     .AddSupportedUICultures(supportedCultures);
             });
 
-            // https://resources.infosecinstitute.com/the-breach-attack/
-            // EnableForHttps = false：
-            // Disable compression on dynamically generated pages which over secure connections to avoid security problems.
-            services.AddResponseCompression();
 
-            //Microsoft.Extensions.Caching.StackExchangeRedis
+            services.AddResponseCompression((options) =>
+            {
+                // https://resources.infosecinstitute.com/the-breach-attack/
+                // Disable compression on dynamically generated pages which over secure connections to avoid security problems.
+                options.EnableForHttps = false;
+            });
+
+
+            // Microsoft.Extensions.Caching.StackExchangeRedis
             //services.AddStackExchangeRedisCache(options =>
             //{
             //    options.Configuration = "localhost:5000";
             //    options.InstanceName = "LightBlogCache";
             //});
+
 
             ConfigureIdentityServer(services);
 
@@ -141,26 +145,26 @@ namespace KaneBlake.STS.Identity
                         sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
                     });
             });
-
             services.AddTransient<IRepository<User, int>, UserRepository>();
             services.AddTransient<IUserService<User>, UserService>();
+
 
             services.AddScoped<EncryptFormResourceFilterAttribute>();
             services.AddSingleton(AppInfo.Instance.Certificate);
             services.AddScoped<InjectResultActionFilter>();
 
-            var jsPath = Hangfire.Dashboard.DashboardRoutes.Routes.Contains("/js[0-9]+") ? "/js[0-9]+" : "/js[0-9]{3}";
+
+            var jsPath = DashboardRoutes.Routes.Contains("/js[0-9]+") ? "/js[0-9]+" : "/js[0-9]{3}";
             //DashboardRoutes.Routes.Append(jsPath, new EmbeddedResourceDispatcher("application/javascript", Assembly.GetExecutingAssembly(),$"{typeof(Startup).Namespace}.HangfireCustomDashboard.hangfire.custom.js"));
-
-            //IOptions<StaticFileOptions> options, IWebHostEnvironment env
             DashboardRoutes.Routes.Append(jsPath, new StaticFileDispatcher("application/javascript", "js/hangfire.custom.js", Env.WebRootFileProvider));
-
             services.AddHangfire(x => x.UseSqlServerStorage(AppOptions.IdentityDB));
             services.AddHangfireServer();
 
 
             services.AddTransient<IJobManageService, JobManageService>();
             services.AddSingleton<JobEntryResolver>();
+
+
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
 
@@ -178,8 +182,13 @@ namespace KaneBlake.STS.Identity
             }
             else
             {
-                // app.UseExceptionHandler("/error_handle"); // errorHandlingPath: 改变请求路径后,后续中间件再次处理请求
-                // app.UseExceptionHandler(new ExceptionHandlerOptions() { ExceptionHandler = async context => await context.Response.WriteAsync("Unhandled exception occurred!") });// use RequestDelegate to handle exception:需要手动从IServiceProvider 中解析依赖的服务
+                // errorHandlingPath:改变请求路径后,后续中间件再次处理请求
+                //app.UseExceptionHandler("/error_handle");
+                // use RequestDelegate to handle exception:需要手动从 IServiceProvider 中解析依赖的服务
+                //app.UseExceptionHandler(new ExceptionHandlerOptions()
+                //{
+                //    ExceptionHandler = async context => await context.Response.WriteAsync("Unhandled exception occurred!")
+                //});
 
                 app.UseExceptionHandler(errorApp => errorApp.UseMiddleware<ExceptionHandlerCustomMiddleware>());
 
@@ -193,9 +202,7 @@ namespace KaneBlake.STS.Identity
 
 
             // Set up custom content types - associating file extension to MIME type
-            var provider = new FileExtensionContentTypeProvider();
             app.UseStaticFiles();
-
 
 
             app.UseCookiePolicy();
@@ -215,9 +222,9 @@ namespace KaneBlake.STS.Identity
             app.UseRouting();
             app.UseResponseCaching();
 
-            app.UseAuthorization();// 授权
+            app.UseAuthorization();
 
-            app.UseHangfireDashboard(AppInfo.HangfirePath,new DashboardOptions
+            app.UseHangfireDashboard(AppInfo.HangfirePath, new DashboardOptions
             {
                 Authorization = new[] { new HangfireDashboardAuthorizationFilter(AppInfo.HangfireLoginUrl) }
             });

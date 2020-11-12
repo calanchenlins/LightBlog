@@ -19,7 +19,8 @@ namespace KaneBlake.Basis.Common.Serialization
         /// <returns></returns>
         public static JsonSerializerOptions Configure(this JsonSerializerOptions options, Action<JsonSerializerOptions> action = null)
         {
-            options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase; // Use 'camelCase' casing.
+            // Use 'camelCase' casing.
+            options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase; 
             options.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
 
             // In AspNetCore, when PropertyNamingPolicy's value is CamelCase or null, PropertyNameCaseInsensitive's value will be set true

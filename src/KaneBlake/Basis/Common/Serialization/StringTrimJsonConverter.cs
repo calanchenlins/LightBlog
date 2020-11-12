@@ -32,7 +32,7 @@ namespace KaneBlake.Basis.Common.Serialization
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, string value, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(value.TrimEnd());
+            writer.WriteStringValue(value?.TrimEnd());
         }
     }
 }

@@ -24,7 +24,7 @@ namespace KaneBlake.Basis.Services
         }
 
         /// <summary>
-        /// Code = 302: 重定向
+        /// Code = 3002: 重定向
         /// </summary>
         /// <param name="Url"></param>
         /// <returns></returns>

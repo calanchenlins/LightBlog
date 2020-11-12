@@ -4,6 +4,8 @@
 @inject IOptions<RequestLocalizationOptions> requestLocalizationOptions
 
 @{ 
+    var isSignedOut = true.Equals(ViewData["signed-out"]);
+
     var requestCultureFeature = Context.Features.Get<IRequestCultureFeature>();
 
     var currUICultureName = requestCultureFeature.RequestCulture.UICulture.NativeName;
@@ -81,7 +83,7 @@
                                     }
                                 </form>
                             </li>
-                            @if (Context.User.Identity.IsAuthenticated)
+                            @if (!isSignedOut && Context.User.Identity.IsAuthenticated)
                             {
                                 <li class="nav-item">
                                     <a class="nav-link btn" asp-action="MyProfile" asp-controller="Account" role="button">@H["My Profile"]</a>

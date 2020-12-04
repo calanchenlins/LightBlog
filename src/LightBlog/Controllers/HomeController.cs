@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Distributed;
 using LightBlog.Services.Cache;
 using KaneBlake.Basis.Services;
+using Microsoft.AspNetCore.Authentication;
 
 namespace LightBlog.Controllers
 {
@@ -39,8 +40,10 @@ namespace LightBlog.Controllers
         /// 主页面
         /// </summary>
         /// <returns></returns>
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var token = await HttpContext.GetTokenAsync("access_token");
+
             //var result = _postService.GetPagePosts(0, 5, 0);
             //return View(result.Response);
             var res = _homeCacheService.GetPagePosts(5, 1);

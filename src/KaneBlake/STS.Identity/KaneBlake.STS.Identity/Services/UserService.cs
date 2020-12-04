@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace KaneBlake.STS.Identity.Services
@@ -55,8 +56,11 @@ namespace KaneBlake.STS.Identity.Services
             // ToDo: config AdditionalClaims
             var isuser = new IdentityServerUser(user.Id.ToString())
             {
-                DisplayName = user.Username
+                DisplayName = user.Username,
+                AdditionalClaims = new List<Claim>() { new Claim("tenantId","SH11"), new Claim("XX", "YY") }
             };
+
+            //                
 
             return _httpContextAccessor.HttpContext.SignInAsync(isuser, props);
         }

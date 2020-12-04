@@ -220,6 +220,19 @@ namespace KaneBlake.VSTool
                     RedirectStandardOutput = false,
                     RedirectStandardError = false,
                 };
+
+                //process.StartInfo = new ProcessStartInfo()
+                //{
+                //    FileName = "sh",
+                //    Arguments = "-c \"systemctl --version && dotnet --info\"",
+                //    UseShellExecute = false,
+                //    CreateNoWindow = true,
+                //    RedirectStandardInput = true,
+                //    // when RedirectStandardOutput set true, it will block RedirectStandardInput
+                //    RedirectStandardOutput = false,
+                //    RedirectStandardError = false,
+                //};
+
                 process.Start();
                 process.StandardInput.AutoFlush = true;
 

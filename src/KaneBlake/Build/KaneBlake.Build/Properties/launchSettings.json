@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "KaneBlake.Build": {
+      "commandName": "Project",
+      "commandLineArgs": "LocaleGenerate C:\\WorkStation\\Code\\GitHubCode\\LightBlog\\src\\KaneBlake\\STS.Identity\\KaneBlake.STS.Identity"
+    }
+  }
+}

@@ -53,6 +53,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using KaneBlake.AspNetCore.Extensions.MVC.Filters;
 using System.Security.Cryptography.X509Certificates;
+using DNTCaptcha.Core;
 
 namespace KaneBlake.STS.Identity
 {
@@ -171,6 +172,20 @@ namespace KaneBlake.STS.Identity
             services.AddHostedService<ConsumeScopedServiceHostedService>();
             services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
 
+
+            services.AddDNTCaptcha(options =>
+            // options.UseSessionStorageProvider() // -> It doesn't rely on the server or client's times. Also it's the safest one.
+            // options.UseMemoryCacheStorageProvider() // -> It relies on the server's times. It's safer than the CookieStorageProvider.
+            options.UseCookieStorageProvider() // -> It relies on the server and client's times. It's ideal for scalability, because it doesn't save anything in the server's memory
+            // options.UseDistributedCacheStorageProvider() // --> It's ideal for scalability using `services.AddStackExchangeRedisCache()` for instance.
+
+            // Don't set this line (remove it) to use the installed system's fonts (FontName = "Tahoma").
+            // Or if you want to use a custom font, make sure that font is present in the wwwroot/fonts folder and also use a good and complete font!
+            // .UseCustomFont(Path.Combine(_env.WebRootPath, "fonts", "name.ttf")) 
+            // .AbsoluteExpiration(minutes: 7)
+            // .ShowThousandsSeparators(false);
+    );
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -196,10 +211,9 @@ namespace KaneBlake.STS.Identity
                 app.UseHsts();
             }
             app.UseMiddleware<RequestBufferingMiddleware>();
-            app.UseHttpsRedirection();
-            // Use Ngix to enable Compression
-            app.UseResponseCompression();
 
+
+            app.UseHttpsRedirection();
 
             // Set up custom content types - associating file extension to MIME type
             app.UseStaticFiles();
@@ -214,15 +228,19 @@ namespace KaneBlake.STS.Identity
             // "key": "idsrv.session"
             app.UseIdentityServer();
 
+
             // Write streamlined request completion events, instead of the more verbose ones from the framework.
             // To use the default framework request logging instead, remove this line and set the "Microsoft"
             // level in appsettings.json to "Information".
             app.UseSerilogRequestLogging();
-
             app.UseRouting();
-            app.UseResponseCaching();
+
 
             app.UseAuthorization();
+            // Use Ngix to enable Compression
+            app.UseResponseCompression();
+            app.UseResponseCaching();
+
 
             app.UseHangfireDashboard(AppInfo.HangfirePath, new DashboardOptions
             {

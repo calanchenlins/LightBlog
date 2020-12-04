@@ -31,6 +31,7 @@ using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using System.IdentityModel.Tokens.Jwt;
 using OpenTelemetry.Trace;
+using Microsoft.AspNetCore.Authentication;
 
 namespace LightBlog
 {
@@ -68,7 +69,7 @@ namespace LightBlog
             // 清除token中的claim到.netCore中的claim的映射
             // 关闭了JWT的Claim 类型映射, 以便允许 well-known claims
             // 否则amr和sub声明的键名会被改变
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -89,6 +90,7 @@ namespace LightBlog
                     options.RequireHttpsMetadata = false;
                     options.Scope.Add("openid");
                     options.Scope.Add("profile");
+                    //options.ClaimActions.MapUniqueJsonKey("tenantId", "tenantId");
                     //options.Scope.Add("sample.api");
                 });
 

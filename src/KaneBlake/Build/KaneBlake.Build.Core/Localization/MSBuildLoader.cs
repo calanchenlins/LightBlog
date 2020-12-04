@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.MSBuild;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Text;
@@ -15,14 +16,18 @@ namespace KaneBlake.Build.Core.Localization
         {
             try
             {
-                var vsInstance = MSBuildLocator.RegisterDefaults();
-                msBuildPath = vsInstance.MSBuildPath;
+                // Since we are running as a dotnet tool we should be able to find an instance of
+                // MSBuild in a .NET Core SDK.
+                var msBuildInstance = MSBuildLocator.QueryVisualStudioInstances().First();
 
                 // Since we do not inherit msbuild.deps.json when referencing the SDK copy
                 // of MSBuild and because the SDK no longer ships with version matched assemblies, we
                 // register an assembly loader that will load assemblies from the msbuild path with
                 // equal or higher version numbers than requested.
-                LooseVersionAssemblyLoader.Register(msBuildPath);
+                LooseVersionAssemblyLoader.Register(msBuildInstance.MSBuildPath);
+                MSBuildLocator.RegisterInstance(msBuildInstance);
+
+                msBuildPath = msBuildInstance.MSBuildPath;
 
                 return true;
             }
@@ -81,6 +86,7 @@ namespace KaneBlake.Build.Core.Localization
 
             internal static Assembly? TryResolveAssemblyFromPaths(AssemblyLoadContext context, AssemblyName assemblyName, string searchPath, Dictionary<string, Assembly>? knownAssemblyPaths = null)
             {
+
                 foreach (var cultureSubfolder in string.IsNullOrEmpty(assemblyName.CultureName)
                     // If no culture is specified, attempt to load directly from
                     // the known dependency paths.
@@ -109,7 +115,10 @@ namespace KaneBlake.Build.Core.Localization
 
                         try
                         {
-                            return context.LoadFromAssemblyPath(candidatePath);
+                            var assembly = context.LoadFromAssemblyPath(candidatePath);
+
+
+                            return assembly;
                         }
                         catch
                         {

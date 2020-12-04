@@ -3,9 +3,12 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <!-- Always run on the latest runtime installed. -->
+    <RollForward>LatestMajor</RollForward>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>dotnet-KaneBlake</ToolCommandName>
+    <Version>1.1.2</Version>
   </PropertyGroup>
   
   <ItemGroup>

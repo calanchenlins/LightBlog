@@ -14,7 +14,7 @@ namespace KaneBlake.STS.Identity
     /// </summary>
     public class SignUpInputModel: IValidatableObject
     {
-        [Required]
+        [Required(ErrorMessage = "The {0} field is required.")]
         [Remote(action: "VerifyUserName", controller: "Account")]
         [Display(Name = "UserName")]
         public string UserName { get; set; }

@@ -29,6 +29,7 @@ namespace CoreWeb.Util.Infrastruct
             using var conn = new SqlConnection(conStr);
             DataTable dt = new DataTable();
             var cmd = conn.CreateCommand();
+            // https://docs.microsoft.com/zh-cn/sql/t-sql/statements/set-arithabort-transact-sql?view=sql-server-ver15
             cmd.CommandText = "SET ARITHABORT ON";
             if (conn.State == ConnectionState.Closed)
             {
@@ -39,6 +40,7 @@ namespace CoreWeb.Util.Infrastruct
             parameters?.ForEach(parm => cmd.Parameters.Add(parm));
             var adapter = new SqlDataAdapter(cmd)
             {
+                ReturnProviderSpecificTypes = false,
                 MissingSchemaAction = MissingSchemaAction.AddWithKey,
                 MissingMappingAction = MissingMappingAction.Passthrough
             };
@@ -139,6 +141,71 @@ namespace CoreWeb.Util.Infrastruct
             {
                 transaction.Dispose();
             }
+        }
+
+        public static void InsertTable(DataTable dt, string conStr)
+        {
+            using var connection = new SqlConnection(conStr);
+            connection.Open();
+
+            using SqlBulkCopy bulkCopy = new SqlBulkCopy(connection);
+            bulkCopy.DestinationTableName = $"dbo.{dt.TableName}";
+            bulkCopy.WriteToServer(dt);
+
+        }
+
+
+        public static void SyncTable(string sourceConStr, string destinationConStr, string tableName)
+        {
+            var source = SqlClientHelp.ReadDataTable($"select * from {tableName}", sourceConStr);
+
+            var destination = SqlClientHelp.ReadDataTable($"select * from {tableName}", destinationConStr);
+            destination.TableName = tableName;
+            //表结构转换
+            foreach (DataRow r in source.Rows)
+            {
+                DataRow newrow = destination.NewRow();
+
+                foreach (DataColumn dc in destination.Columns)
+                {
+                    foreach (DataColumn sc in source.Columns)
+                    {
+                        if (sc.ColumnName == dc.ColumnName)
+                        {
+                            try { newrow[dc.ColumnName] = r[sc.ColumnName]; }
+                            catch (Exception ex)
+                            {
+                                //throw new Exception($"字段");
+                                Console.WriteLine(ex);
+                            }
+                        }
+                    }
+                    if (!dc.AllowDBNull && newrow[dc.ColumnName].Equals(DBNull.Value))
+                    {
+                        if (dc.DataType.Equals(typeof(string)))
+                        {
+                            newrow[dc.ColumnName] = "";
+                        }
+                        else
+                        {
+                            newrow[dc.ColumnName] = dc.DataType.IsValueType ? Activator.CreateInstance(dc.DataType) : null;
+                        }
+                    }
+                    //if (!newrow.IsNull(dc.ColumnName) && dc.DataType.Equals(typeof(string)) && dc.MaxLength>0)
+                    //{
+                    //    var old = (newrow[dc.ColumnName] as string).Trim();
+                    //    newrow[dc.ColumnName] = old.Length> dc.MaxLength? old .Substring(0, dc.MaxLength-1) : old;
+                    //}
+
+
+                }
+
+                destination.Rows.Add(newrow);
+
+            }
+
+            InsertTable(destination, destinationConStr);
+
         }
     }
 }

@@ -40,6 +40,8 @@ namespace KaneBlake.Basis.Common.Diagnostics
 
             return listener;
         }
+
+        // called In DiagnosticListener.Dispose()
         public void OnCompleted()
         {
         }

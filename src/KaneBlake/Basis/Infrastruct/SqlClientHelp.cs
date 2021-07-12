@@ -46,6 +46,7 @@ namespace CoreWeb.Util.Infrastruct
             };
             adapter.Fill(dt);
             adapter.Dispose();
+            cmd.Parameters.Clear();
             return dt;
         }
 

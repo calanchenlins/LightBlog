@@ -8,6 +8,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightBlog", "src\LightBlog\LightBlog.csproj", "{287CABFF-5F9A-4B6A-9D61-A54247C0AC91}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "KaneBlake", "KaneBlake", "{DE736364-2FF7-4E76-9F3F-BCCA2DF7C67F}"
+	ProjectSection(SolutionItems) = preProject
+		src\KaneBlake\Directory.Build.props = src\KaneBlake\Directory.Build.props
+		src\KaneBlake\Directory.Build.targets = src\KaneBlake\Directory.Build.targets
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{564BE833-421C-4882-AA38-CBBAF1D30213}"
 	ProjectSection(SolutionItems) = preProject

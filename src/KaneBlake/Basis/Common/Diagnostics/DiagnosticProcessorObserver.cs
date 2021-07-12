@@ -29,6 +29,9 @@ namespace KaneBlake.Basis.Common.Diagnostics
                                            throw new ArgumentNullException(nameof(DiagnosticProcessors));
         }
 
+        /// <summary>
+        /// called when Observer of DiagnosticListener is disposed
+        /// </summary>
         public void OnCompleted()
         {
             _subscriptions.ForEach(x => x.Dispose());
@@ -39,6 +42,10 @@ namespace KaneBlake.Basis.Common.Diagnostics
         {
         }
 
+        /// <summary>
+        /// Called when a new DiagnosticListener gets created
+        /// </summary>
+        /// <param name="listener"></param>
         public void OnNext(DiagnosticListener listener)
         {
             foreach (var diagnosticProcessor in _tracingDiagnosticProcessors.Distinct(x => x.ListenerName))

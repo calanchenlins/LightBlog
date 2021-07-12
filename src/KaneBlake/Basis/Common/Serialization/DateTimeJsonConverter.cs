@@ -10,6 +10,8 @@ namespace KaneBlake.Basis.Common.Serialization
     /// <summary>
     ///  Converts an value of DateTime to or from JSON.
     ///  反序列化失败时返回默认值, 和不传递该参数的行为一致
+    ///  可空值类型默认使用其值类型的 JsonConverter
+    ///  <see href="https://github.com/dotnet/runtime/blob/main/src/libraries/System.Text.Json/src/System/Text/Json/Serialization/Converters/Value/NullableConverter.cs"/>
     ///  <see href="https://docs.microsoft.com/zh-cn/dotnet/standard/datetime/system-text-json-support"/>
     /// </summary>
     public class DateTimeJsonConverter : JsonConverter<DateTime>
@@ -25,7 +27,7 @@ namespace KaneBlake.Basis.Common.Serialization
         {
             Debug.Assert(typeToConvert == typeof(DateTime));
 
-            if (reader.TokenType != JsonTokenType.String)
+            if (reader.TokenType != JsonTokenType.String || reader.TokenType != JsonTokenType.Number)
             {
                 return default;
             }

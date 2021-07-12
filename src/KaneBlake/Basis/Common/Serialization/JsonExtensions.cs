@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -32,9 +33,14 @@ namespace KaneBlake.Basis.Common.Serialization
             // 2020-09-19T10:46:27.000Z       反序列化 => UTC时间    |序列化  |=>  |UTC时间             2020-09-19T10:46:27Z
             // 2020-09-19T10:46:27.000        反序列化 => 时区未确定  序列化   =>   时区未确定           2020-09-19T10:46:27.000
             options.Converters.Add(new DateTimeJsonConverter());
-            options.Converters.Add(new DateTimeNullableJsonConverter());
+            options.Converters.Add(new DateTimeOffsetJsonConverter());
 
             action?.Invoke(options);
+
+            if (options.Encoder is null)
+            {
+                options.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
+            }
 
             return options;
         }

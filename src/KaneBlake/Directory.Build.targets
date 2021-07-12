@@ -1,0 +1,21 @@
+<Project>
+
+  <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="BuildOnlySettings;ResolveReferences">
+    <ItemGroup>
+      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference')->WithMetadataValue('PrivateAssets', 'All'))" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="CopyAssemblyReferencesToPackage" DependsOnTargets="BuildOnlySettings;ResolveReferences">
+    <Message Importance="high" Text="@(ReferenceCopyLocalPaths->HasMetadata('ReferenceSourceTarget'))" />
+    <Message Importance="high" Text="@(ReferenceCopyLocalPaths->Metadata('ReferenceSourceTarget'))" />
+    <ItemGroup>
+      <!--https://docs.microsoft.com/zh-cn/visualstudio/msbuild/msbuild-targets?view=vs-2019-->
+      <!--https://docs.microsoft.com/en-us/visualstudio/msbuild/item-functions?view=vs-2019-->
+      <!--https://docs.microsoft.com/zh-cn/nuget/reference/msbuild-targets#pack-target-->
+      <!--@(ReferenceDependencyPaths):Paths to resolved dependency files, 不包含DLL动态链接的DLL-->
+      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ResolveAssemblyReference'))" />
+    </ItemGroup>
+  </Target>
+
+</Project>

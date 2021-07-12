@@ -37,11 +37,13 @@ namespace LightBlog
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            Env = env;
         }
 
+        public IWebHostEnvironment Env { get; set; }
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -155,7 +157,18 @@ namespace LightBlog
                       options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                   });
 
-            
+            services.AddWebOptimizer(pipeline =>
+            {
+                if (Env.IsProduction())
+                {
+                    pipeline.MinifyCssFiles();
+                    pipeline.MinifyJsFiles();
+                    pipeline.MinifyHtmlFiles();
+                }
+                // JavaScriptBundle CssBundle
+            });
+
+
         }
 
         public void ConfigureContainer(ContainerBuilder builder)

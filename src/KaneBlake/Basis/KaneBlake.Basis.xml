@@ -191,6 +191,8 @@
             <summary>
              Converts an value of DateTime to or from JSON.
              反序列化失败时返回默认值, 和不传递该参数的行为一致
+             可空值类型默认使用其值类型的 JsonConverter
+             <see href="https://github.com/dotnet/runtime/blob/main/src/libraries/System.Text.Json/src/System/Text/Json/Serialization/Converters/Value/NullableConverter.cs"/>
              <see href="https://docs.microsoft.com/zh-cn/dotnet/standard/datetime/system-text-json-support"/>
             </summary>
         </member>
@@ -211,24 +213,23 @@
             <param name="value"></param>
             <param name="options"></param>
         </member>
-        <member name="T:KaneBlake.Basis.Common.Serialization.DateTimeNullableJsonConverter">
+        <member name="T:KaneBlake.Basis.Common.Serialization.DateTimeOffsetJsonConverter">
             <summary>
-            Converts an value of DateTime? to or from JSON.
-            可空值类型默认使用其值类型的 JsonConverter
+            Converts an value of DateTimeOffset to or from JSON.
             </summary>
         </member>
-        <member name="M:KaneBlake.Basis.Common.Serialization.DateTimeNullableJsonConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
+        <member name="M:KaneBlake.Basis.Common.Serialization.DateTimeOffsetJsonConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
             <summary>
-            Reads and converts the JSON to type DateTime?.
+            Reads and converts the JSON to type DateTimeOffset.
             </summary>
             <param name="reader"></param>
             <param name="typeToConvert"></param>
             <param name="options"></param>
             <returns></returns>
         </member>
-        <member name="M:KaneBlake.Basis.Common.Serialization.DateTimeNullableJsonConverter.Write(System.Text.Json.Utf8JsonWriter,System.Nullable{System.DateTime},System.Text.Json.JsonSerializerOptions)">
+        <member name="M:KaneBlake.Basis.Common.Serialization.DateTimeOffsetJsonConverter.Write(System.Text.Json.Utf8JsonWriter,System.DateTimeOffset,System.Text.Json.JsonSerializerOptions)">
             <summary>
-            Writes a value of DateTime? as JSON.
+            Writes a value of DateTimeOffset as JSON.
             </summary>
             <param name="writer"></param>
             <param name="value"></param>

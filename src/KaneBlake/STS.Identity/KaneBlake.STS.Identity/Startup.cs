@@ -54,6 +54,7 @@ using Microsoft.AspNetCore.Localization;
 using KaneBlake.AspNetCore.Extensions.MVC.Filters;
 using System.Security.Cryptography.X509Certificates;
 using DNTCaptcha.Core;
+using KaneBlake.AspNetCore.Extensions.MultiTenancy;
 
 namespace KaneBlake.STS.Identity
 {
@@ -184,7 +185,11 @@ namespace KaneBlake.STS.Identity
             // .UseCustomFont(Path.Combine(_env.WebRootPath, "fonts", "name.ttf")) 
             // .AbsoluteExpiration(minutes: 7)
             // .ShowThousandsSeparators(false);
-    );
+            );
+
+
+            services.Configure<MultiTenancyOptions<string>>(Configuration.GetSection("MultiTenancy"));
+            services.PostConfigure<MultiTenancyOptions<string>>(options =>{});
 
         }
 
@@ -249,6 +254,7 @@ namespace KaneBlake.STS.Identity
 
             app.UseRequestLocalization();
 
+            app.UseMiddleware<MultiTenancyMiddleware<string>>();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();

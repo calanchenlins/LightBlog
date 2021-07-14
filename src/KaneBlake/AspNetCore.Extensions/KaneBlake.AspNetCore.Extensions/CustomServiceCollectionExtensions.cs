@@ -1,4 +1,5 @@
 ﻿using KaneBlake.AspNetCore.Extensions.ConnectedServices;
+using KaneBlake.AspNetCore.Extensions.MultiTenancy;
 using KaneBlake.AspNetCore.Extensions.MVC.ViewFeatures;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +33,18 @@ namespace KaneBlake.AspNetCore.Extensions
             services.AddHttpClient();
             services.AddSingleton<IWcfClientFactory, WcfClientFactory>();
             services.AddSingleton(typeof(IWcfClient<,>), typeof(WcfClientManager<,>));
+            return services;
+        }
+
+
+        /// <summary>
+        ///  Adds services required for using WcfClient.
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddMultiTenancy(this IServiceCollection services)
+        {
+            //services.Configure<MultiTenancyOptions<string>>(Configuration.GetSection("MultiTenancy"));
             return services;
         }
     }

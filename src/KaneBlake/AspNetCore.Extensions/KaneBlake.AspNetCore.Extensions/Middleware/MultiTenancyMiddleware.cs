@@ -33,39 +33,42 @@ namespace KaneBlake.AspNetCore.Extensions.Middleware
         }
 
 
-        public async Task InvokeAsync(HttpContext context)
+        public async Task InvokeAsync(HttpContext httpContext)
         {
-            if (context == null)
+            if (httpContext == null)
             {
-                throw new ArgumentNullException(nameof(context));
+                throw new ArgumentNullException(nameof(httpContext));
             }
 
-            TenantInfo<T> tenantInfo = null;
-
-            if (_options.RequestTenantProviders != null)
+            if (_options.IsEnabled) 
             {
-                foreach (var provider in _options.RequestTenantProviders)
-                {
-                    var providerTenantResult = await provider.DetermineProviderTenantResult(context);
+                TenantInfo<T> tenantInfo = null;
 
-                    if (providerTenantResult != null)
+                if (_options.RequestTenantProviders != null)
+                {
+                    foreach (var provider in _options.RequestTenantProviders)
                     {
-                        tenantInfo = await _options.TenantService.GetTenantInfoAsync(providerTenantResult.TenantId);
-                        if (tenantInfo != null) 
+                        var providerTenantResult = await provider.DetermineProviderTenantResult(httpContext);
+
+                        if (providerTenantResult != null)
                         {
-                            TenantInfo<T>.CurrentTenant = tenantInfo;
-                            break;
+                            tenantInfo = await _options.TenantService.GetTenantInfoAsync(providerTenantResult.TenantId);
+                            if (tenantInfo != null)
+                            {
+                                TenantInfo<T>.CurrentTenant = tenantInfo;
+                                break;
+                            }
                         }
                     }
                 }
+
+                if (tenantInfo == null)
+                {
+                    _logger.LogInformation("Resolved null tenantInfo from http request.");
+                }
             }
 
-            if (tenantInfo == null) 
-            {
-                _logger.LogInformation("Resolved null tenantInfo from http request.");
-            }
-
-            await _next(context);
+            await _next(httpContext);
         }
     }
 }

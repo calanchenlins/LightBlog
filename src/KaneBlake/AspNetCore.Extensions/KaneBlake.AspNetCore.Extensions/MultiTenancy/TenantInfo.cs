@@ -20,14 +20,19 @@ namespace KaneBlake.AspNetCore.Extensions.MultiTenancy
 
         public string Name { get; }
 
+        public bool SuperTenant { get; set; }
+
         public string this[string key] { get => _connectionStrings?.GetValueOrDefault(key); }
+
+
+        public bool TryGetConnectionString(string key, out string value) => _connectionStrings.TryGetValue(key, out value);
 
 
         public TenantInfo(T tenantId, string name = null, Dictionary<string, string> connectionStrings = null)
         {
             TenantId = tenantId;
             Name = name;
-            _connectionStrings = connectionStrings;
+            _connectionStrings = connectionStrings ?? new Dictionary<string, string>();
         }
 
 

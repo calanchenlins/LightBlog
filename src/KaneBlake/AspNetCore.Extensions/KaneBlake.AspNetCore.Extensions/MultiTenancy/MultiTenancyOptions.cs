@@ -11,7 +11,11 @@ namespace KaneBlake.AspNetCore.Extensions.MultiTenancy
     {
         public List<TenantConfiguration<T>> TenantConfiguration { get; set; }
 
-        public string MyProperty { get; private set; }
+        /// <summary>
+        /// A central point to enable/disable multi-tenancy.
+        /// Default: false. 
+        /// </summary>
+        public bool IsEnabled { get; set; } = false;
 
         /// <summary>
         /// Creates a new <see cref="MultiTenancyOptions"/> with default values.

@@ -1,4 +1,5 @@
 ﻿using IdentityServer4;
+using KaneBlake.AspNetCore.Extensions.MultiTenancy;
 using KaneBlake.Basis.Domain.Repositories;
 using KaneBlake.STS.Identity.Infrastruct.Entities;
 using Microsoft.AspNetCore.Authentication;
@@ -57,10 +58,14 @@ namespace KaneBlake.STS.Identity.Services
             var isuser = new IdentityServerUser(user.Id.ToString())
             {
                 DisplayName = user.Username,
-                AdditionalClaims = new List<Claim>() { new Claim("tenantId","SH11"), new Claim("XX", "YY") }
+                AdditionalClaims = new List<Claim>() { new Claim("XX", "YY") }
             };
 
-            //                
+            var currentTenant = TenantInfo<string>.CurrentTenant;
+            if (!string.IsNullOrEmpty(currentTenant?.TenantId)) 
+            {
+                isuser.AdditionalClaims.Add(new Claim("tenantId", TenantInfo<string>.CurrentTenant.TenantId));
+            }            
 
             return _httpContextAccessor.HttpContext.SignInAsync(isuser, props);
         }

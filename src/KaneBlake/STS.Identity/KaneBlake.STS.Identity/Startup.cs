@@ -55,6 +55,7 @@ using KaneBlake.AspNetCore.Extensions.MVC.Filters;
 using System.Security.Cryptography.X509Certificates;
 using DNTCaptcha.Core;
 using KaneBlake.AspNetCore.Extensions.MultiTenancy;
+using KaneBlake.AspNetCore.Extensions;
 
 namespace KaneBlake.STS.Identity
 {
@@ -139,9 +140,10 @@ namespace KaneBlake.STS.Identity
             ConfigureIdentityServer(services);
 
 
-            services.AddDbContext<UserDbContext>(options =>
+            services.AddDbContext<UserDbContext>((options) =>
             {
-                options.UseSqlServer(AppOptions.IdentityDB,
+                var identityConnStr = AppOptions.ResolveConnectionString<string>("Identity");
+                options.UseSqlServer(identityConnStr,
                     sqlServerOptionsAction: sqlOptions =>
                     {
                         sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
@@ -159,7 +161,10 @@ namespace KaneBlake.STS.Identity
             var jsPath = DashboardRoutes.Routes.Contains("/js[0-9]+") ? "/js[0-9]+" : "/js[0-9]{3}";
             //DashboardRoutes.Routes.Append(jsPath, new EmbeddedResourceDispatcher("application/javascript", Assembly.GetExecutingAssembly(),$"{typeof(Startup).Namespace}.HangfireCustomDashboard.hangfire.custom.js"));
             DashboardRoutes.Routes.Append(jsPath, new StaticFileDispatcher("application/javascript", "js/hangfire.custom.js", Env.WebRootFileProvider));
-            services.AddHangfire(x => x.UseSqlServerStorage(AppOptions.IdentityDB));
+
+
+            var IdentityConnStr = AppOptions.ResolveConnectionString<string>("Identity");
+            services.AddHangfire(x => x.UseSqlServerStorage(IdentityConnStr));
             services.AddHangfireServer();
 
 
@@ -189,7 +194,7 @@ namespace KaneBlake.STS.Identity
 
 
             services.Configure<MultiTenancyOptions<string>>(Configuration.GetSection("MultiTenancy"));
-            services.PostConfigure<MultiTenancyOptions<string>>(options =>{});
+            services.PostConfigure<MultiTenancyOptions<string>>(options => { });
 
         }
 
@@ -297,7 +302,8 @@ namespace KaneBlake.STS.Identity
                 .AddSigningCredential(AppInfo.Instance.Certificate)// 配置 token 加密的证书
                 .AddConfigurationStore(options =>// 持久化资源、客户端
                 {
-                    options.ConfigureDbContext = builder => builder.UseSqlServer(AppOptions.IdentityDB,
+                    options.ConfigureDbContext = builder => 
+                        builder.UseSqlServer(AppOptions.ResolveConnectionString<string>("Identity"),
                             sqlServerOptionsAction: sqlOptions =>
                             {
                                 // 配置ConfigurationDbContext在运行时迁移绑定的Assembly
@@ -307,7 +313,8 @@ namespace KaneBlake.STS.Identity
                 })
                 .AddOperationalStore(options =>// 持久化 授权码、刷新令牌、用户授权信息consents
                 {
-                    options.ConfigureDbContext = builder => builder.UseSqlServer(AppOptions.IdentityDB,
+                    options.ConfigureDbContext = builder => 
+                        builder.UseSqlServer(AppOptions.ResolveConnectionString<string>("Identity"),
                             sqlServerOptionsAction: sqlOptions =>
                             {
                                 sqlOptions.MigrationsAssembly(migrationsAssembly);

@@ -15,8 +15,13 @@ namespace KaneBlake.AspNetCore.Extensions.MultiTenancy
 
         public Task<TenantInfo<T>> GetTenantInfoAsync(T tenantId)
         {
+            TenantInfo<T> tenantInfo = default;
             var tenantConfiguration = Options.TenantConfiguration?.FirstOrDefault(t => tenantId.Equals(t.Id));
-            return Task.FromResult(new TenantInfo<T>(tenantConfiguration.Id, tenantConfiguration.Name));
+            if (tenantConfiguration != null) 
+            {
+                tenantInfo = new TenantInfo<T>(tenantConfiguration?.Id, tenantConfiguration?.Name, tenantConfiguration?.ConnectionStrings);
+            }
+            return Task.FromResult(tenantInfo);
         }
     }
 }

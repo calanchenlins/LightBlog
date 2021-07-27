@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -61,11 +62,12 @@ namespace KaneBlake.STS.Identity.Services
                 AdditionalClaims = new List<Claim>() { new Claim("XX", "YY") }
             };
 
-            var currentTenant = TenantInfo<string>.CurrentTenant;
-            if (!string.IsNullOrEmpty(currentTenant?.TenantId)) 
+            var currentActivity = Activity.Current;
+
+            foreach (var tag in currentActivity.Tags)
             {
-                isuser.AdditionalClaims.Add(new Claim("tenantId", TenantInfo<string>.CurrentTenant.TenantId));
-            }            
+                isuser.AdditionalClaims.Add(new Claim(tag.Key, tag.Value));
+            }
 
             return _httpContextAccessor.HttpContext.SignInAsync(isuser, props);
         }

@@ -12,31 +12,22 @@ using LightBlog.Data;
 using Autofac.Extensions.DependencyInjection;
 using KaneBlake.Basis.Common.Extensions;
 using KaneBlake.AspNetCore.Extensions.Hosting;
+using Serilog;
+using KaneBlake.AspNetCore.Extensions;
 
 namespace LightBlog
 {
     public class Program
     {
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build()
-                .MigrateDbContext<UserDbContext>((_, __) => { DataSeeder.UserDbSeeder(_); })
-                .MigrateDbContext<PostDbContext>((_, __) => { DataSeeder.PostDbSeeder(_); })
-                .Run();
-        }
-
-        public static IHostBuilder CreateWebHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+        public static int Main(string[] args) => Host.CreateDefaultBuilder(args)
             .UseServiceProviderFactory(new AutofacServiceProviderFactory())
             .ConfigureWebHostDefaults(webBuilder =>
             {
-                webBuilder.UseStartup<Startup>()
-                .ConfigureLogging((hostingContext, logging) =>
-                {
-                    logging.ClearProviders();
-                    logging.AddFile(hostingContext.Configuration);
-                });
-            });
+                webBuilder.UseStartup<Startup>();
+            }).UseSerilog().Build()
+            .MigrateDbContext<UserDbContext>((_, __) => { DataSeeder.UserDbSeeder(_); })
+            .MigrateDbContext<PostDbContext>((_, __) => { DataSeeder.PostDbSeeder(_); })
+            .RunWebHost();
 
     }
 }

@@ -194,7 +194,10 @@ namespace KaneBlake.STS.Identity
 
 
             services.Configure<MultiTenancyOptions<string>>(Configuration.GetSection("MultiTenancy"));
-            services.PostConfigure<MultiTenancyOptions<string>>(options => { });
+            services.PostConfigure<MultiTenancyOptions<string>>(options => {
+                IRequestTenantProvider<string> provider = null;
+                options.RequestTenantProviders.Add(provider);
+            });
 
         }
 

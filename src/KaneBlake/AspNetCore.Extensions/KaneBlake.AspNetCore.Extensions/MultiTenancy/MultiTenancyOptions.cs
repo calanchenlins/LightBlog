@@ -9,6 +9,7 @@ namespace KaneBlake.AspNetCore.Extensions.MultiTenancy
     /// </summary>
     public class MultiTenancyOptions<T> where T : class
     {
+        // 不该与 MultiTenancyOptions 耦合
         public List<TenantConfiguration<T>> TenantConfiguration { get; set; }
 
         /// <summary>
@@ -37,7 +38,7 @@ namespace KaneBlake.AspNetCore.Extensions.MultiTenancy
         ///     <item><description><see cref="QueryStringRequestTenantProvider{T}"/></description></item>
         /// </list>
         /// </summary>
-        public IList<IRequestTenantProvider<T>> RequestTenantProviders { get; set; }
+        public IList<IRequestTenantProvider<T>> RequestTenantProviders { get; }
 
         public ITenantService<T> TenantService { get; set; }
     }

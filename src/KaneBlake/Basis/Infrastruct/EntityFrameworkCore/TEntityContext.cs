@@ -16,7 +16,7 @@ namespace KaneBlake.Basis.Infrastruct.EntityFrameworkCore
     {
         private readonly ILoggerFactory _loggerFactory;
 
-        protected TEntityContext(DbContextOptions<TSelf> options,ILoggerFactory loggerFactory) : base(options)
+        protected TEntityContext(DbContextOptions options,ILoggerFactory loggerFactory) : base(options)
         {
             _loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
         }

@@ -1,0 +1,90 @@
+﻿<platform:DialogWindow x:Class="KaneBlake.VSTool.ToolWindows.ReplaceDialog"
+        xmlns:VM="clr-namespace:KaneBlake.VSTool.ToolWindows"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:platform="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=VM:ReplaceViewModel, IsDesignTimeCreatable=False}"
+        Title="Code Refactoring" Height="200" Width="322">
+    <Grid>
+
+        <Grid.Resources>
+            <Style TargetType="{x:Type Grid}">
+                <Setter Property="Margin" Value="10" />
+            </Style>
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="Margin" Value="0,3,5,5" />
+                <Setter Property="Padding" Value="0,0,0,5" />
+            </Style>
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="Margin" Value="0,0,0,5" />
+                <Style.Triggers>
+                    <Trigger Property="Validation.HasError" Value="true">
+                        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="{x:Type CheckBox}">
+                <Setter Property="Margin" Value="0,5"/>
+            </Style>
+            <Style TargetType="{x:Type StackPanel}" x:Key="ButtonRowStyle">
+                <Setter Property="Orientation" Value="Horizontal" />
+                <Setter Property="HorizontalAlignment" Value="Right" />
+            </Style>
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="Width" Value="70" />
+                <Setter Property="Height" Value="25" />
+                <Setter Property="Margin" Value="5,0,0,0" />
+            </Style>
+        </Grid.Resources>
+
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="0">
+            <CheckBox 
+                      Content="Synchronize namespaces with folder structure"
+                      IsChecked="{Binding AdjustNamespaces}"/>
+        </StackPanel>
+
+        <DockPanel Grid.Row="1">
+            <Label>File Encoding</Label>
+            <ComboBox 
+                HorizontalAlignment="Right"
+                Margin="0,3,0,5"
+                Padding="0,0,0,5"
+                MinWidth="120"
+                ItemsSource="{Binding GenerationModeList}"
+                SelectedItem="{Binding FileEncoding}"/>
+        </DockPanel>
+
+        <DockPanel Grid.Row="2">
+            <Label Width="76">Find what:</Label>
+            <TextBox Name="leftMarginTextBox" Text="{Binding FindTarget}">
+            </TextBox>
+        </DockPanel>
+
+        <DockPanel Grid.Row="3">
+            <Label >Replace with:</Label>
+            <TextBox Text="{Binding ReplaceWith}">
+            </TextBox>
+        </DockPanel>
+
+
+
+
+        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" Style="{StaticResource ButtonRowStyle}">
+            <Button Name="okButton" Click="okButton_Click" IsDefault="True">OK</Button>
+            <Button Name="cancelButton" IsCancel="True">Cancel</Button>
+        </StackPanel>
+    </Grid>
+</platform:DialogWindow>

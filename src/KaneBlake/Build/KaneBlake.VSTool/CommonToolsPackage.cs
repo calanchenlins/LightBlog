@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 using EnvDTE;
 using EnvDTE80;
 using Microsoft;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.LanguageServices;
@@ -107,8 +110,6 @@ namespace KaneBlake.VSTool
 
         private void OnProjectContextMenuInvokeHandler(object sender, EventArgs e)
         {
-
-
             ThreadHelper.ThrowIfNotOnUIThread();
             if (!(sender is MenuCommand menuCommand) || _dte2.SelectedItems.Count != 1)
             {
@@ -126,9 +127,6 @@ namespace KaneBlake.VSTool
             {
                 return;
             }
-
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
 
             var selectedProjectName = selectedProject.Name;
 
@@ -156,48 +154,76 @@ namespace KaneBlake.VSTool
             var affectedFilesCount = 0;
             var commands = new List<string>();
 
-            var logContext = "";
+            var dialogWindow = new ToolWindows.ReplaceDialog();
+            dialogWindow.ShowModal();
+
+            if (!dialogWindow.DialogResult.GetValueOrDefault()) 
+            {
+                return;
+            }
+
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            var refactoringOptions = dialogWindow.ViewModel;
+
+            if (refactoringOptions.AdjustNamespaces) 
+            {
+                projects = workspace.CurrentSolution.Projects;
+            }
+
+            var logContext = string.Empty;
             try 
             {
-                foreach (var project in projects)
+                var projectDocuments = projects.Select(project => project.Documents.ToList()).ToList();
+
+                var allDocuments = new List<Microsoft.CodeAnalysis.Document>(projectDocuments.Select(p=>p.Count).Sum());
+
+                projectDocuments.ForEach(documents => allDocuments.AddRange(documents));
+
+
+                if (refactoringOptions.AdjustNamespaces) 
                 {
-                    var projectDir = Path.GetDirectoryName(project.FilePath);
+                    SynchronizeNamespaces(projects, allDocuments);
+                }
 
-                    foreach (var document in project.Documents)
+
+                var encoding = Encoding.GetEncoding(refactoringOptions.FileEncoding);
+
+                // 修复文件编码
+                for (var documentIndex = 0; documentIndex < allDocuments.Count; documentIndex++)
+                {
+                    var document = allDocuments[documentIndex];
+                    logContext = document.FilePath;
+                    var fileExtension = Path.GetExtension(document.FilePath);
+                    var fileExtensions = new string[] { ".cs", ".vb" };
+                    if (!document.FilePath.EndsWith(".cshtml.g.cs") && fileExtensions.Contains(fileExtension) && File.Exists(document.FilePath))
                     {
-                        logContext = document.FilePath;
-                        var fileExtension = Path.GetExtension(document.FilePath);
-                        var fileExtensions = new string[] { ".cs", ".vb" };
-                        if (!document.FilePath.EndsWith(".cshtml.g.cs") && fileExtensions.Contains(fileExtension) && File.Exists(document.FilePath))
+                        var fileName = Path.GetFileName(document.FilePath);
+                        var text = document.GetTextAsync().ConfigureAwait(false).GetAwaiter().GetResult().ToString();
+                        var newFilePath = Path.ChangeExtension(document.FilePath, $"{fileExtension}cp");
+
+                        File.Delete(document.FilePath);
+
+                        if (File.Exists(document.FilePath))
                         {
-                            var fileName = Path.GetFileName(document.FilePath);
-                            var text = document.GetTextAsync().ConfigureAwait(false).GetAwaiter().GetResult().ToString();
-                            var newFilePath = Path.ChangeExtension(document.FilePath, $"{fileExtension}cp");
-
-                            File.Delete(document.FilePath);
-
-                            if (File.Exists(document.FilePath))
-                            {
-                                OutputGeneralPane($"File Delete failed: {document.FilePath}");
-                            }
-
-                            using (var sw = new StreamWriter(newFilePath, false, Encoding.UTF8))
-                            {
-                                sw.AutoFlush = true;
-                                sw.WriteLine(text);
-                                sw.Flush();
-                            }
-                            if (!File.Exists(newFilePath))
-                            {
-                                OutputGeneralPane($"File Generate failed: {newFilePath}");
-                            }
-
-                            commands.Add($@"rename ""{newFilePath}"" ""{fileName}"" ");
-
+                            OutputGeneralPane($"File Delete failed: {document.FilePath}");
                         }
 
-                    }
+                        using (var sw = new StreamWriter(newFilePath, false, encoding))
+                        {
+                            sw.AutoFlush = true;
+                            sw.WriteLine(text);
+                            sw.Flush();
+                        }
+                        if (!File.Exists(newFilePath))
+                        {
+                            OutputGeneralPane($"File Generate failed: {newFilePath}");
+                        }
 
+                        commands.Add($@"rename ""{newFilePath}"" ""{fileName}"" ");
+
+                    }
                 }
             }
             catch (Exception ex)
@@ -263,6 +289,134 @@ namespace KaneBlake.VSTool
                 OLEMSGBUTTON.OLEMSGBUTTON_OK,
                 OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
         }
+
+        private void SynchronizeNamespaces(IEnumerable<Microsoft.CodeAnalysis.Project> projects,List<Microsoft.CodeAnalysis.Document> allDocuments) 
+        {
+            var usingDirectiveChangelogs = new Dictionary<string, Dictionary<string, string>>();
+
+            var projectReferences = new Dictionary<string, List<string>>();
+
+            // 修复文件的命名空间
+            for (var documentIndex = 0; documentIndex < allDocuments.Count; documentIndex++)
+            {
+                var document = allDocuments[documentIndex];
+                var project = document.Project;
+                var projectNamespace = string.IsNullOrEmpty(project.DefaultNamespace) ? project.Name : project.DefaultNamespace;
+                var projectDir = Path.GetDirectoryName(project.FilePath);
+
+                if (document.TryGetSyntaxRoot(out var syntaxRoot) && syntaxRoot is CompilationUnitSyntax compilationUnitSyntax)
+                {
+                    var memberDeclarationSyntaxNodes = compilationUnitSyntax.Members.ToArray();
+                    var documentFixed = false;
+                    var documentDir = Path.GetDirectoryName(document.FilePath);
+                    for (var i = 0; i < memberDeclarationSyntaxNodes.Length; i++)
+                    {
+                        if (!(memberDeclarationSyntaxNodes[i] is NamespaceDeclarationSyntax namespaceDeclarationSyntaxNode))
+                        {
+                            continue;
+                        }
+
+                        var nameSpace = namespaceDeclarationSyntaxNode.Name.ToString();
+
+                        var fixedNameSpace = projectNamespace;
+
+                        if (documentDir.StartsWith(projectDir) && documentDir.Length > projectDir.Length)
+                        {
+                            var relativePath = documentDir.Substring(projectDir.Length);
+                            fixedNameSpace = projectNamespace + relativePath.Replace(Path.DirectorySeparatorChar, '.').Replace(Path.AltDirectorySeparatorChar, '.');
+                        }
+
+                        if (nameSpace.Equals(fixedNameSpace))
+                        {
+                            continue;
+                        }
+
+                        var identifierNameSyntaxNodes = fixedNameSpace.Split('.').Where(n => !string.IsNullOrEmpty(n))
+                            .Select(n => SyntaxFactory.IdentifierName(n)).ToArray();
+
+                        if (identifierNameSyntaxNodes.Length <= 0)
+                        {
+                            continue;
+                        }
+
+                        NameSyntax nameSyntaxNode = identifierNameSyntaxNodes[0];
+
+                        for (var ii = 1; ii < identifierNameSyntaxNodes.Length; ii++)
+                        {
+                            nameSyntaxNode = SyntaxFactory.QualifiedName(nameSyntaxNode, identifierNameSyntaxNodes[ii]);
+                        }
+
+                        if (!projectReferences.TryGetValue(project.FilePath, out var affectedProjects))
+                        {
+                            affectedProjects = projects.Where(p => p.AllProjectReferences.Any(r => r.ProjectId.Equals(project.Id))).Select(p => p.FilePath).ToList();
+                            affectedProjects.Add(project.FilePath);
+                            projectReferences.Add(project.FilePath, affectedProjects);
+                        }
+
+
+                        foreach (var affectedProject in affectedProjects)
+                        {
+                            if (!usingDirectiveChangelogs.TryGetValue(affectedProject, out var transformedNamespaces))
+                            {
+                                transformedNamespaces = new Dictionary<string, string>();
+                                usingDirectiveChangelogs.Add(affectedProject, transformedNamespaces);
+                            }
+                            transformedNamespaces[nameSpace] = nameSyntaxNode.ToString();
+                        }
+
+                        nameSyntaxNode = nameSyntaxNode.WithTrailingTrivia(SyntaxFactory.CarriageReturnLineFeed);
+
+                        memberDeclarationSyntaxNodes[i] = namespaceDeclarationSyntaxNode.WithName(nameSyntaxNode);
+
+                        documentFixed = true;
+                    }
+
+                    if (documentFixed)
+                    {
+                        allDocuments[documentIndex] = document
+                            .WithSyntaxRoot(
+                                compilationUnitSyntax.WithMembers(
+                                    new SyntaxList<MemberDeclarationSyntax>(memberDeclarationSyntaxNodes)));
+                    }
+                }
+            }
+
+
+            // 修复文件的命名空间引用
+            for (var documentIndex = 0; documentIndex < allDocuments.Count; documentIndex++)
+            {
+                var document = allDocuments[documentIndex];
+                if (!usingDirectiveChangelogs.TryGetValue(document.Project.FilePath, out var transformedNamespaces))
+                {
+                    continue;
+                }
+                if (document.TryGetSyntaxRoot(out var syntaxRoot) && syntaxRoot is CompilationUnitSyntax compilationUnitSyntax)
+                {
+                    var usingDirectiveSyntaxNodes = compilationUnitSyntax.Usings.ToArray();
+                    var documentFixed = false;
+                    var documentDir = Path.GetDirectoryName(document.FilePath);
+                    for (var i = 0; i < usingDirectiveSyntaxNodes.Length; i++)
+                    {
+                        var usingDirectiveSyntaxNode = usingDirectiveSyntaxNodes[i];
+                        var key = usingDirectiveSyntaxNode.Name.ToString();
+                        if (transformedNamespaces.ContainsKey(key))
+                        {
+                            usingDirectiveSyntaxNodes[i] = usingDirectiveSyntaxNode.WithName(SyntaxFactory.IdentifierName(transformedNamespaces[key]));
+                            documentFixed = true;
+                        }
+                    }
+                    if (documentFixed)
+                    {
+                        allDocuments[documentIndex] = document
+                            .WithSyntaxRoot(
+                                compilationUnitSyntax.WithUsings(
+                                    new SyntaxList<UsingDirectiveSyntax>(usingDirectiveSyntaxNodes)));
+                    }
+                }
+            }
+
+        }
+
 
         private void OutputGeneralPane(string text) 
         {

@@ -79,7 +79,7 @@
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <CommandName>cmdidVstFileEncoding</CommandName>
-          <ButtonText>Fix Files In Project</ButtonText>
+          <ButtonText>Code Refactoring In Project</ButtonText>
         </Strings>
       </Button>
       
@@ -89,7 +89,7 @@
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <CommandName>cmdidVstFileEncodingAll</CommandName>
-          <ButtonText>Fix Files In Solution</ButtonText>
+          <ButtonText>Code Refactoring In Solution</ButtonText>
         </Strings>
       </Button>
 

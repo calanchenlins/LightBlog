@@ -52,10 +52,7 @@ namespace KaneBlake.AspNetCore.Extensions.Hosting
                     }
                 }
 
-
-                services.AddSingleton<ApplicationServiceEntryResolver>();
-                services.Configure<ApplicationServiceOptions>(context.Configuration.GetSection("ApplicationServices"));
-                services.AddScoped<ApplicationService>();
+                services.AddApplicationServiceHandler(context.Configuration.GetSection("ApplicationServices"));
 
                 services.AddSingleton<IHostedService, InstrumentationHostedService>();
                 services.AddSingleton<IExecutionService, DiagnosticProcessorService>();

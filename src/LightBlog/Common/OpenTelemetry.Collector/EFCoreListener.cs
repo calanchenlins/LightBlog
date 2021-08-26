@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace LightBlog.Common.OpenTelemetry.Collector
 {
-    public class EFCoreListener : ListenerHandler
-    {
-        public EFCoreListener(string name, Tracer tracer)
-            : base(name)
-        {
-        }
-        public override void OnStartActivity(Activity activity, object payload)
-        {
-            throw new NotImplementedException();
-        }
-    }
+    //public class EFCoreListener : ListenerHandler
+    //{
+    //    public EFCoreListener(string name, Tracer tracer)
+    //        : base(name)
+    //    {
+    //    }
+    //    public override void OnStartActivity(Activity activity, object payload)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //}
 }

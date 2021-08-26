@@ -140,7 +140,7 @@ namespace KaneBlake.STS.Identity
             ConfigureIdentityServer(services);
 
 
-            services.AddDbContext<UserDbContext>((options) =>
+            services.AddDbContext<UserDbContext>((aa,options) =>
             {
                 var identityConnStr = AppOptions.ResolveConnectionString<string>("Identity");
                 options.UseSqlServer(identityConnStr,

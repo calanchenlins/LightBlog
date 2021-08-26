@@ -42,7 +42,7 @@ namespace LightBlog.Common.AOP.CommonCache
                     }
                 }
 
-                var key = $@"[{invocation.TargetType.Name}][{method.Name}]:{parameterValues}";
+                var key = $@"[{invocation.TargetType.FullName}][{method.Name}]:{parameterValues}";
 
                 if (_cache.TryGetValue(key, out object cacheValue))
                 {

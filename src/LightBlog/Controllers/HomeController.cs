@@ -15,6 +15,9 @@ using Microsoft.Extensions.Caching.Distributed;
 using LightBlog.Services.Cache;
 using KaneBlake.Basis.Services;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace LightBlog.Controllers
 {
@@ -28,12 +31,15 @@ namespace LightBlog.Controllers
 
         private readonly ILogger _logger;
 
-        public HomeController(IPostService postService, IOptions<FileLoggerOptions> options, ILogger<HomeController> logger, IHomeCacheService homeCacheService)
+        private readonly IConfiguration _configuration;
+
+        public HomeController(IPostService postService, IOptions<FileLoggerOptions> options, ILogger<HomeController> logger, IHomeCacheService homeCacheService, IConfiguration configuration)
         {
             _options = options.Value;
             _postService = postService ?? throw new ArgumentNullException(nameof(postService));
             _homeCacheService = homeCacheService ?? throw new ArgumentNullException(nameof(homeCacheService));
             _logger = logger;
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -42,6 +48,17 @@ namespace LightBlog.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Index()
         {
+            var connStr = _configuration["LightBlogDb"];
+            using var conn = new SqlConnection(connStr);
+            conn.Open();
+            var command = conn.CreateCommand();
+            command.CommandText = @"SELECT * FROM [dbo].[Post] Where [Id]=@Id;";
+            command.Parameters.AddWithValue("Id", 12);
+            var dataReader = command.ExecuteNonQuery();
+            //while (dataReader.Read()) 
+            //{
+            
+            //}
             var token = await HttpContext.GetTokenAsync("access_token");
 
             //var result = _postService.GetPagePosts(0, 5, 0);

@@ -5,7 +5,7 @@ using System.Text;
 namespace KaneBlake.AspNetCore.Extensions.MultiTenancy
 {
     /// <summary>
-    /// Specifies options for the <see cref="MultiTenancyMiddleware{T}"/>.
+    /// Specifies options for the <see cref="Middleware.MultiTenancyMiddleware{T}"/>.
     /// </summary>
     public class MultiTenancyOptions<T> where T : class
     {

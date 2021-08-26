@@ -15,6 +15,18 @@ using System.Threading.Tasks;
 
 namespace KaneBlake.AspNetCore.Extensions.Middleware
 {
+    public interface ICurrentTenant<T> where T: class
+    {
+        bool IsAvailable { get; }
+
+        T Id { get; }
+
+        string Name { get; }
+
+        IDisposable Change(Guid? id, string name = null);
+    }
+
+
     public class MultiTenancyMiddleware<T> where T : class
     {
         private readonly RequestDelegate _next;

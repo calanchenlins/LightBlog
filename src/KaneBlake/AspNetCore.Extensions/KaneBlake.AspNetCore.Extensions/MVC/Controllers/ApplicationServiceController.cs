@@ -1,4 +1,4 @@
-﻿using KaneBlake.AspNetCore.Extensions.Services;
+﻿using KaneBlake.AspNetCore.Extensions.Services.Module;
 using KaneBlake.Basis.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,21 +16,26 @@ namespace KaneBlake.AspNetCore.Extensions.MVC.Controllers
     {
         private readonly ILogger<ApplicationServiceController> _logger;
 
-        private readonly ApplicationService _srv;
+        private readonly IApplicationServiceClient _srvClient;
 
-        public ApplicationServiceController(ILogger<ApplicationServiceController> logger, ApplicationService srv)
+        public ApplicationServiceController(ILogger<ApplicationServiceController> logger, IApplicationServiceClient srvClient)
         {
             _logger = logger;
-            _srv = srv;
+            _srvClient = srvClient ?? throw new ArgumentNullException(nameof(srvClient));
         }
 
 
+        /// <summary>
+        /// Invoke applicationService with the specified name
+        /// </summary>
+        /// <param name="serviceName">name of service</param>
+        /// <returns></returns>
         [HttpPost]
-        [Route("/{serviceName}")]
+        [Route("{serviceName}")]
         [ProducesResponseType(typeof(ServiceResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Submit(string serviceName) 
         {
-            return Ok(await _srv.InvokeAsync(serviceName, Request));
+            return Ok(await _srvClient.InvokeAsync(serviceName, Request));
         }
 
 

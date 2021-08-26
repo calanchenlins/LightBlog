@@ -145,11 +145,12 @@ namespace LightBlog
 
             //var InstrumentationKey = Configuration["ApplicationInsightsInstrumentationKey"];
 
-            //services.AddOpenTelemetryTracing(
-            //    (builder) => builder
-            //            .AddAspNetCoreInstrumentation()
-            //            .AddJaegerExporter()
-            //            );
+            services.AddOpenTelemetryTracing(
+                (builder) => builder
+                        .AddAspNetCoreInstrumentation()
+                        .AddSqlClientInstrumentation(options => options.SetDbStatementForText = true)
+                        .AddConsoleExporter()
+                        );
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                   .AddNewtonsoftJson(options =>

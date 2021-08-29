@@ -77,7 +77,7 @@ namespace LightBlog
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = "oidc";
             })
-                // code 验证成功之后，将凭证写入cookie
+                // code 验证成功之后, 将凭证写入cookie
                 // 在cookie有效期内不需要重新申请code, 直接通过凭证获取token ???
                 .AddCookie(setup => setup.ExpireTimeSpan = TimeSpan.FromHours(2))
                 .AddOpenIdConnect("oidc", options =>

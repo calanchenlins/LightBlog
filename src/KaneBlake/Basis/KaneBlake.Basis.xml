@@ -187,6 +187,71 @@
             
             </summary>
         </member>
+        <member name="T:KaneBlake.Basis.Common.Profiling.MiniProfilerLogConfigureOptions">
+            <summary>
+            Sets up logging options for <see cref="T:StackExchange.Profiling.Internal.MiniProfilerBaseOptions"/>.
+            </summary>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Profiling.MiniProfilerLogConfigureOptions.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Initializes an instance of <see cref="T:KaneBlake.Basis.Common.Profiling.MiniProfilerLogConfigureOptions"/>.
+            </summary>
+            <param name="loggerFactory"></param>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Profiling.MiniProfilerLogConfigureOptions.Configure(StackExchange.Profiling.Internal.MiniProfilerBaseOptions)">
+            <summary>
+            Add the <see cref="T:KaneBlake.Basis.Common.Profiling.LogStorage"/> to <see cref="T:StackExchange.Profiling.Internal.MiniProfilerBaseOptions"/>.
+            </summary>
+            <param name="options"></param>
+        </member>
+        <member name="T:KaneBlake.Basis.Common.Profiling.LogStorage">
+            <summary>
+            An wrapped <see cref="T:StackExchange.Profiling.Storage.IAsyncStorage"/> with Logging.
+            </summary>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.#ctor(StackExchange.Profiling.Storage.IAsyncStorage,Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Creates a new <see cref="T:KaneBlake.Basis.Common.Profiling.LogStorage"/> with the specified <see cref="T:StackExchange.Profiling.Storage.IAsyncStorage" /> and <see cref="T:Microsoft.Extensions.Logging.ILoggerFactory"/>.
+            </summary>
+            <param name="storage"></param>
+            <param name="loggerFactory"></param>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.GetUnviewedIds(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.GetUnviewedIdsAsync(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.List(System.Int32,System.Nullable{System.DateTime},System.Nullable{System.DateTime},StackExchange.Profiling.Storage.ListResultsOrder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.ListAsync(System.Int32,System.Nullable{System.DateTime},System.Nullable{System.DateTime},StackExchange.Profiling.Storage.ListResultsOrder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.Load(System.Guid)">
+            <inheritdoc/>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.LoadAsync(System.Guid)">
+            <inheritdoc/>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.Save(StackExchange.Profiling.MiniProfiler)">
+            <inheritdoc/>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.SaveAsync(StackExchange.Profiling.MiniProfiler)">
+            <inheritdoc/>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.SetUnviewed(System.String,System.Guid)">
+            <inheritdoc/>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.SetUnviewedAsync(System.String,System.Guid)">
+            <inheritdoc/>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.SetViewed(System.String,System.Guid)">
+            <inheritdoc/>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.SetViewedAsync(System.String,System.Guid)">
+            <inheritdoc/>
+        </member>
         <member name="T:KaneBlake.Basis.Common.Serialization.DateTimeJsonConverter">
             <summary>
              Converts an value of DateTime to or from JSON.
@@ -391,6 +456,33 @@
             <summary>
             工作单元提交
             </summary>
+        </member>
+        <member name="T:KaneBlake.Basis.Infrastruct.DbConnectionFactory">
+            <summary>
+            A factory used to create <see cref="T:System.Data.Common.DbConnection"/> instances.
+            </summary>
+        </member>
+        <member name="M:KaneBlake.Basis.Infrastruct.DbConnectionFactory.CreateSqlConnection(System.String)">
+            <summary>
+            Creates a profiled <see cref="T:System.Data.Common.DbConnection"/> based on the given connection string.
+            </summary>
+            <param name="connectionString">The connection string used to create <see cref="T:System.Data.Common.DbConnection"/>.</param>
+            <returns>
+            An initialized <see cref="T:System.Data.Common.DbConnection"/>.
+            </returns>
+        </member>
+        <member name="T:KaneBlake.Basis.Infrastruct.DbConnectionExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Data.Common.DbConnection"/>
+            </summary>
+        </member>
+        <member name="M:KaneBlake.Basis.Infrastruct.DbConnectionExtensions.AsProfiling(System.Data.Common.DbConnection)">
+            <summary>
+            Returns a new DbConnection that wraps connection, providing query execution profiling.
+            <para>If profiler is null, no profiling will occur.</para>
+            </summary>
+            <param name="connection">The <see cref="T:System.Data.Common.DbConnection"/> to Profiled.</param>
+            <returns></returns>
         </member>
         <member name="T:KaneBlake.Basis.Infrastruct.EntityFrameworkCore.EFRepository`1">
             <summary>

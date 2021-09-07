@@ -5,6 +5,8 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace KaneBlake.AspNetCore.Extensions.Services.Module
@@ -195,6 +197,9 @@ namespace KaneBlake.AspNetCore.Extensions.Services.Module
 
         private class ApplicationServiceContext : IApplicationServiceContext
         {
+            [JsonExtensionData]
+            public IDictionary<string, JsonElement> Extensions { get; set; } = new Dictionary<string, JsonElement>(StringComparer.Ordinal);
+
             public IDictionary<object, object> Items { get; set; } = new Dictionary<object, object>();
         }
 

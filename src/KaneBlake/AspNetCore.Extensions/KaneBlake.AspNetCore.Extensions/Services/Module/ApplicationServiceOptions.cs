@@ -17,16 +17,6 @@ namespace KaneBlake.AspNetCore.Extensions.Services.Module
         public class ServiceConfiguration
         {
             /// <summary>
-            /// The fully qualified name of application service request parameter's type
-            /// </summary>
-            public string Parameter { get; set; }
-
-            /// <summary>
-            /// The fully qualified name of application service returnValue's type
-            /// </summary>
-            public string ReturnValue { get; set; }
-
-            /// <summary>
             /// The list of application service component
             /// </summary>
             public List<ComponentConfiguration> Components { get; set; }

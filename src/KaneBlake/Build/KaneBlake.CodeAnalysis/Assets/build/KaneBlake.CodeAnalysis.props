@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project>
+  <ItemGroup>
+    <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="GeneratorName" />
+    <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="HbsLoadType" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(SourceGeneratorTemplate)'!='true'">
+    <AdditionalFiles Include="CodeTemplates\AutoInterfaceImplementGenerator\Class.hbs" GeneratorName="AutoInterfaceImplement" HbsLoadType="Startup" />
+    <AdditionalFiles Include="CodeTemplates\AutoInterfaceImplementGenerator\Partials\Properties.hbs" GeneratorName="AutoInterfaceImplement" HbsLoadType="Partial" />
+  </ItemGroup>
+</Project>

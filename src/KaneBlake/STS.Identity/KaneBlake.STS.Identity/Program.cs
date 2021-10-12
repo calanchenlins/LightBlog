@@ -23,7 +23,7 @@ namespace KaneBlake.STS.Identity
             {
                 webBuilder.UseStartup<Startup>();
             }).UseSerilog().Build()
-            //.MigrateDbContext<PersistedGrantDbContext>((_, __) => { })
+            .MigrateDbContext<Infrastruct.Context.UserDbContext>((_, __) => { })
             //.MigrateDbContext<ConfigurationDbContext>((_, __) => { DataSeeder.Seed(_); })
             .RunWebHost();
     }

@@ -89,22 +89,6 @@ namespace KaneBlake.AspNetCore.Extensions.Services.Module
                 return null;
             }
 
-            
-            Type parameterType = null;
-            Type returnValueType = null;
-
-            if (!string.IsNullOrWhiteSpace(serviceConfiguration.Parameter) &&
-                (parameterType = GetType(serviceName, serviceConfiguration.Parameter)) is null)
-            {
-                return null;
-            }
-
-            if (!string.IsNullOrWhiteSpace(serviceConfiguration.ReturnValue) &&
-                (returnValueType = GetType(serviceName, serviceConfiguration.ReturnValue)) is null
-                )
-            {
-                return null;
-            }
 
             var orderedComponentNames = serviceConfiguration.Components
                 .Where(c=>!string.IsNullOrWhiteSpace(c.Name))
@@ -112,7 +96,7 @@ namespace KaneBlake.AspNetCore.Extensions.Services.Module
                 .Select(c => c.Name.Trim())
                 .ToArray();
 
-            return new ApplicationServiceCacheEntry(parameterType, returnValueType, orderedComponentNames);
+            return new ApplicationServiceCacheEntry(orderedComponentNames);
         }
 
         private Type GetType(string serviceName, string typeName)
@@ -143,105 +127,12 @@ namespace KaneBlake.AspNetCore.Extensions.Services.Module
     /// </summary>
     internal class ApplicationServiceCacheEntry
     {
-        /// <summary>
-        /// The type of application service request parameter
-        /// </summary>
-        public Type ParameterType { get; }
-
-        /// <summary>
-        /// The type of application service returnValue
-        /// </summary>
-        public Type ReturnValueType { get; }
-
         public string[] OrderedComponentNames { get; set; }
 
-        private Type _contextType;
-
-        public ApplicationServiceCacheEntry(Type parameterType, Type returnValueType, string[] orderedComponentNames)
+        public ApplicationServiceCacheEntry(string[] orderedComponentNames)
         {
-            ParameterType = parameterType;
-            ReturnValueType = returnValueType;
             OrderedComponentNames = orderedComponentNames ?? throw new ArgumentNullException(nameof(orderedComponentNames));
         }
-
-        /// <summary>
-        /// Create instances of an <see cref="IApplicationServiceContext"/>
-        /// </summary>
-        /// <param name="parameter"></param>
-        /// <param name="defaultReturnValue"></param>
-        /// <returns></returns>
-        public IApplicationServiceContext CreateContext(object parameter, object defaultReturnValue)
-        {
-            if (_contextType == null)
-            {
-                _contextType = (ParameterType, ReturnValueType) switch
-                {
-                    (Type parameterType, null) => typeof(ApplicationServiceContext<>).MakeGenericType(parameterType),
-                    (null, Type returnValueType) => typeof(ApplicationServiceParameterlessContext<>).MakeGenericType(returnValueType),
-                    (Type parameterType, Type returnValueType) => typeof(ApplicationServiceContext<,>).MakeGenericType(parameterType, returnValueType),
-                    (_, _) => typeof(ApplicationServiceContext),
-                };
-            }
-
-            var args = (ParameterType, ReturnValueType) switch
-            {
-                (Type _, null) => new object[] { parameter },
-                (null, Type _) => new object[] { defaultReturnValue },
-                (Type _, Type _) => new object[] { parameter, defaultReturnValue },
-                (_, _) => Array.Empty<object>()
-            };
-
-            return Activator.CreateInstance(_contextType, args) as IApplicationServiceContext;
-        }
-
-
-        private class ApplicationServiceContext : IApplicationServiceContext
-        {
-            [JsonExtensionData]
-            public IDictionary<string, JsonElement> Extensions { get; set; } = new Dictionary<string, JsonElement>(StringComparer.Ordinal);
-
-            public IDictionary<object, object> Items { get; set; } = new Dictionary<object, object>();
-        }
-
-
-        private class ApplicationServiceContext<TParameter> : ApplicationServiceContext, IApplicationServiceContext<TParameter>, IApplicationServiceContextParameter
-        {
-            public ApplicationServiceContext(TParameter parameter)
-            {
-                Parameter = parameter;
-            }
-
-            public TParameter Parameter { get; }
-
-            object IApplicationServiceContextParameter.Parameter => Parameter;
-        }
-
-
-        private class ApplicationServiceParameterlessContext<TReturnValue> : ApplicationServiceContext, IApplicationServiceParameterlessContext<TReturnValue>, IApplicationServiceContextReturnValue
-        {
-            public ApplicationServiceParameterlessContext(TReturnValue returnValue)
-            {
-                ReturnValue = returnValue;
-            }
-
-            public TReturnValue ReturnValue { get; }
-
-            object IApplicationServiceContextReturnValue.ReturnValue => ReturnValue;
-        }
-
-
-        private class ApplicationServiceContext<TParameter, TReturnValue> : ApplicationServiceContext<TParameter>, IApplicationServiceContext<TParameter, TReturnValue>, IApplicationServiceContextReturnValue
-        {
-            public ApplicationServiceContext(TParameter parameter, TReturnValue returnValue) : base(parameter)
-            {
-                ReturnValue = returnValue;
-            }
-
-            public TReturnValue ReturnValue { get; }
-
-            object IApplicationServiceContextReturnValue.ReturnValue => ReturnValue;
-        }
-
     }
 
 }

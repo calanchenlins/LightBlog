@@ -6,6 +6,7 @@
     </ItemGroup>
   </Target>
 
+  <!-- Package assets is not included -->
   <Target Name="CopyAssemblyReferencesToPackage" DependsOnTargets="BuildOnlySettings;ResolveReferences">
     <Message Importance="high" Text="@(ReferenceCopyLocalPaths->HasMetadata('ReferenceSourceTarget'))" />
     <Message Importance="high" Text="@(ReferenceCopyLocalPaths->Metadata('ReferenceSourceTarget'))" />

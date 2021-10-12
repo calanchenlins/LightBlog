@@ -5,11 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Reflection;
+using System.Collections.Concurrent;
 
 namespace KaneBlake.AspNetCore.Extensions.Services.Module
 {
-
-
     /// <summary>
     /// Defines an interface that represents a application service component to handle <see cref="IApplicationServiceContext"/>.
     /// </summary>
@@ -21,31 +21,58 @@ namespace KaneBlake.AspNetCore.Extensions.Services.Module
         /// </summary>
         public string Name => GetType().FullName;
 
-
-        public Type GenericTypeDefinition
-        {
-            get
-            {
-                var instanceType = GetType();
-                if (instanceType.IsGenericType)
-                {
-                    return instanceType.GetGenericTypeDefinition();
-                }
-                return null;
-            }
-        }
-
+        /// <summary>
+        /// The type of application service context
+        /// </summary>
+        public Type ContextType => typeof(IApplicationServiceContext);
 
         /// <summary>
         /// Called to execute the component. 
         /// </summary>
-        /// <param name="context">application service context</param>
-        /// <returns></returns>
+        /// <param name="context">Application service context</param>
+        /// <returns>Component executed result</returns>
         Task<ServiceResponse> InvokeAsync(IApplicationServiceContext context);
     }
 
+
     /// <summary>
-    /// Defines an abstraction for application service component without parameter and return value
+    /// Defines an abstraction for application service component that handle specified <see cref="IApplicationServiceContext"/>
+    /// <para>Using constructor injection to resolve component's dependency</para>
+    /// </summary>
+    /// <typeparam name="TContext">The type of application service component context.</typeparam>
+    public abstract class ApplicationServiceComponentBase<TContext> : IApplicationServiceComponent where TContext : IApplicationServiceContext
+    {
+        public virtual Type ContextType => typeof(TContext);
+
+        /// <summary>
+        /// Transform <see cref="ApplicationServiceInnerContext"/> to <typeparamref name="TContext"/>
+        /// </summary>
+        /// <param name="innerContext">application service context</param>
+        /// <returns>application component context</returns>
+        internal abstract TContext CreateContext(ApplicationServiceInnerContext innerContext);
+
+        public virtual async Task<ServiceResponse> InvokeAsync(IApplicationServiceContext context)
+        {
+            if (!(context is ApplicationServiceInnerContext innerContext))
+            {
+                var component = (IApplicationServiceComponent)this;
+                return ServiceResponse.Forbid($"组件 '{component.Name}' 执行失败: " +
+                    $"不支持的应用服务上下文类型 '{context.GetType().FullName}'.");
+            }
+            return await InvokeAsync(CreateContext(innerContext));
+        }
+
+        /// <summary>
+        /// Called to execute the component that handle specified <paramref name="componentContext"/>.
+        /// </summary>
+        /// <param name="componentContext">Instance of <typeparamref name="TContext"/></param>
+        /// <returns></returns>
+        public abstract Task<ServiceResponse> InvokeAsync(TContext componentContext);
+    }
+
+
+    /// <summary>
+    /// Defines an abstraction for application service component that handle <see cref="IApplicationServiceContext"/>
     /// <para>Using constructor injection to resolve component's dependency</para>
     /// </summary>
     public abstract class ApplicationServiceComponent : IApplicationServiceComponent
@@ -55,38 +82,145 @@ namespace KaneBlake.AspNetCore.Extensions.Services.Module
 
 
     /// <summary>
-    /// Defines an abstraction for application service component with specified <see cref="IApplicationServiceContext"/>
+    /// Defines an abstraction for application service component that handle <see cref="IApplicationServiceContext{TParameter}"/>
     /// <para>Using constructor injection to resolve component's dependency</para>
     /// </summary>
-    /// <typeparam name="TServiceContext">The type of context.</typeparam>
-    public abstract class ApplicationServiceComponent<TServiceContext> : ApplicationServiceComponent where TServiceContext : IApplicationServiceContext
+    /// <typeparam name="TParameter">The type of parameter in context.</typeparam>
+    public abstract class ApplicationServiceComponent<TParameter> 
+        : ApplicationServiceComponentBase<IApplicationServiceContext<TParameter>>
+        where TParameter : class
     {
-        /// <summary>
-        /// Execute the component if the type of <paramref name="context"/> is compatible with <typeparamref name="TServiceContext"/>
-        /// , otherwise do nothing 
-        /// </summary>
-        /// <param name="context">Application service context</param>
-        /// <returns>Component executed result</returns>
-        public override async Task<ServiceResponse> InvokeAsync(IApplicationServiceContext context)
+        internal override IApplicationServiceContext<TParameter> CreateContext(ApplicationServiceInnerContext innerContext)
         {
-            if (context is TServiceContext serviceContext)
+            return new ApplicationServiceContext<TParameter>
             {
-                return await InvokeAsync(serviceContext);
-            }
+                Items = innerContext.Items,
+                Parameter = ContractCache<TParameter>.Factory.Create(innerContext.SharedStore),
+            };
+        }
+    }
 
-            var component = (IApplicationServiceComponent)this;
 
-            return ServiceResponse.Forbid($"组件 '{component.Name}' 执行失败: 应用服务上下文类型必须实现 {typeof(TServiceContext).FullName} 接口," +
-                $"请检查服务配置中的参数类型和返回值类型.");
+    /// <summary>
+    /// Defines an abstraction for application service component that handle <see cref="IApplicationServiceContextWithReturnValue{TReturnValue}"/>
+    /// <para>Using constructor injection to resolve component's dependency</para>
+    /// </summary>
+    /// <typeparam name="TReturnValue">The type of return value in context.</typeparam>
+    public abstract class ApplicationServiceComponentWithReturnValue<TReturnValue>
+        : ApplicationServiceComponentBase<IApplicationServiceContextWithReturnValue<TReturnValue>>
+        where TReturnValue : class
+    {
+        internal override IApplicationServiceContextWithReturnValue<TReturnValue> CreateContext(ApplicationServiceInnerContext innerContext)
+        {
+            return new ApplicationServiceContextWithReturnValue<TReturnValue>
+            {
+                Items = innerContext.Items,
+                ReturnValue = ContractCache<TReturnValue>.Factory.Create(innerContext.ResponseStore),
+            };
+        }
+    }
+
+
+    /// <summary>
+    /// Defines an abstraction for application service component that handle <see cref="IApplicationServiceContext{TParameter, TReturnValue}"/>
+    /// <para>Using constructor injection to resolve component's dependency</para>
+    /// </summary>
+    /// <typeparam name="TParameter">The type of parameter in context.</typeparam>
+    /// <typeparam name="TReturnValue">The type of return value in context.</typeparam>
+    public abstract class ApplicationServiceComponent<TParameter, TReturnValue>
+        : ApplicationServiceComponentBase<IApplicationServiceContext<TParameter, TReturnValue>>
+        where TParameter : class
+        where TReturnValue : class
+    {
+        internal override IApplicationServiceContext<TParameter, TReturnValue> CreateContext(ApplicationServiceInnerContext innerContext)
+        {
+            return new ApplicationServiceContext<TParameter, TReturnValue>
+            {
+                Items = innerContext.Items,
+                Parameter = ContractCache<TParameter>.Factory.Create(innerContext.SharedStore),
+                ReturnValue = ContractCache<TReturnValue>.Factory.Create(innerContext.ResponseStore)
+            };
+        }
+    }
+
+
+
+    public interface IContractFactory<TMessage>
+    {
+        TMessage Create(IDictionary<string, object> store);
+    }
+
+
+    public class ContractFactory<TMessage> : IContractFactory<TMessage> where TMessage : class
+    {
+        private readonly Type _proxyType;
+
+        public ContractFactory(Type proxyType)
+        {
+            _proxyType = proxyType ?? throw new ArgumentNullException(nameof(proxyType));
         }
 
-        /// <summary>
-        /// Called to execute the component that handle <paramref name="serviceContext"/>.
-        /// </summary>
-        /// <param name="serviceContext">Instance of <typeparamref name="TServiceContext"/></param>
-        /// <returns></returns>
-        public abstract Task<ServiceResponse> InvokeAsync(TServiceContext serviceContext);
+        public TMessage Create(IDictionary<string, object> store)
+        {
+            if (_proxyType is null)
+            {
+                return default;
+            }
+            else
+            {
+                return Activator.CreateInstance(_proxyType, store) as TMessage;
+            }
+        }
     }
+    public class ContractCache<TMessage> where TMessage : class
+    {
+        private static Lazy<IContractFactory<TMessage>> _factoryCache => new Lazy<IContractFactory<TMessage>>(CreateContractFactory);
+
+        public static IContractFactory<TMessage> Factory => _factoryCache.Value;
+
+
+        private static IContractFactory<TMessage> CreateContractFactory()
+        {
+            var contractType = typeof(TMessage);
+            var proxyType = contractType.Assembly.GetCustomAttributes<AutoImplementationItemAttribute>()
+                .FirstOrDefault(attr => attr.AbstractType.Equals(contractType))?.ImplementationType;
+
+            if (!typeof(DefaultStoreAccessor).IsAssignableFrom(proxyType))
+            {
+                proxyType = null;
+            }
+            return new ContractFactory<TMessage>(proxyType);
+        }
+    }
+
+
+    public interface IParameters
+    {
+        int MyProperty1 { get; set; }
+        string MyProperty2 { get; set; }
+        List<string> MyProperty6 { get; set; }
+    }
+    public class Parameters
+    {
+        public int MyProperty1 { get; set; }
+        public string MyProperty2 { get; set; }
+        public List<string> MyProperty6 { get; set; }
+    }
+    public class Component1 : ApplicationServiceComponent<IParameters>
+    {
+        public override Task<ServiceResponse> InvokeAsync(IApplicationServiceContext<IParameters> componentContext)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public class Component2 : ApplicationServiceComponent<Parameters>
+    {
+        public override Task<ServiceResponse> InvokeAsync(IApplicationServiceContext<Parameters> componentContext)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }
 
 

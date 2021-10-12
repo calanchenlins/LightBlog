@@ -1,0 +1,9 @@
+﻿{{#each properties}}
+        {{accessModifiers}}{{typeIdentifier}} {{identifier}}
+        { 
+            {{#each accessors}}
+            {{#ifCond @this 'Equals' 'get'}}get => GetState<{{../../typeIdentifier}}>(nameof({{../../Identifier}}));{{/ifCond}}
+            {{#ifCond @this 'Equals' 'set'}}set => SetState(nameof({{../../Identifier}}), value);{{/ifCond}}
+            {{/each}}
+        }
+{{/each}}

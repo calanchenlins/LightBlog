@@ -1,14 +1,24 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <SourceGeneratorTemplate>true</SourceGeneratorTemplate>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeBuildOutput>true</IncludeBuildOutput>
   </PropertyGroup>
   
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
-  
+
   <ItemGroup>
+    <!-- Package the props file and source code -->
+    <None Include="Assets\build\**" Pack="true" PackagePath="build;buildTransitive" Visible="true" />
+    <None Include="Assets\src\**" Pack="true" PackagePath="src" Visible="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="KaneBlake.CodeAnalysis" Version="1.0.0" />
     <PackageReference Include="MessagePack" Version="2.2.60" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.8" />
     <PackageReference Include="Polly" Version="7.2.1" />

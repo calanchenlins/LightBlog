@@ -1,0 +1,10 @@
+﻿{{#each properties}}
+        private {{typeIdentifier}} _field{{@index}};
+        {{accessModifiers}}{{typeIdentifier}} {{identifier}}
+        { 
+            {{#each accessors}}
+            {{#ifCond @this 'Equals' 'get'}}get => _field{{@../../index}};{{/ifCond}}
+            {{#ifCond @this 'Equals' 'set'}}set => _field{{@../../index}} = value;{{/ifCond}}
+            {{/each}}
+        }
+{{/each}}

@@ -37,7 +37,7 @@ namespace KaneBlake.AspNetCore.Extensions.Services.Module
     /// Defines an interface that represents a application service context with return value.
     /// </summary>
     /// <typeparam name="TReturnValue">The type of return value.</typeparam>
-    public interface IApplicationServiceParameterlessContext<out TReturnValue> : IApplicationServiceContext
+    public interface IApplicationServiceContextWithReturnValue<out TReturnValue> : IApplicationServiceContext
     {
         /// <summary>
         /// Gets the <typeparamref name="TReturnValue"/> that is associated with this context.
@@ -50,7 +50,7 @@ namespace KaneBlake.AspNetCore.Extensions.Services.Module
     /// </summary>
     /// <typeparam name="TParameter">The type of parameter.</typeparam>
     /// <typeparam name="TReturnValue">The type of return value.</typeparam>
-    public interface IApplicationServiceContext<out TParameter, out TReturnValue> : IApplicationServiceContext<TParameter>, IApplicationServiceParameterlessContext<TReturnValue>
+    public interface IApplicationServiceContext<out TParameter, out TReturnValue> : IApplicationServiceContext<TParameter>, IApplicationServiceContextWithReturnValue<TReturnValue>
     {
     }
 

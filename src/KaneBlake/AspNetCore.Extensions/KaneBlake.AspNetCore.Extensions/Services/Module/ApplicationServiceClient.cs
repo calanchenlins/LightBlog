@@ -6,7 +6,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using KaneBlake.Basis.Common.Extensions;
+using System.Reflection;
+using System.ComponentModel;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KaneBlake.AspNetCore.Extensions.Services.Module
 {
@@ -33,15 +40,28 @@ namespace KaneBlake.AspNetCore.Extensions.Services.Module
 
         private readonly IEnumerable<IApplicationServiceComponent> _components;
 
+        private readonly JsonOptions _jsonOptions;
+
         private readonly ILogger<ApplicationServiceClient> _logger;
 
-        public ApplicationServiceClient(ApplicationServiceCacheEntryResolver serviceEntryResolver, IEnumerable<IApplicationServiceComponent> components, ILogger<ApplicationServiceClient> logger)
+        public ApplicationServiceClient(ApplicationServiceCacheEntryResolver serviceEntryResolver, 
+            IEnumerable<IApplicationServiceComponent> components,
+            IOptions<JsonOptions> jsonOptions,
+            ILogger<ApplicationServiceClient> logger)
         {
             _serviceEntryResolver = serviceEntryResolver ?? throw new ArgumentNullException(nameof(serviceEntryResolver));
             _components = components ?? throw new ArgumentNullException(nameof(components));
+            _jsonOptions = jsonOptions?.Value ?? throw new ArgumentNullException(nameof(jsonOptions));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
+        //var validationResults = new List<ValidationResult>();
+        //var validationContext = new ValidationContext(parameter, request.HttpContext?.RequestServices, null);
+
+        //        if (!Validator.TryValidateObject(parameter, validationContext, validationResults, true))
+        //        {
+        //            return ServiceResponse.BadRequest(ConvertValidationResults(validationResults));
+        //        }
 
         public async Task<ServiceResponse> InvokeAsync(string serviceName, HttpRequest request)
         {
@@ -50,62 +70,30 @@ namespace KaneBlake.AspNetCore.Extensions.Services.Module
                 throw new ArgumentNullException(nameof(request));
             }
 
+            ServiceRequest serviceRequest = null;
+            try
+            {
+                request.Body.Position = 0;
+                // var serviceRequest = await request.ReadFromJsonAsync<ServiceRequest>(serviceEntry.ParameterType);
+                var body = await request.BodyReader.ReadToEndAsync();
+                serviceRequest = JsonSerializer.Deserialize<ServiceRequest>(body.Span, _jsonOptions.JsonSerializerOptions);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "应用服务 '{serviceName}' 执行失败: 反序列化请求体失败.", serviceName);
+                return ServiceResponse.Forbid($"应用服务 '{serviceName}' 执行失败: 请求体格式异常.");
+            }
+            finally
+            {
+                request.Body.Position = 0;
+            }
+
             var serviceEntry = await _serviceEntryResolver.ResolveAsync(serviceName);
 
             if (serviceEntry is null)
             {
                 return ServiceResponse.Forbid($"应用服务 '{serviceName}' 解析失败, 请检查配置文件.");
             }
-
-            object parameter = null;
-            object defaultReturnValue = null;
-
-            if (!(serviceEntry.ParameterType is null))
-            {
-                try
-                {
-                    request.Body.Position = 0;
-
-                    //parameter = await request.ReadFromJsonAsync(serviceEntry.ParameterType);
-
-                    var validationResults = new List<ValidationResult>();
-
-                    var validationContext = new ValidationContext(parameter, request.HttpContext?.RequestServices, null);
-
-                    if (!Validator.TryValidateObject(parameter, validationContext, validationResults, true))
-                    {
-                        return ServiceResponse.BadRequest(ConvertValidationResults(validationResults));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogWarning(ex, "应用服务 '{serviceName}' 执行异常: 参数类型 '{ParameterType}' 绑定失败", serviceName, serviceEntry.ParameterType.FullName);
-                    return ServiceResponse.Forbid($"应用服务 '{serviceName}' 执行异常: 参数类型 '{serviceEntry.ParameterType.FullName}' 绑定失败");
-                }
-                finally
-                {
-                    request.Body.Position = 0;
-                }
-            }
-            if (!(serviceEntry.ReturnValueType is null))
-            {
-                try
-                {
-                    defaultReturnValue = Activator.CreateInstance(serviceEntry.ReturnValueType);
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogWarning(ex, "应用服务 '{serviceName}' 执行异常: 创建 '{ParameterType}' 类型实例失败, 服务返回类型必须拥有公共无参构造函数."
-                        , serviceName, serviceEntry.ReturnValueType.FullName);
-                    return ServiceResponse.Forbid($"应用服务 '{serviceName}' 执行异常: 创建 '{serviceEntry.ReturnValueType.FullName}' 类型实例失败," +
-                        $"\r\n服务返回类型必须拥有公共无参构造函数.");
-                }
-
-            }
-
-
-            var context = serviceEntry.CreateContext(parameter, defaultReturnValue);
-
 
             var componentNames = serviceEntry.OrderedComponentNames;
 
@@ -122,10 +110,11 @@ namespace KaneBlake.AspNetCore.Extensions.Services.Module
                 components.Add(component);
             }
 
+            var innerContext = new ApplicationServiceInnerContext(serviceRequest.Body);
             // Todo: 事务管理 or 仓储拦截
             for (var i = 0; i < components.Count; i++)
             {
-                var componentResponse = await components[i].InvokeAsync(context);
+                var componentResponse = await components[i].InvokeAsync(innerContext);
 
                 if (!componentResponse.OKStatus)
                 {
@@ -133,9 +122,9 @@ namespace KaneBlake.AspNetCore.Extensions.Services.Module
                 }
             }
 
-            if (context is IApplicationServiceContextReturnValue serviceContext)
+            if (innerContext.ResponseStore.Count > 0)
             {
-                return ServiceResponse.OK(serviceContext.ReturnValue);
+                return ServiceResponse.OK(innerContext.ResponseStore);
             }
 
             return ServiceResponse.OK();
@@ -171,5 +160,14 @@ namespace KaneBlake.AspNetCore.Extensions.Services.Module
         }
 
 
+        private class ServiceRequest
+        {
+            [JsonExtensionData]
+            public IDictionary<string, object> Body { get; set; } = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+        }
     }
+
+
+
+
 }

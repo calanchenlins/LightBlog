@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\KaneBlake\Build\KaneBlake.CodeAnalysis\KaneBlake.CodeAnalysis.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true"/>
+  </ItemGroup>
+  <Import Project="..\..\src\KaneBlake\Build\KaneBlake.CodeAnalysis\Assets\build\KaneBlake.CodeAnalysis.targets" />
+  <Import Project="..\..\src\KaneBlake\Build\KaneBlake.CodeAnalysis\Assets\build\KaneBlake.CodeAnalysis.props" />
+</Project>

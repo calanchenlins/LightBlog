@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project>
+  <Target Name="CopyFilesIntoTargetProject">
+    <ItemGroup>
+      <FilesInPackageDirectory Include="$(MSBuildThisFileDirectory)..\src\**\*.*"/>
+      <FilesInProjectDirectory Include="$(MSBuildProjectDirectory)\**\*.*" Exclude="$(MSBuildProjectDirectory)\bin\**;$(MSBuildProjectDirectory)\obj\**"/>
+      <FilesInPackageToCopy
+        Include="@(FilesInPackageDirectory->Replace('$(MSBuildThisFileDirectory)..\src\', ''))"
+        Exclude="@(FilesInProjectDirectory->Replace('$(MSBuildProjectDirectory)\', ''))" />
+    </ItemGroup>
+    <Message Importance="high" Text="Copy files into target project: @(FilesInPackageToCopy->'%(Identity)')" />
+    <Copy
+      SourceFiles="@(FilesInPackageToCopy->'$(MSBuildThisFileDirectory)..\src\%(Identity)')"
+      DestinationFiles="@(FilesInPackageToCopy->'$(MSBuildProjectDirectory)\%(Identity)')"/>
+  </Target>
+
+  <Target Name="CopyFilesIntoTargetProjectWithCondition" Condition="'$(SourceGeneratorTemplate)'!='true'" BeforeTargets="PrepareForBuild">
+    <CallTarget Targets="CopyFilesIntoTargetProject"/>
+  </Target>
+</Project>

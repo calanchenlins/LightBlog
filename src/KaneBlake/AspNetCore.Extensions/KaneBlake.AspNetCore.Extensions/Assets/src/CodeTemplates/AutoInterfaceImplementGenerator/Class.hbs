@@ -1,0 +1,15 @@
+﻿using System;
+
+[assembly:
+KaneBlake.AspNetCore.Extensions.Services.Module.AutoImplementationItemAttribute(typeof({{nameSpaceQualifiedIdentifier}}.{{identifier}}), 
+typeof({{nameSpaceQualifiedIdentifier}}.AutoImplementation{{identifier}}))]
+
+namespace {{nameSpaceQualifiedIdentifier}}
+{
+    public partial class AutoImplementation{{identifier}}
+        : KaneBlake.AspNetCore.Extensions.Services.Module.DefaultStoreAccessor, {{nameSpaceQualifiedIdentifier}}.{{identifier}}
+    {
+        public AutoImplementation{{identifier}}(System.Collections.Generic.IDictionary<string, object> values) : base(values){}
+        {{{> properties}}}
+    }
+}

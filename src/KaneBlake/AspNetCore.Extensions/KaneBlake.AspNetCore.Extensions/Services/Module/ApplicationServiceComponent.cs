@@ -172,6 +172,8 @@ namespace KaneBlake.AspNetCore.Extensions.Services.Module
             }
         }
     }
+
+
     public class ContractCache<TMessage> where TMessage : class
     {
         private static Lazy<IContractFactory<TMessage>> _factoryCache => new Lazy<IContractFactory<TMessage>>(CreateContractFactory);

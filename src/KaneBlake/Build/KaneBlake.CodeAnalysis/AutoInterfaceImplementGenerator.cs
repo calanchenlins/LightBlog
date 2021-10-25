@@ -18,27 +18,13 @@ namespace KaneBlake.CodeAnalysis
     [Generator]
     public class AutoInterfaceImplementGenerator : ISourceGenerator
     {
-        private static readonly DiagnosticDescriptor DiagnosticWarning =
-            new DiagnosticDescriptor(DiagnosticIds.WarningRuleId,
-                title: "Diagnostic Warning",
-                messageFormat: "AutoInterfaceImplementGenerator: {0}",
-                category: "AutoInterfaceImplementGenerator",
-                DiagnosticSeverity.Warning,
-                isEnabledByDefault: true);
 
-        private static readonly DiagnosticDescriptor DiagnosticInfo =
-            new DiagnosticDescriptor(DiagnosticIds.InfoRuleId,
-                title: "Diagnostic Info",
-                messageFormat: "AutoInterfaceImplementGenerator: {0}",
-                category: "AutoInterfaceImplementGenerator",
-                DiagnosticSeverity.Info,
-                isEnabledByDefault: true);
 
         public void Execute(GeneratorExecutionContext context)
         {
             context.ReportDiagnostic(
                 Diagnostic.Create(
-                    DiagnosticWarning,
+                    DiagnosticDescriptors.Warning,
                     Location.None,
                     $"ISourceGenerator.Execute {Assembly.GetExecutingAssembly().Location}"));
 
@@ -91,7 +77,7 @@ namespace KaneBlake.CodeAnalysis
             {
                 context.ReportDiagnostic(
                     Diagnostic.Create(
-                        DiagnosticWarning,
+                        DiagnosticDescriptors.Warning,
                         Location.None, 
                         $"template file '{startupTemplateFile.Path}' is empty"));
                 return;
@@ -222,7 +208,7 @@ namespace KaneBlake.CodeAnalysis
 
                     context.ReportDiagnostic(
                         Diagnostic.Create(
-                            DiagnosticWarning,
+                            DiagnosticDescriptors.Warning,
                             Location.None,
                             $"template file '{file.Path}' generatorName '{generatorName}' loadTypeString '{loadTypeString}'"));
 
@@ -311,8 +297,27 @@ namespace KaneBlake.CodeAnalysis
 
     public static class DiagnosticIds
     {
-        public const string InfoRuleId = "KBSRCGEN0001";
+        public const string InfoRuleId = "KBSRCGEN001";
 
-        public const string WarningRuleId = "KBSRCGEN0002";
+        public const string WarningRuleId = "KBSRCGEN002";
+    }
+
+    public class DiagnosticDescriptors
+    {
+        public static readonly DiagnosticDescriptor Warning =
+            new DiagnosticDescriptor(DiagnosticIds.WarningRuleId,
+                title: "Diagnostic Warning",
+                messageFormat: "AutoInterfaceImplementGenerator: {0}",
+                category: "Generator",
+                DiagnosticSeverity.Warning,
+                isEnabledByDefault: true);
+
+        public static readonly DiagnosticDescriptor Info =
+            new DiagnosticDescriptor(DiagnosticIds.InfoRuleId,
+                title: "Diagnostic Info",
+                messageFormat: "AutoInterfaceImplementGenerator: {0}",
+                category: "Generator",
+                DiagnosticSeverity.Info,
+                isEnabledByDefault: true);
     }
 }

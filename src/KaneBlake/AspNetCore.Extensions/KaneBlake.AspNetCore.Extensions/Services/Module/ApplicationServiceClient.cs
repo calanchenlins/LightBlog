@@ -105,7 +105,7 @@ namespace KaneBlake.AspNetCore.Extensions.Services.Module
 
                 if (component is null)
                 {
-                    return ServiceResponse.Forbid($"应用服务 '{serviceName}' 解析失败: 组件'{componentNames[i]}' 未在 DI 容器中注册.");
+                    return ServiceResponse.Forbid($"应用服务 '{serviceName}' 解析失败: 组件'{componentNames[i]}' 未注册.");
                 }
                 components.Add(component);
             }
@@ -120,6 +120,7 @@ namespace KaneBlake.AspNetCore.Extensions.Services.Module
                 {
                     return componentResponse;
                 }
+                // 仓储拦截提交
             }
 
             if (innerContext.ResponseStore.Count > 0)

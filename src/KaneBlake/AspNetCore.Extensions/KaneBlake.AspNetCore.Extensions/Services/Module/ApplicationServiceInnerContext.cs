@@ -9,6 +9,8 @@ namespace KaneBlake.AspNetCore.Extensions.Services.Module
         public ApplicationServiceInnerContext(IDictionary<string, object> sharedStore)
         {
             SharedStore = sharedStore ?? throw new ArgumentNullException(nameof(sharedStore));
+            ResponseStore = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+            Items = new Dictionary<object, object>();
         }
 
         /// <summary>
@@ -19,9 +21,9 @@ namespace KaneBlake.AspNetCore.Extensions.Services.Module
         /// <summary>
         /// 服务响应
         /// </summary>
-        public IDictionary<string, object> ResponseStore { get; } = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+        public IDictionary<string, object> ResponseStore { get; }
 
-        public IDictionary<object, object> Items { get; } = new Dictionary<object, object>();
+        public IDictionary<object, object> Items { get; }
     }
 
     internal class ApplicationServiceContext : IApplicationServiceContext

@@ -213,7 +213,7 @@ namespace KaneBlake.VSTool
                         using (var sw = new StreamWriter(newFilePath, false, encoding))
                         {
                             sw.AutoFlush = true;
-                            sw.WriteLine(text);
+                            sw.Write(text);
                             sw.Flush();
                         }
                         if (!File.Exists(newFilePath))

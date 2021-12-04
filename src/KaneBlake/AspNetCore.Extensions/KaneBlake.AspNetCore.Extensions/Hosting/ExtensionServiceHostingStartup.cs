@@ -24,36 +24,8 @@ namespace KaneBlake.AspNetCore.Extensions.Hosting
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
-
-                // Inject services with AutoInjectionAttribute
-                var assemblyServices = AppDomain.CurrentDomain.GetAssemblies()
-                 .Select(a => a.GetExportedTypes().Where(t => !t.IsInterface && !t.IsAbstract)
-                 .Select(t => new { implementationType = t, autoInjectionAttributes = t.GetCustomAttributes<AutoInjectionAttribute>() })
-                 .Where(r => r.autoInjectionAttributes.Any()));
-
-                foreach (var injectionServices in assemblyServices) 
-                {
-                    foreach (var injectionService in injectionServices)
-                    {
-                        foreach (var attr in injectionService.autoInjectionAttributes) 
-                        {
-                            if (attr.ServiceTypes.Length <= 0)
-                            {
-                                services.Add(new ServiceDescriptor(injectionService.implementationType, injectionService.implementationType, attr.Lifetime));
-                            }
-                            else 
-                            {
-                                foreach (var serviceType in attr.ServiceTypes)
-                                {
-                                    services.Add(new ServiceDescriptor(serviceType, injectionService.implementationType, attr.Lifetime));
-                                }
-                            }
-                        }
-                    }
-                }
-
+                services.AddAutoInjectionService();
                 services.AddApplicationServiceHandler(context.Configuration.GetSection("ApplicationServices"));
-
                 services.AddSingleton<IHostedService, InstrumentationHostedService>();
                 services.AddSingleton<IExecutionService, DiagnosticProcessorService>();
                 services.AddSingleton<DiagnosticAdapterProcessorObserver>();

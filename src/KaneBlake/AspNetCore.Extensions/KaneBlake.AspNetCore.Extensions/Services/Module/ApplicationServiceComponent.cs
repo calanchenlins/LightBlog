@@ -144,7 +144,6 @@ namespace KaneBlake.AspNetCore.Extensions.Services.Module
     }
 
 
-
     public interface IContractFactory<TMessage>
     {
         TMessage Create(IDictionary<string, object> store);

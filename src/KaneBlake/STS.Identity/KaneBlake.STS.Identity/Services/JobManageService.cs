@@ -429,32 +429,25 @@ namespace KaneBlake.STS.Identity.Services
 
         public async Task DoWork(CancellationToken stoppingToken)
         {
-            await Task.Run(() =>
+            // Single longRunning task
+            await Task.Factory.StartNew(() =>
             {
                 while (true)
                 {
-                    // 模拟后台任务
-                    Thread.Sleep(1000000);
-
-
-                    // 防止后台任务线程持续抢占CPU
+                    // Do some work
                     Thread.Sleep(1);
                 }
-            }, stoppingToken);
+            }, stoppingToken, TaskCreationOptions.LongRunning, TaskScheduler.Default);
 
-
+            // Series temporary task
             while (!stoppingToken.IsCancellationRequested)
             {
-
                 await Task.Run(() =>
                 {
-                    // 模拟后台任务
+                    // Do some work
                     executionCount++;
                     _logger.LogInformation("Scoped Processing Service is working. Count: {Count}", executionCount);
-                    Thread.Sleep(1000000);
-
                 },stoppingToken);
-
             }
         }
     }
@@ -471,6 +464,7 @@ namespace KaneBlake.STS.Identity.Services
 
         public IServiceProvider Services { get; }
 
+        // 开启 Task 前的长时间操作会阻塞 WebHost
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation(

@@ -11,18 +11,6 @@ using System.Threading.Tasks;
 
 namespace KaneBlake.AspNetCore.Extensions.Services.Module
 {
-    internal interface IApplicationServiceContextParameter
-    {
-        public object Parameter { get; }
-    }
-
-    internal interface IApplicationServiceContextReturnValue
-    {
-        public object ReturnValue { get; }
-    }
-
-
-
     /// <summary>
     /// Implements policy for resolving <see cref="ApplicationServiceCacheEntry"/> from <see cref="ApplicationServiceOptions"/>.
     /// used for  

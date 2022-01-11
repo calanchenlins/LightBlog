@@ -27,7 +27,7 @@ namespace KaneBlake.Basis.Common.Serialization
         {
             Debug.Assert(typeToConvert == typeof(DateTime));
 
-            if (reader.TokenType != JsonTokenType.String || reader.TokenType != JsonTokenType.Number)
+            if (reader.TokenType != JsonTokenType.String && reader.TokenType != JsonTokenType.Number)
             {
                 return default;
             }

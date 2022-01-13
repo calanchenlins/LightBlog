@@ -16,11 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\AspNetCore.Extensions\KaneBlake.AspNetCore.Extensions\KaneBlake.AspNetCore.Extensions.csproj" />
-    <ProjectReference Include="..\..\Infrastruct\KaneBlake.Infrastruct\KaneBlake.Infrastruct.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Certs\" />
   </ItemGroup>
 

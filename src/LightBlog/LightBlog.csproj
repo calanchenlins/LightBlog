@@ -23,12 +23,6 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\KaneBlake\AspNetCore.Extensions\KaneBlake.AspNetCore.Extensions\KaneBlake.AspNetCore.Extensions.csproj" />
-    <ProjectReference Include="..\KaneBlake\Infrastruct\KaneBlake.Infrastruct\KaneBlake.Infrastruct.csproj" />
-  </ItemGroup>
-
-
-  <ItemGroup>
     <None Update="Dockerfile">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

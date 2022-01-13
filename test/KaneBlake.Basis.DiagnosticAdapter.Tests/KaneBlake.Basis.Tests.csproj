@@ -14,8 +14,4 @@
     <PackageReference Include="XunitXml.TestLogger" Version="2.1.26" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\KaneBlake\Basis\KaneBlake.Basis.csproj" />
-  </ItemGroup>
-
 </Project>

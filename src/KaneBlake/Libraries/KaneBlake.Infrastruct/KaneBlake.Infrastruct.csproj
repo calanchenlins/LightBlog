@@ -11,6 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Basis\KaneBlake.Basis.csproj" />
+    <ProjectReference Include="..\KaneBlake.Basis\KaneBlake.Basis.csproj" />
   </ItemGroup>
 </Project>

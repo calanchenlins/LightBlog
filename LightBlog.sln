@@ -46,6 +46,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaneBlake.CodeAnalysis.Test", "test\KaneBlake.CodeAnalysis.Test\KaneBlake.CodeAnalysis.Test.csproj", "{8C87C9FE-C28E-4D50-8DEA-B08CB961BFD2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{A79BA968-4F08-46AA-93C9-3877E791AA10}"
+	ProjectSection(SolutionItems) = preProject
+		src\KaneBlake\Libraries\Directory.Build.props = src\KaneBlake\Libraries\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaneBlake.AspNetCore.Extensions", "src\KaneBlake\Libraries\KaneBlake.AspNetCore.Extensions\KaneBlake.AspNetCore.Extensions.csproj", "{9BAAAC7D-F2CE-4A61-B85A-D6B0F0082106}"
 EndProject

@@ -1,8 +1,6 @@
 <Project>
 
   <PropertyGroup>
-
-    <Version>4.3.0</Version>   
     <!-- Microsoft.SourceLink: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <!-- Microsoft.SourceLink: Embed source files that are not tracked by the source control manager in the PDB -->

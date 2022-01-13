@@ -1,7 +1,9 @@
 <Project>
 
-
+  <!--将程序集引用及私有项目引用复制到Package中-->
+  <!--<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyAssemblyReferencesToPackage;CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>-->
   <!--<ProjectReference Include="..\XXX\XXX.csproj"  PrivateAssets="All"/>-->
+  
   <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="BuildOnlySettings;ResolveReferences">
     <ItemGroup>
       <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference')->WithMetadataValue('PrivateAssets', 'All'))" />

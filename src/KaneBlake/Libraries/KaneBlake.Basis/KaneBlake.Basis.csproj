@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
     <!-- Embed PDB in the DLL -->
     <!-- <DebugType>embedded</DebugType> -->
@@ -11,7 +10,7 @@
     <!-- Include symbol files (*.pdb) in the built .nupkg -->
     <!--<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>-->
 
-    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyAssemblyReferencesToPackage;CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
+
     
   </PropertyGroup>
 

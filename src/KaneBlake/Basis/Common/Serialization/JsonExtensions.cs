@@ -16,9 +16,8 @@ namespace KaneBlake.Basis.Common.Serialization
         /// Configure <see cref="System.Text.Json.JsonSerializerOptions"/> With default Vaule
         /// </summary>
         /// <param name="options"></param>
-        /// <param name="action"></param>
         /// <returns></returns>
-        public static JsonSerializerOptions Configure(this JsonSerializerOptions options, Action<JsonSerializerOptions> action = null)
+        public static JsonSerializerOptions Configure(this JsonSerializerOptions options)
         {
             // Use 'camelCase' casing.
             options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase; 
@@ -34,8 +33,6 @@ namespace KaneBlake.Basis.Common.Serialization
             // 2020-09-19T10:46:27.000        反序列化 => 时区未确定  序列化   =>   时区未确定           2020-09-19T10:46:27.000
             options.Converters.Add(new DateTimeJsonConverter());
             options.Converters.Add(new DateTimeOffsetJsonConverter());
-
-            action?.Invoke(options);
 
             if (options.Encoder is null)
             {

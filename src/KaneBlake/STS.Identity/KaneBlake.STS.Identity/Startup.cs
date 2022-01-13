@@ -80,27 +80,13 @@ namespace KaneBlake.STS.Identity
             {
                 // it doesn't require tokens for requests made using the following safe HTTP methods: GET, HEAD, OPTIONS, and TRACE
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-                options.Filters.Add<InjectResultActionFilter>();
-                options.Conventions.Add(new InvalidModelStateFilterConvention());
+
+                options.Configure();
             })
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization()
                 .AddJsonOptions(options => options.JsonSerializerOptions.Configure())
-                .ConfigureApiBehaviorOptions(options =>
-                {
-                    // avoid adding duplicate Convention: InvalidModelStateFilterConvention
-                    options.SuppressModelStateInvalidFilter = false;
-                    options.InvalidModelStateResponseFactory = context =>
-                    {
-                        var response = ServiceResponse.BadRequest(new SerializableModelError(context.ModelState));
-                        var traceId = Activity.Current?.Id ?? context.HttpContext?.TraceIdentifier;
-                        response.TryAddTraceId(traceId);
-                        var result = new ObjectResult(response);
-                        result.ContentTypes.Add("application/problem+json");
-                        result.ContentTypes.Add("application/problem+xml");
-                        return result;
-                    };
-                });
+                .ConfigureApiBehaviorOptions(options => options.Configure());
 
 #if DEBUG
             if (Env.IsDevelopment())
@@ -181,18 +167,18 @@ namespace KaneBlake.STS.Identity
             services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
 
 
-            services.AddDNTCaptcha(options =>
-            // options.UseSessionStorageProvider() // -> It doesn't rely on the server or client's times. Also it's the safest one.
-            // options.UseMemoryCacheStorageProvider() // -> It relies on the server's times. It's safer than the CookieStorageProvider.
-            options.UseCookieStorageProvider() // -> It relies on the server and client's times. It's ideal for scalability, because it doesn't save anything in the server's memory
-            // options.UseDistributedCacheStorageProvider() // --> It's ideal for scalability using `services.AddStackExchangeRedisCache()` for instance.
+            //services.AddDNTCaptcha(options =>
+            //// options.UseSessionStorageProvider() // -> It doesn't rely on the server or client's times. Also it's the safest one.
+            //// options.UseMemoryCacheStorageProvider() // -> It relies on the server's times. It's safer than the CookieStorageProvider.
+            //options.UseCookieStorageProvider() // -> It relies on the server and client's times. It's ideal for scalability, because it doesn't save anything in the server's memory
+            //// options.UseDistributedCacheStorageProvider() // --> It's ideal for scalability using `services.AddStackExchangeRedisCache()` for instance.
 
-            // Don't set this line (remove it) to use the installed system's fonts (FontName = "Tahoma").
-            // Or if you want to use a custom font, make sure that font is present in the wwwroot/fonts folder and also use a good and complete font!
-            // .UseCustomFont(Path.Combine(_env.WebRootPath, "fonts", "name.ttf")) 
-            // .AbsoluteExpiration(minutes: 7)
-            // .ShowThousandsSeparators(false);
-            );
+            //// Don't set this line (remove it) to use the installed system's fonts (FontName = "Tahoma").
+            //// Or if you want to use a custom font, make sure that font is present in the wwwroot/fonts folder and also use a good and complete font!
+            //// .UseCustomFont(Path.Combine(_env.WebRootPath, "fonts", "name.ttf")) 
+            //// .AbsoluteExpiration(minutes: 7)
+            //// .ShowThousandsSeparators(false);
+            //);
 
 
             services.Configure<MultiTenancyOptions<string>>(Configuration.GetSection("MultiTenancy"));

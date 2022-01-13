@@ -2,7 +2,7 @@
 
   <PropertyGroup>
 
-
+    <Version>4.3.0</Version>   
     <!-- Microsoft.SourceLink: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <!-- Microsoft.SourceLink: Embed source files that are not tracked by the source control manager in the PDB -->
@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
   </ItemGroup>
   
 </Project>

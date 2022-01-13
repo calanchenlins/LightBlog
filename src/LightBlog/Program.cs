@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using KaneBlake.Basis.Common.Logging;
 using LightBlog.Infrastruct.Context;
 using LightBlog.Data;
 using Autofac.Extensions.DependencyInjection;

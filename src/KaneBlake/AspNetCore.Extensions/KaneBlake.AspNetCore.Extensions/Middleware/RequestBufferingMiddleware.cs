@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using KaneBlake.Basis.Common.Extensions;
+using KaneBlake.Extensions.Pipelines;
 
 namespace KaneBlake.AspNetCore.Extensions.Middleware
 {
@@ -21,9 +21,10 @@ namespace KaneBlake.AspNetCore.Extensions.Middleware
 
         public async Task InvokeAsync(HttpContext context)
         {
+            context.Request.EnableBuffering();
+
             try
             {
-                context.Request.EnableBuffering();
                 // https://github.com/dotnet/aspnetcore/issues/24562
                 // Before reads to the end of HttpContext.Request.BodyReader(When ReadResult.IsCompleted is true)
                 // We shouldn't sets the position within HttpContext.Request.Body
@@ -32,11 +33,10 @@ namespace KaneBlake.AspNetCore.Extensions.Middleware
 
                 // log Request.Body's content...
                 var bufferHex = BitConverter.ToString(buffer.ToArray());
-                if (bufferHex.Length > 0) 
+                if (bufferHex.Length > 0)
                 {
                     _logger.LogInformation("Request.Body's content:\n{body}", bufferHex);
                 }
-
             }
             catch (Exception ex)
             {

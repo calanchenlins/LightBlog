@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace KaneBlake.AspNetCore.Extensions.DependencyInjection
+namespace KaneBlake.Extensions.DependencyInjection
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true, Inherited = true)]
     public class AutoInjectionAttribute : Attribute
@@ -29,5 +31,4 @@ namespace KaneBlake.AspNetCore.Extensions.DependencyInjection
         public Type[] ServiceTypes { get; }
 
     }
-
 }

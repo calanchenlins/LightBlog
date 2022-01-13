@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KaneBlake.Basis.Common.Profiling
+namespace KaneBlake.Extensions.Profiling
 {
     /// <summary>
     /// An wrapped <see cref="IAsyncStorage"/> with Logging.

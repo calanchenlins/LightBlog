@@ -9,11 +9,11 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using KaneBlake.Basis.Common.Extensions;
 using System.Reflection;
 using System.ComponentModel;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc;
+using KaneBlake.Extensions.Pipelines;
 
 namespace KaneBlake.AspNetCore.Extensions.Services.Module
 {

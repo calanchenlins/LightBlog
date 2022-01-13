@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\AspNetCore.Extensions\KaneBlake.AspNetCore.Extensions\KaneBlake.AspNetCore.Extensions.csproj" />
-    <ProjectReference Include="..\..\Basis\KaneBlake.Basis.csproj" />
+    <ProjectReference Include="..\..\Infrastruct\KaneBlake.Infrastruct\KaneBlake.Infrastruct.csproj" />
   </ItemGroup>
 
   <ItemGroup>

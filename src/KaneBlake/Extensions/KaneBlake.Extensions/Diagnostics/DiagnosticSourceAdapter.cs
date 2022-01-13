@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using KaneBlake.Basis.Common.Diagnostics.Abstractions;
+using KaneBlake.Extensions.Diagnostics.Abstractions;
 using Microsoft.Extensions.Logging;
 
-namespace KaneBlake.Basis.Common.Diagnostics
+namespace KaneBlake.Extensions.Diagnostics
 {
-    public class DiagnosticSourceAdapter : IObserver<KeyValuePair<string, object>>
+    public class DiagnosticSourceAdapter : IObserver<KeyValuePair<string, object?>>
     {
         private readonly Listener _listener;
         private readonly ILogger _logger;
@@ -61,9 +61,9 @@ namespace KaneBlake.Basis.Common.Diagnostics
                 _listener.Subscriptions.ContainsKey(diagnosticName);
         }
 
-        public void OnNext(KeyValuePair<string, object> value)
+        public void OnNext(KeyValuePair<string, object?> value)
         {
-            if (_listener.Subscriptions.TryGetValue(value.Key, out DiagnosticMethodSubscription subscription))
+            if (_listener.Subscriptions.TryGetValue(value.Key, out var subscription))
             {
                 try 
                 {
@@ -71,7 +71,7 @@ namespace KaneBlake.Basis.Common.Diagnostics
                 }
                 catch (Exception exception) 
                 {
-                    _logger.LogError("Invoke diagnostic method[{p1}] exception.", value.Key,exception);
+                    _logger.LogError(exception, "Invoke diagnostic method[{p1}] exception.", value.Key);
                 }
                 
             }

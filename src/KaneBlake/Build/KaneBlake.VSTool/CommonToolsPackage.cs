@@ -138,6 +138,7 @@ namespace KaneBlake.VSTool
             var workspace = componentModel.GetService<VisualStudioWorkspace>();
             var projects = workspace.CurrentSolution.Projects;
 
+            // Code Refactoring In Project
             if (menuCommand.CommandID.ID == PkgCmdIDList.cmdidVstFileEncoding)
             {
                 projects = projects.Where(p => p.Name.Equals(selectedProjectName));
@@ -167,24 +168,17 @@ namespace KaneBlake.VSTool
 
             var refactoringOptions = dialogWindow.ViewModel;
 
-            if (refactoringOptions.AdjustNamespaces) 
-            {
-                projects = workspace.CurrentSolution.Projects;
-            }
+            projects = projects.Where(p => p.SupportsCompilation);
 
             var logContext = string.Empty;
             try 
             {
-                var projectDocuments = projects.Select(project => project.Documents.ToList()).ToList();
-
-                var allDocuments = new List<Microsoft.CodeAnalysis.Document>(projectDocuments.Select(p=>p.Count).Sum());
-
-                projectDocuments.ForEach(documents => allDocuments.AddRange(documents));
+                var allDocuments = projects.Select(project => project.Documents.ToList()).DimensionReduction().ToList();
 
 
                 if (refactoringOptions.AdjustNamespaces) 
                 {
-                    SynchronizeNamespaces(projects, allDocuments);
+                    SynchronizeNamespaces(allDocuments, workspace.CurrentSolution);
                 }
 
 
@@ -290,16 +284,18 @@ namespace KaneBlake.VSTool
                 OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
         }
 
-        private void SynchronizeNamespaces(IEnumerable<Microsoft.CodeAnalysis.Project> projects,List<Microsoft.CodeAnalysis.Document> allDocuments) 
+        private void SynchronizeNamespaces(List<Microsoft.CodeAnalysis.Document> documents, Microsoft.CodeAnalysis.Solution solution) 
         {
+            var solutionProjects = solution.Projects.Where(p => p.SupportsCompilation);
+
             var usingDirectiveChangelogs = new Dictionary<string, Dictionary<string, string>>();
 
             var projectReferences = new Dictionary<string, List<string>>();
 
             // 修复文件的命名空间
-            for (var documentIndex = 0; documentIndex < allDocuments.Count; documentIndex++)
+            for (var documentIndex = 0; documentIndex < documents.Count; documentIndex++)
             {
-                var document = allDocuments[documentIndex];
+                var document = documents[documentIndex];
                 var project = document.Project;
                 var projectNamespace = string.IsNullOrEmpty(project.DefaultNamespace) ? project.Name : project.DefaultNamespace;
                 var projectDir = Path.GetDirectoryName(project.FilePath);
@@ -348,7 +344,7 @@ namespace KaneBlake.VSTool
 
                         if (!projectReferences.TryGetValue(project.FilePath, out var affectedProjects))
                         {
-                            affectedProjects = projects.Where(p => p.AllProjectReferences.Any(r => r.ProjectId.Equals(project.Id))).Select(p => p.FilePath).ToList();
+                            affectedProjects = solutionProjects.Where(p => p.AllProjectReferences.Any(r => r.ProjectId.Equals(project.Id))).Select(p => p.FilePath).ToList();
                             affectedProjects.Add(project.FilePath);
                             projectReferences.Add(project.FilePath, affectedProjects);
                         }
@@ -373,7 +369,7 @@ namespace KaneBlake.VSTool
 
                     if (documentFixed)
                     {
-                        allDocuments[documentIndex] = document
+                        documents[documentIndex] = document
                             .WithSyntaxRoot(
                                 compilationUnitSyntax.WithMembers(
                                     new SyntaxList<MemberDeclarationSyntax>(memberDeclarationSyntaxNodes)));
@@ -382,10 +378,12 @@ namespace KaneBlake.VSTool
             }
 
 
-            // 修复文件的命名空间引用
-            for (var documentIndex = 0; documentIndex < allDocuments.Count; documentIndex++)
+            var solutionDocuments = solutionProjects.Select(project => project.Documents.ToList()).DimensionReduction().ToList();
+
+            // 修复解决方案中文件的命名空间引用
+            for (var documentIndex = 0; documentIndex < solutionDocuments.Count; documentIndex++)
             {
-                var document = allDocuments[documentIndex];
+                var document = solutionDocuments[documentIndex];
                 if (!usingDirectiveChangelogs.TryGetValue(document.Project.FilePath, out var transformedNamespaces))
                 {
                     continue;
@@ -407,7 +405,7 @@ namespace KaneBlake.VSTool
                     }
                     if (documentFixed)
                     {
-                        allDocuments[documentIndex] = document
+                        solutionDocuments[documentIndex] = document
                             .WithSyntaxRoot(
                                 compilationUnitSyntax.WithUsings(
                                     new SyntaxList<UsingDirectiveSyntax>(usingDirectiveSyntaxNodes)));
@@ -497,5 +495,19 @@ namespace KaneBlake.VSTool
     {
         public const uint cmdidVstFileEncoding = 0x0002;
         public const uint cmdidVstFileEncodingAll = 0x0003;
+    }
+
+    internal static class EnumerableExtensions 
+    {
+        public static IEnumerable<T> DimensionReduction<T>(this IEnumerable<IEnumerable<T>> sources)
+        {
+            foreach (var source in sources)
+            {
+                foreach (var el in source)
+                {
+                    yield return el;
+                }
+            }
+        }
     }
 }

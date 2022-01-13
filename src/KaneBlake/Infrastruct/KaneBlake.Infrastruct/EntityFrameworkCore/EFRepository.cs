@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace KaneBlake.Basis.Infrastruct.EntityFrameworkCore
+namespace KaneBlake.Infrastruct.EntityFrameworkCore
 {
     /// <summary>
     /// EntityFrameworkCore 对 IRepository 的实现

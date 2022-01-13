@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
-[assembly: JobTemplate(typeof(CoreWeb.Util.Infrastruct.SqlClientHelp))]
-namespace CoreWeb.Util.Infrastruct
+[assembly: JobTemplate(typeof(KaneBlake.Extensions.Data.SqlClientHelp))]
+namespace KaneBlake.Extensions.Data
 {
     public class SqlClientHelp
     {
@@ -24,7 +24,7 @@ namespace CoreWeb.Util.Infrastruct
         /// <param name="parameters"></param>
         /// <returns></returns>
         [JobTemplate]
-        public static DataTable ReadDataTable(string sql, string conStr, List<SqlParameter> parameters = null)
+        public static DataTable ReadDataTable(string sql, string conStr, List<SqlParameter>? parameters = null)
         {
             using var conn = new SqlConnection(conStr);
             DataTable dt = new DataTable();
@@ -115,7 +115,7 @@ namespace CoreWeb.Util.Infrastruct
         }
 
         [JobTemplate]
-        public static int ExecuteTSqlInTran(string connectionString, string cmdText, List<SqlParameter> parameters = null)
+        public static int ExecuteTSqlInTran(string connectionString, string cmdText, List<SqlParameter>? parameters = null)
         {
             using var connection = new SqlConnection(connectionString);
             // 开启事务前需要手动开启连接

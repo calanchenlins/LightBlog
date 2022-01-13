@@ -1,4 +1,4 @@
-﻿using KaneBlake.Basis.Infrastruct.EntityFrameworkCore;
+﻿using KaneBlake.Infrastruct.EntityFrameworkCore;
 using LightBlog.Infrastruct.Context;
 using LightBlog.Infrastruct.Entities;
 using Microsoft.EntityFrameworkCore;

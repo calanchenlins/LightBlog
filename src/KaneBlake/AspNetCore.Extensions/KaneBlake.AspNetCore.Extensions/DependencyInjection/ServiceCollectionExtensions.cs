@@ -1,11 +1,15 @@
 ﻿using KaneBlake.AspNetCore.Extensions.ConnectedServices;
+using KaneBlake.AspNetCore.Extensions.Hosting;
 using KaneBlake.AspNetCore.Extensions.MultiTenancy;
 using KaneBlake.AspNetCore.Extensions.MVC.ViewFeatures;
 using KaneBlake.AspNetCore.Extensions.Services.Module;
+using KaneBlake.Extensions.DependencyInjection;
+using KaneBlake.Extensions.Diagnostics;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,53 +68,23 @@ namespace KaneBlake.AspNetCore.Extensions.DependencyInjection
             ///   }
             /// }
 
-            services.AddScoped<IApplicationServiceClient, ApplicationServiceClient>();
-            services.AddSingleton<ApplicationServiceCacheEntryResolver>();
+            services.TryAddScoped<IApplicationServiceClient, ApplicationServiceClient>();
+            services.TryAddSingleton<ApplicationServiceCacheEntryResolver>();
             services.Configure<ApplicationServiceOptions>(configuration);
             return services;
         }
 
+        public static IServiceCollection AddDiagnosticProcessor(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<DiagnosticOptions>(configuration);
+            services.AddHostedService<DiagnosticProcessorHostedService>();
+            services.TryAddSingleton<DiagnosticAdapterProcessorObserver>();
+            return services;
+        }
 
         public static IServiceCollection AddMultiTenancy(this IServiceCollection services)
         {
             //services.Configure<MultiTenancyOptions<string>>(Configuration.GetSection("MultiTenancy"));
-            return services;
-        }
-
-
-        /// <summary>
-        /// Inject services with <see cref="AutoInjectionAttribute"/>
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="configuration"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddAutoInjectionService(this IServiceCollection services)
-        {
-            var assemblyServices = AppDomain.CurrentDomain.GetAssemblies()
-                .Select(a => a.GetExportedTypes().Where(t => !t.IsInterface && !t.IsAbstract)
-                .Select(t => new { implementationType = t, autoInjectionAttributes = t.GetCustomAttributes<AutoInjectionAttribute>() })
-                .Where(r => r.autoInjectionAttributes.Any()));
-
-            foreach (var injectionServices in assemblyServices)
-            {
-                foreach (var injectionService in injectionServices)
-                {
-                    foreach (var attr in injectionService.autoInjectionAttributes)
-                    {
-                        if (attr.ServiceTypes.Length <= 0)
-                        {
-                            services.Add(new ServiceDescriptor(injectionService.implementationType, injectionService.implementationType, attr.Lifetime));
-                        }
-                        else
-                        {
-                            foreach (var serviceType in attr.ServiceTypes)
-                            {
-                                services.Add(new ServiceDescriptor(serviceType, injectionService.implementationType, attr.Lifetime));
-                            }
-                        }
-                    }
-                }
-            }
             return services;
         }
     }

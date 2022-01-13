@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
 
     <!-- Embed PDB in the DLL -->
     <!-- <DebugType>embedded</DebugType> -->
@@ -19,17 +19,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="3.1.8" />
-    <PackageReference Include="AspectCore.Extensions.Reflection" Version="2.1.0" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="2.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.8" />
-    <PackageReference Include="Microsoft.Extensions.DiagnosticAdapter" Version="3.1.8" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.8" />
-    <PackageReference Include="MiniProfiler.Shared" Version="4.2.22" />
+    <Compile Remove="Common\Localization\**" />
+    <Compile Remove="Common\Logging\**" />
+    <EmbeddedResource Remove="Common\Localization\**" />
+    <EmbeddedResource Remove="Common\Logging\**" />
+    <None Remove="Common\Localization\**" />
+    <None Remove="Common\Logging\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="System.IO.Pipelines" Version="4.7.2" />
-    <PackageReference Include="System.Text.Json" Version="4.7.2" />
   </ItemGroup>
   
 </Project>

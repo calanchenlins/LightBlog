@@ -5,11 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LightBlog.Models;
-using static LightBlog.Models.PostsViewModel;
 using LightBlog.Services;
 using System.Net;
-using KaneBlake.Basis.Common.Logging.File;
-using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Distributed;
 using LightBlog.Services.Cache;
@@ -25,17 +22,14 @@ namespace LightBlog.Controllers
     {
         private readonly IPostService _postService;
 
-        private readonly FileLoggerOptions _options;
-
         private readonly IHomeCacheService _homeCacheService;
 
         private readonly ILogger _logger;
 
         private readonly IConfiguration _configuration;
 
-        public HomeController(IPostService postService, IOptions<FileLoggerOptions> options, ILogger<HomeController> logger, IHomeCacheService homeCacheService, IConfiguration configuration)
+        public HomeController(IPostService postService, ILogger<HomeController> logger, IHomeCacheService homeCacheService, IConfiguration configuration)
         {
-            _options = options.Value;
             _postService = postService ?? throw new ArgumentNullException(nameof(postService));
             _homeCacheService = homeCacheService ?? throw new ArgumentNullException(nameof(homeCacheService));
             _logger = logger;

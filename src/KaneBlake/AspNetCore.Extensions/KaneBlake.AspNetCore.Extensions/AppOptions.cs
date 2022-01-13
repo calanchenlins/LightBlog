@@ -1,4 +1,5 @@
 ﻿using KaneBlake.AspNetCore.Extensions.MultiTenancy;
+using KaneBlake.AspNetCore.Extensions.Services.Module;
 using System;
 using System.Collections.Generic;
 using System.Text;

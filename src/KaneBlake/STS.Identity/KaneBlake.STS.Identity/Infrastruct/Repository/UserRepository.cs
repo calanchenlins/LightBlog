@@ -1,4 +1,4 @@
-﻿using KaneBlake.Basis.Infrastruct.EntityFrameworkCore;
+﻿using KaneBlake.Infrastruct.EntityFrameworkCore;
 using KaneBlake.STS.Identity.Infrastruct.Context;
 using KaneBlake.STS.Identity.Infrastruct.Entities;
 using System;

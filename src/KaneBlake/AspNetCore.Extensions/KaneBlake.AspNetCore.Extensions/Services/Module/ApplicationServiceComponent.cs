@@ -1,5 +1,4 @@
-﻿using KaneBlake.AspNetCore.Extensions.DependencyInjection;
-using KaneBlake.Basis.Services;
+﻿using KaneBlake.Basis.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -7,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Collections.Concurrent;
+using KaneBlake.Extensions.DependencyInjection;
 
 namespace KaneBlake.AspNetCore.Extensions.Services.Module
 {

@@ -1,5 +1,5 @@
 ﻿using KaneBlake.Basis.Domain.Entities;
-using KaneBlake.Basis.Infrastruct.EntityFrameworkCore;
+using KaneBlake.Infrastruct.EntityFrameworkCore;
 using LightBlog.Infrastruct.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

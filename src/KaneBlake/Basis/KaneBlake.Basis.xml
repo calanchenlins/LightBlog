@@ -145,43 +145,6 @@
             <param name="value"></param>
             <returns></returns>
         </member>
-        <member name="T:KaneBlake.Basis.Common.Diagnostics.DiagnosticAdapterProcessorObserver">
-            <summary>
-            支持属性绑定和对象绑定
-            性能: 对象、属性绑定(80ns) > Microsoft.Extensions.DiagnosticAdapter(140ns)
-            </summary>
-        </member>
-        <member name="T:KaneBlake.Basis.Common.Diagnostics.DiagnosticProcessorObserver">
-            <summary>
-            默认实现使用 Microsoft.Extensions.DiagnosticAdapter 作为适配器
-            方法参数只支持属性绑定(匿名对象和非匿名对象在性能上基本无差别)
-            </summary>
-        </member>
-        <member name="M:KaneBlake.Basis.Common.Diagnostics.DiagnosticProcessorObserver.OnCompleted">
-            <summary>
-            called when Observer of DiagnosticListener is disposed
-            </summary>
-        </member>
-        <member name="M:KaneBlake.Basis.Common.Diagnostics.DiagnosticProcessorObserver.OnNext(System.Diagnostics.DiagnosticListener)">
-            <summary>
-            Called when a new DiagnosticListener gets created
-            </summary>
-            <param name="listener"></param>
-        </member>
-        <member name="T:KaneBlake.Basis.Common.Extensions.PipeReaderExtensions">
-            <summary>
-            Extensions of PipeReader
-            </summary>
-        </member>
-        <member name="M:KaneBlake.Basis.Common.Extensions.PipeReaderExtensions.ReadToEndAsync(System.IO.Pipelines.PipeReader,System.Threading.CancellationToken)">
-            <summary>
-            Asynchronously reads to the end of the current System.IO.Pipelines.PipeReader.
-            Requires a call to BodyReader.Advance after use ReadResult.Buffer
-            </summary>
-            <param name="pipeReader"></param>
-            <param name="cancellationToken"></param>
-            <returns></returns>
-        </member>
         <member name="M:KaneBlake.Basis.Common.Extensions.TypeExtensions.GetInterfaceProperties(System.Type,System.Reflection.BindingFlags)">
             <summary>
             获取接口属性
@@ -189,76 +152,6 @@
             <param name="type"></param>
             <param name="bindingFlags"></param>
             <returns></returns>
-        </member>
-        <member name="T:KaneBlake.Basis.Common.Localization.JsonFileStringLocalizerFactory.AttributeKey">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="T:KaneBlake.Basis.Common.Profiling.MiniProfilerLogConfigureOptions">
-            <summary>
-            Sets up logging options for <see cref="T:StackExchange.Profiling.Internal.MiniProfilerBaseOptions"/>.
-            </summary>
-        </member>
-        <member name="M:KaneBlake.Basis.Common.Profiling.MiniProfilerLogConfigureOptions.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
-            <summary>
-            Initializes an instance of <see cref="T:KaneBlake.Basis.Common.Profiling.MiniProfilerLogConfigureOptions"/>.
-            </summary>
-            <param name="loggerFactory"></param>
-        </member>
-        <member name="M:KaneBlake.Basis.Common.Profiling.MiniProfilerLogConfigureOptions.Configure(StackExchange.Profiling.Internal.MiniProfilerBaseOptions)">
-            <summary>
-            Add the <see cref="T:KaneBlake.Basis.Common.Profiling.LogStorage"/> to <see cref="T:StackExchange.Profiling.Internal.MiniProfilerBaseOptions"/>.
-            </summary>
-            <param name="options"></param>
-        </member>
-        <member name="T:KaneBlake.Basis.Common.Profiling.LogStorage">
-            <summary>
-            An wrapped <see cref="T:StackExchange.Profiling.Storage.IAsyncStorage"/> with Logging.
-            </summary>
-        </member>
-        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.#ctor(StackExchange.Profiling.Storage.IAsyncStorage,Microsoft.Extensions.Logging.ILoggerFactory)">
-            <summary>
-            Creates a new <see cref="T:KaneBlake.Basis.Common.Profiling.LogStorage"/> with the specified <see cref="T:StackExchange.Profiling.Storage.IAsyncStorage" /> and <see cref="T:Microsoft.Extensions.Logging.ILoggerFactory"/>.
-            </summary>
-            <param name="storage"></param>
-            <param name="loggerFactory"></param>
-        </member>
-        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.GetUnviewedIds(System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.GetUnviewedIdsAsync(System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.List(System.Int32,System.Nullable{System.DateTime},System.Nullable{System.DateTime},StackExchange.Profiling.Storage.ListResultsOrder)">
-            <inheritdoc/>
-        </member>
-        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.ListAsync(System.Int32,System.Nullable{System.DateTime},System.Nullable{System.DateTime},StackExchange.Profiling.Storage.ListResultsOrder)">
-            <inheritdoc/>
-        </member>
-        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.Load(System.Guid)">
-            <inheritdoc/>
-        </member>
-        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.LoadAsync(System.Guid)">
-            <inheritdoc/>
-        </member>
-        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.Save(StackExchange.Profiling.MiniProfiler)">
-            <inheritdoc/>
-        </member>
-        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.SaveAsync(StackExchange.Profiling.MiniProfiler)">
-            <inheritdoc/>
-        </member>
-        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.SetUnviewed(System.String,System.Guid)">
-            <inheritdoc/>
-        </member>
-        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.SetUnviewedAsync(System.String,System.Guid)">
-            <inheritdoc/>
-        </member>
-        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.SetViewed(System.String,System.Guid)">
-            <inheritdoc/>
-        </member>
-        <member name="M:KaneBlake.Basis.Common.Profiling.LogStorage.SetViewedAsync(System.String,System.Guid)">
-            <inheritdoc/>
         </member>
         <member name="T:KaneBlake.Basis.Common.Serialization.DateTimeJsonConverter">
             <summary>
@@ -368,6 +261,31 @@
             通过 Lazy.Value 的懒加载实现延迟访问
             </summary>
         </member>
+        <member name="T:KaneBlake.Basis.Common.Threading.LockProvider`1">
+            <summary>
+            A LockProvider based upon the SemaphoreSlim class to selectively lock objects, resources or statement blocks 
+            according to given unique IDs in a sync or async way.
+            <see href="https://github.com/Darkseal/LockProvider/blob/master/LockProvider.cs"/>
+            </summary>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Threading.LockProvider`1.Wait(`0)">
+            <summary>
+            Blocks the current thread (according to the given ID) until it can enter the LockProvider
+            </summary>
+            <param name="id">the unique ID to perform the lock</param>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Threading.LockProvider`1.WaitAsync(`0)">
+            <summary>
+            Asynchronously puts thread to wait (according to the given ID) until it can enter the LockProvider
+            </summary>
+            <param name="id">the unique ID to perform the lock</param>
+        </member>
+        <member name="M:KaneBlake.Basis.Common.Threading.LockProvider`1.Release(`0)">
+            <summary>
+            Releases the lock (according to the given ID)
+            </summary>
+            <param name="id">the unique ID to unlock</param>
+        </member>
         <member name="T:KaneBlake.Basis.Domain.Entities.AggregateRoot`1">
             <summary>
             聚合根抽象类
@@ -465,51 +383,17 @@
             工作单元提交
             </summary>
         </member>
-        <member name="T:KaneBlake.Basis.Infrastruct.DbConnectionFactory">
-            <summary>
-            A factory used to create <see cref="T:System.Data.Common.DbConnection"/> instances.
-            </summary>
-        </member>
-        <member name="M:KaneBlake.Basis.Infrastruct.DbConnectionFactory.CreateSqlConnection(System.String)">
-            <summary>
-            Creates a profiled <see cref="T:System.Data.Common.DbConnection"/> based on the given connection string.
-            </summary>
-            <param name="connectionString">The connection string used to create <see cref="T:System.Data.Common.DbConnection"/>.</param>
-            <returns>
-            An initialized <see cref="T:System.Data.Common.DbConnection"/>.
-            </returns>
-        </member>
-        <member name="T:KaneBlake.Basis.Infrastruct.DbConnectionExtensions">
-            <summary>
-            Extension methods for <see cref="T:System.Data.Common.DbConnection"/>
-            </summary>
-        </member>
-        <member name="M:KaneBlake.Basis.Infrastruct.DbConnectionExtensions.AsProfiling(System.Data.Common.DbConnection)">
-            <summary>
-            Returns a new DbConnection that wraps connection, providing query execution profiling.
-            <para>If profiler is null, no profiling will occur.</para>
-            </summary>
-            <param name="connection">The <see cref="T:System.Data.Common.DbConnection"/> to Profiled.</param>
-            <returns></returns>
-        </member>
-        <member name="T:KaneBlake.Basis.Infrastruct.EntityFrameworkCore.EFRepository`1">
-            <summary>
-            EntityFrameworkCore 对 IRepository 的实现
-            </summary>
-            <typeparam name="TEntity"></typeparam>
-        </member>
-        <member name="T:KaneBlake.Basis.Infrastruct.EntityFrameworkCore.TEntityContext`2">
-            <summary>
-            领域聚合根上下文对象
-            </summary>
-            <typeparam name="TEntity"></typeparam>
-            <typeparam name="TSelf"></typeparam>
-        </member>
         <member name="T:KaneBlake.Basis.Services.ServiceResponse">
             <summary>
             Service、WebApi 层响应格式
-            自定义序列化: src\Mvc\Mvc.Core\src\Infrastructure\ProblemDetailsJsonConverter.cs
+            <code>
+            <para>请求成功: { statusCode: 2000, result: {} }  <seealso cref="P:KaneBlake.Basis.Services.ServiceResponse`1.Result"/></para>
+            <para>参数验证失败: { statusCode: 4000, errors: {"modelName": ["modelError1","modelError2"] }} <seealso cref="P:KaneBlake.Basis.Services.ServiceProblemResponse`1.Errors"/></para>
+            <para>禁止操作: {statusCode: 4003, message: "详细错误消息"} <seealso cref="P:KaneBlake.Basis.Services.ServiceResponse.Message"/></para>
+            <para>系统错误: {statusCode: 5000, message: "详细错误消息"} <seealso cref="P:KaneBlake.Basis.Services.ServiceResponse.Message"/></para>
+            </code>
             </summary>
+            <remarks>自定义序列化: src\Mvc\Mvc.Core\src\Infrastructure\ProblemDetailsJsonConverter.cs</remarks>
             <summary>
             ServiceResponse 静态方法, 用于生成 ServiceResponse 实例
             </summary>
@@ -518,11 +402,13 @@
             <summary>
             服务接口响应状态码
             </summary>
+            <example>2000</example>
         </member>
         <member name="P:KaneBlake.Basis.Services.ServiceResponse.Message">
             <summary>
-            状态码: 2000 之外的错误消息
+            服务响应消息
             </summary>
+            <example>service request sucess.</example>
         </member>
         <member name="P:KaneBlake.Basis.Services.ServiceResponse.Extensions">
             <summary>
@@ -583,19 +469,21 @@
         </member>
         <member name="T:KaneBlake.Basis.Services.ServiceResponse`1">
             <summary>
-            包含泛型 Data 的 Service、WebApi 层响应格式
+            服务请求成功响应 
             </summary>
+            <remarks>状态码: 2000</remarks>
             <typeparam name="T"></typeparam>
         </member>
         <member name="P:KaneBlake.Basis.Services.ServiceResponse`1.Result">
             <summary>
-            状态码: 2000 响应数据/状态码: 3002 重定向Url
+            响应数据
             </summary>
         </member>
         <member name="T:KaneBlake.Basis.Services.ServiceLocationResponse">
             <summary>
-            服务重定向响应 状态码: 3002
+            服务重定向响应
             </summary>
+            <remarks>状态码: 3002</remarks>
         </member>
         <member name="P:KaneBlake.Basis.Services.ServiceLocationResponse.Location">
             <summary>
@@ -606,11 +494,12 @@
             <summary>
             服务异常响应
             </summary>
+            <remarks>状态码: 4000 等</remarks>
             <typeparam name="T"></typeparam>
         </member>
         <member name="P:KaneBlake.Basis.Services.ServiceProblemResponse`1.Errors">
             <summary>
-            状态码: 4000 模型验证错误信息
+            异常信息
             </summary>
         </member>
         <member name="T:KaneBlake.Basis.Services.ServiceStatusCodes">
@@ -640,9 +529,7 @@
             判断扩展字段中是否包含 traceId
             </summary>
             <param name="serviceResponse"></param>
-            <param name=""></param>
             <returns></returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:CoreWeb.Util.Infrastruct.SqlClientHelp.ReadDataTable(System.String,System.String,System.Collections.Generic.List{Microsoft.Data.SqlClient.SqlParameter})" -->
     </members>
 </doc>

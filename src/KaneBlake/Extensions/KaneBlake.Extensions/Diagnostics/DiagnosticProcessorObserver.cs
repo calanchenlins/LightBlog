@@ -1,12 +1,12 @@
-﻿using KaneBlake.Basis.Common.Diagnostics.Abstractions;
-using KaneBlake.Basis.Common.Extensions;
+﻿using KaneBlake.Extensions.Diagnostics.Abstractions;
+using KaneBlake.Extensions.Pipelines;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace KaneBlake.Basis.Common.Diagnostics
+namespace KaneBlake.Extensions.Diagnostics
 {
     /// <summary>
     /// 默认实现使用 Microsoft.Extensions.DiagnosticAdapter 作为适配器
@@ -48,7 +48,7 @@ namespace KaneBlake.Basis.Common.Diagnostics
         /// <param name="listener"></param>
         public void OnNext(DiagnosticListener listener)
         {
-            foreach (var diagnosticProcessor in _tracingDiagnosticProcessors.Distinct(x => x.ListenerName))
+            foreach (var diagnosticProcessor in _tracingDiagnosticProcessors.DistinctBy(x => x.ListenerName))
             {
                 if (listener.Name == diagnosticProcessor.ListenerName)
                 {

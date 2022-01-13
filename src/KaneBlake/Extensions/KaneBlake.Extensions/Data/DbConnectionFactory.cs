@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Text;
 
-namespace KaneBlake.Basis.Infrastruct
+namespace KaneBlake.Extensions.Data
 {
     /// <summary>
     /// A factory used to create <see cref="DbConnection"/> instances.

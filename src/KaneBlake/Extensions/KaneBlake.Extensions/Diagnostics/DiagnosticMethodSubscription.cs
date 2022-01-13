@@ -1,15 +1,15 @@
 ﻿using AspectCore.Extensions.Reflection;
-using KaneBlake.Basis.Common.Diagnostics.Abstractions;
+using KaneBlake.Extensions.Diagnostics.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace KaneBlake.Basis.Common.Diagnostics
+namespace KaneBlake.Extensions.Diagnostics
 {
     public interface IParameterResolver
     {
-        object Resolve(object value);
+        object? Resolve(object? value);
     }
     internal class DiagnosticMethodSubscription
     {
@@ -27,14 +27,14 @@ namespace KaneBlake.Basis.Common.Diagnostics
             _parameterResolvers = GetParameterResolvers(method).ToArray();
         }
 
-        public void Invoke(string diagnosticName, object value)
+        public void Invoke(string diagnosticName, object? value)
         {
             if (_diagnosticName != diagnosticName)
             {
                 return;
             }
 
-            var args = new object[_parameterResolvers.Length];
+            var args = new object?[_parameterResolvers.Length];
             for (var i = 0; i < _parameterResolvers.Length; i++)
             {
                 args[i] = _parameterResolvers[i].Resolve(value);
@@ -80,13 +80,13 @@ namespace KaneBlake.Basis.Common.Diagnostics
     [AttributeUsage(AttributeTargets.Parameter, Inherited = true)]
     public abstract class ParameterBinder : Attribute, IParameterResolver
     {
-        public abstract object Resolve(object value);
+        public abstract object? Resolve(object? value);
     }
     public class ObjectAttribute : ParameterBinder
     {
-        public Type TargetType { get; set; }
+        public Type? TargetType { get; set; }
 
-        public override object Resolve(object value)
+        public override object? Resolve(object? value)
         {
             if (TargetType == null || value == null)
             {
@@ -109,10 +109,10 @@ namespace KaneBlake.Basis.Common.Diagnostics
 
     public class PropertyAttribute : ParameterBinder
     {
-        public string Name { get; set; }
-        public PropertyReflector PropReflector { get; set; }
+        public string? Name { get; set; }
+        public PropertyReflector? PropReflector { get; set; }
 
-        public override object Resolve(object value)
+        public override object? Resolve(object? value)
         {
             if (value == null || Name == null)
             {
@@ -133,7 +133,7 @@ namespace KaneBlake.Basis.Common.Diagnostics
     }
     public class NullParameterResolver : IParameterResolver
     {
-        public object Resolve(object value)
+        public object? Resolve(object? value)
         {
             return null;
         }

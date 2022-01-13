@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace KaneBlake.Basis.Common.Diagnostics.Abstractions
+namespace KaneBlake.Extensions.Diagnostics.Abstractions
 {
     public interface IDiagnosticProcessor
     {

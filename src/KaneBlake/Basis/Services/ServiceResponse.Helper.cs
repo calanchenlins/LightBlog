@@ -30,12 +30,7 @@ namespace KaneBlake.Basis.Services
         /// <returns></returns>
         public static ServiceResponse Redirect(string Url)
         {
-            var serviceResponse = new ServiceLocationResponse
-            {
-                StatusCode = 3002,
-                Location = Url,
-                Message = "3002 Found"
-            };
+            var serviceResponse = new ServiceLocationResponse(Url);
             return serviceResponse;
         }
 
@@ -92,11 +87,7 @@ namespace KaneBlake.Basis.Services
         /// <returns></returns>
         public static ServiceResponse<T> OK<T>(T data)
         {
-            var serviceResponse = new ServiceResponse<T>
-            {
-                StatusCode = 2000,
-                Result = data
-            };
+            var serviceResponse = new ServiceResponse<T>(data);
             return serviceResponse;
         }
 
@@ -133,11 +124,11 @@ namespace KaneBlake.Basis.Services
             return serviceResponse.Extensions.TryAdd("traceId", traceId);
         }
 
+
         /// <summary>
         /// 判断扩展字段中是否包含 traceId
         /// </summary>
         /// <param name="serviceResponse"></param>
-        /// <param name=""></param>
         /// <returns></returns>
         public static bool ContainsTraceId(this ServiceResponse serviceResponse)
         {

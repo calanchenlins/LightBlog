@@ -8,7 +8,6 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Extras.DynamicProxy;
 using AutoMapper;
-using KaneBlake.Basis.Common.Diagnostics.Abstractions;
 using KaneBlake.Basis.Domain.Repositories;
 using LightBlog.Common.AOP.CommonCache;
 using LightBlog.Common.Diagnostics;
@@ -32,6 +31,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using System.IdentityModel.Tokens.Jwt;
 using OpenTelemetry.Trace;
 using Microsoft.AspNetCore.Authentication;
+using KaneBlake.Extensions.Diagnostics.Abstractions;
 
 namespace LightBlog
 {
@@ -152,7 +152,7 @@ namespace LightBlog
                         .AddConsoleExporter()
                         );
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+            services.AddMvc()
                   .AddNewtonsoftJson(options =>
                   {
                       options.SerializerSettings.ContractResolver = new DefaultContractResolver();

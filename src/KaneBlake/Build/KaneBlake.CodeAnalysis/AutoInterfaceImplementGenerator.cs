@@ -187,7 +187,7 @@ namespace KaneBlake.CodeAnalysis
 
         public void Initialize(GeneratorInitializationContext context)
         {
-            // Debugger.Launch();
+            //Debugger.Launch();
             // Register a factory that can create our custom syntax receiver
             context.RegisterForSyntaxNotifications(() => new MySyntaxReceiver());
 

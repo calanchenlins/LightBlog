@@ -5,8 +5,37 @@
     <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="HbsLoadType" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(SourceGeneratorTemplate)'!='true'">
+  <ItemGroup>
     <AdditionalFiles Include="CodeTemplates\AutoInterfaceImplementGenerator\Class.hbs" GeneratorName="AutoInterfaceImplement" HbsLoadType="Startup" />
     <AdditionalFiles Include="CodeTemplates\AutoInterfaceImplementGenerator\Partials\Properties.hbs" GeneratorName="AutoInterfaceImplement" HbsLoadType="Partial" />
   </ItemGroup>
+
+  <!--
+  <ItemGroup Condition="'$(SourceGeneratorTemplate)'=='true'">
+    <_codeTemplatePath Include="$(MSBuildThisFileDirectory)..\src\CodeTemplates\AutoInterfaceImplementGenerator" />
+    
+    <AdditionalFiles Include="@(_codeTemplatePath->'%(FullPath)\Class.hbs')" GeneratorName="AutoInterfaceImplement" HbsLoadType="Startup" Visible="false" Link="CodeTemplates\AutoInterfaceImplementGenerator\Class.hbs"/>
+    <AdditionalFiles Include="@(_codeTemplatePath->'%(FullPath)\Partials\Properties.hbs')" GeneratorName="AutoInterfaceImplement" HbsLoadType="Partial" Visible="false" Link="CodeTemplates\AutoInterfaceImplementGenerator\Partials\Properties.hbs"/>
+  </ItemGroup>
+  -->
+	
+	
+    <!-- add PrivateAssets="buildTransitive" in PackageReference to avoid duplicate import -->
+    <!-- Roslyn will merge duplicate Target -->
+	<!--
+    <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+      <Import Project="$(NuGetPackageRoot)kaneblake.codeanalysis\1.0.0\buildTransitive\KaneBlake.CodeAnalysis.props" Condition="Exists('$(NuGetPackageRoot)kaneblake.codeanalysis\1.0.0\buildTransitive\KaneBlake.CodeAnalysis.props')" />
+      <Import Project="$(NuGetPackageRoot)kaneblake.codeanalysis.test\1.0.3\buildTransitive\KaneBlake.CodeAnalysis.Test.props" Condition="Exists('$(NuGetPackageRoot)kaneblake.codeanalysis.test\1.0.3\buildTransitive\KaneBlake.CodeAnalysis.Test.props')" />
+    </ImportGroup>
+    <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+      <Import Project="$(NuGetPackageRoot)kaneblake.codeanalysis\1.0.0\buildTransitive\KaneBlake.CodeAnalysis.targets" Condition="Exists('$(NuGetPackageRoot)kaneblake.codeanalysis\1.0.0\buildTransitive\KaneBlake.CodeAnalysis.targets')" />
+      <Import Project="$(NuGetPackageRoot)kaneblake.codeanalysis.test\1.0.3\buildTransitive\KaneBlake.CodeAnalysis.Test.targets" Condition="Exists('$(NuGetPackageRoot)kaneblake.codeanalysis.test\1.0.3\buildTransitive\KaneBlake.CodeAnalysis.Test.targets')" />
+    </ImportGroup>
+	-->
+	<ItemGroup Condition="'$(PackAsSourceGeneratorTemplate)'=='true'">
+		<!-- Package the props file and source code -->
+		<None Include="$(MSBuildThisFileFullPath)" Pack="true" PackagePath="build\$(PackageId).props;buildTransitive\$(PackageId).props" Visible="false" />
+		<None Include="$(MSBuildThisFileDirectory)$(MSBuildThisFileName).targets" Pack="true" PackagePath="build\$(PackageId).targets;buildTransitive\$(PackageId).targets" Visible="false" />
+		<None Include="CodeTemplates\**" Pack="true" PackagePath="src\CodeTemplates" Visible="true" />
+	</ItemGroup>
 </Project>

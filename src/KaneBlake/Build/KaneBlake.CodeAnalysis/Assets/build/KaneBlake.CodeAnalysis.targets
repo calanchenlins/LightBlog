@@ -14,7 +14,8 @@
       DestinationFiles="@(FilesInPackageToCopy->'$(MSBuildProjectDirectory)\%(Identity)')"/>
   </Target>
 
-  <Target Name="CopyFilesIntoTargetProjectWithCondition" Condition="'$(SourceGeneratorTemplate)'!='true'" BeforeTargets="PrepareForBuild">
+
+  <Target Name="CopyFilesIntoTargetProjectWithCondition" BeforeTargets="PrepareForBuild">
     <CallTarget Targets="CopyFilesIntoTargetProject"/>
   </Target>
 </Project>

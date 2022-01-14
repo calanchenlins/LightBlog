@@ -5,7 +5,7 @@
     <LangVersion>Latest</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeBuildOutput>true</IncludeBuildOutput>
-    <Version>1.43.0</Version>
+    <Version>1.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,9 +29,13 @@
     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     
     <!-- Package the props file and source code -->
-    <!--<None Include="Assets\build\**" Pack="true" PackagePath="build" Visible="true" />-->
+    <!-- Default Value of PrivateAssets is "contentfiles;analyzers;build" -->
+    <!-- dotnet pack will adds exclude="Build,Analyzers" to .nuspec, so that These assets will be consumed but won't flow to the parent project-->
+    <!-- However, this does not work for Analyzers -->
+    <!-- PrivateAssets="all" can prevent analyzers from flowing-->
     <None Include="Assets\build\**" Pack="true" PackagePath="build;buildTransitive" Visible="true" />
     <None Include="Assets\src\**" Pack="true" PackagePath="src" Visible="true" />
+    <!-- https://devblogs.microsoft.com/nuget/nuget-contentfiles-demystified/ -->
     
     <!-- Package the generation-time dependencies alongside the generator assembly -->
     <None Include="$(PKGHandlebars_Net)\lib\$(TargetFramework)\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />

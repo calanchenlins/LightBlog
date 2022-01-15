@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project>
+  <ItemGroup>
+    <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="GeneratorName" />
+    <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="HbsLoadType" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <_codeTemplatePath Include="$(MSBuildThisFileDirectory)..\src\CodeTemplates\AutoInterfaceImplementGenerator" />
+    
+    <AdditionalFiles Include="@(_codeTemplatePath->'%(FullPath)\Class.hbs')" GeneratorName="AutoInterfaceImplement" HbsLoadType="Startup" Visible="false" Link="CodeTemplates\AutoInterfaceImplementGenerator\Class.hbs"/>
+    <AdditionalFiles Include="@(_codeTemplatePath->'%(FullPath)\Partials\Properties.hbs')" GeneratorName="AutoInterfaceImplement" HbsLoadType="Partial" Visible="false" Link="CodeTemplates\AutoInterfaceImplementGenerator\Partials\Properties.hbs"/>
+  </ItemGroup>
+	
+</Project>

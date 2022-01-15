@@ -9,15 +9,6 @@
     <AdditionalFiles Include="CodeTemplates\AutoInterfaceImplementGenerator\Class.hbs" GeneratorName="AutoInterfaceImplement" HbsLoadType="Startup" />
     <AdditionalFiles Include="CodeTemplates\AutoInterfaceImplementGenerator\Partials\Properties.hbs" GeneratorName="AutoInterfaceImplement" HbsLoadType="Partial" />
   </ItemGroup>
-
-  <!--
-  <ItemGroup Condition="'$(SourceGeneratorTemplate)'=='true'">
-    <_codeTemplatePath Include="$(MSBuildThisFileDirectory)..\src\CodeTemplates\AutoInterfaceImplementGenerator" />
-    
-    <AdditionalFiles Include="@(_codeTemplatePath->'%(FullPath)\Class.hbs')" GeneratorName="AutoInterfaceImplement" HbsLoadType="Startup" Visible="false" Link="CodeTemplates\AutoInterfaceImplementGenerator\Class.hbs"/>
-    <AdditionalFiles Include="@(_codeTemplatePath->'%(FullPath)\Partials\Properties.hbs')" GeneratorName="AutoInterfaceImplement" HbsLoadType="Partial" Visible="false" Link="CodeTemplates\AutoInterfaceImplementGenerator\Partials\Properties.hbs"/>
-  </ItemGroup>
-  -->
 	
 	
     <!-- add PrivateAssets="buildTransitive" in PackageReference to avoid duplicate import -->
@@ -35,7 +26,13 @@
 	<ItemGroup Condition="'$(PackAsSourceGeneratorTemplate)'=='true'">
 		<!-- Package the props file and source code -->
 		<None Include="$(MSBuildThisFileFullPath)" Pack="true" PackagePath="build\$(PackageId).props;buildTransitive\$(PackageId).props" Visible="false" />
+		<None Include="$(MSBuildThisFileDirectory)$(MSBuildThisFileName).Sealed.props" Pack="true" PackagePath="build\$(PackageId).Sealed.props;buildTransitive\$(PackageId).Sealed.props" Visible="false" />
 		<None Include="$(MSBuildThisFileDirectory)$(MSBuildThisFileName).targets" Pack="true" PackagePath="build\$(PackageId).targets;buildTransitive\$(PackageId).targets" Visible="false" />
+		<None Include="CodeTemplates\**" Pack="true" PackagePath="src\CodeTemplates" Visible="true" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(PackAsSourceGeneratorTemplate)'=='sealed'">
+		<!-- Package the props file and source code -->
+		<None Include="$(MSBuildThisFileDirectory)$(MSBuildThisFileName).Sealed.props" Pack="true" PackagePath="build\$(PackageId).props;buildTransitive\$(PackageId).props" Visible="false" />
 		<None Include="CodeTemplates\**" Pack="true" PackagePath="src\CodeTemplates" Visible="true" />
 	</ItemGroup>
 </Project>

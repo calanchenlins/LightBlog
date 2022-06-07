@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace KaneBlake.AspNetCore.Extensions.MVC.Controllers
@@ -33,11 +34,14 @@ namespace KaneBlake.AspNetCore.Extensions.MVC.Controllers
         [HttpPost]
         [Route("{serviceName}")]
         [ProducesResponseType(typeof(ServiceResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Submit(string serviceName) 
+        public async Task<IActionResult> Submit(string serviceName, [FromBody]ServiceRequest request) 
         {
             return Ok(await _srvClient.InvokeAsync(serviceName, Request));
         }
-
-
+    }
+    public class ServiceRequest
+    {
+        [JsonExtensionData]
+        public IDictionary<string, object> Body { get; set; } = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
     }
 }

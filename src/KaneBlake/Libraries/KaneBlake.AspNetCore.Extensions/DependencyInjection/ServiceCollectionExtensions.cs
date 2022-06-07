@@ -68,9 +68,9 @@ namespace KaneBlake.AspNetCore.Extensions.DependencyInjection
             ///   }
             /// }
 
+            services.Configure<ApplicationServiceOptions>(configuration);
             services.TryAddScoped<IApplicationServiceClient, ApplicationServiceClient>();
             services.TryAddSingleton<ApplicationServiceCacheEntryResolver>();
-            services.Configure<ApplicationServiceOptions>(configuration);
             return services;
         }
 

@@ -8,8 +8,8 @@ namespace KaneBlake.Basis.Performance
     {
         static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run(typeof(Program).Assembly);
-
+            var summary = BenchmarkRunner.Run(typeof(StringSearchBenchmark2));
+            Console.ReadLine();
         }
     }
 }

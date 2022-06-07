@@ -74,9 +74,9 @@ namespace KaneBlake.AspNetCore.Extensions.Services.Module
             try
             {
                 request.Body.Position = 0;
-                // var serviceRequest = await request.ReadFromJsonAsync<ServiceRequest>(serviceEntry.ParameterType);
-                var body = await request.BodyReader.ReadToEndAsync();
-                serviceRequest = JsonSerializer.Deserialize<ServiceRequest>(body.Span, _jsonOptions.JsonSerializerOptions);
+                serviceRequest = await request.ReadFromJsonAsync<ServiceRequest>();
+                //var body = await request.BodyReader.ReadToEndAsync();
+                //serviceRequest = JsonSerializer.Deserialize<ServiceRequest>(body.Span, _jsonOptions.JsonSerializerOptions);
             }
             catch (Exception ex)
             {
@@ -160,13 +160,15 @@ namespace KaneBlake.AspNetCore.Extensions.Services.Module
             return new Dictionary<string, string[]>(collection);
         }
 
-
         private class ServiceRequest
         {
             [JsonExtensionData]
             public IDictionary<string, object> Body { get; set; } = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
         }
+
     }
+
+
 
 
 

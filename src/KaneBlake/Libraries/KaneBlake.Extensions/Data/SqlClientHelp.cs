@@ -51,7 +51,7 @@ namespace KaneBlake.Extensions.Data
         }
 
         [JobTemplate]
-        public static void UpdateTable(DataSet ds, string conStr)
+        public static void UpdateTable(DataSet ds, string conStr, int batchSize = 1)
         {
             using var connection = new SqlConnection(conStr);
             connection.Open();
@@ -87,6 +87,7 @@ namespace KaneBlake.Extensions.Data
                 adapter.InsertCommand = commandBuilder.GetInsertCommand();
                 adapter.DeleteCommand = commandBuilder.GetDeleteCommand();
                 adapter.UpdateCommand = commandBuilder.GetUpdateCommand();
+                adapter.UpdateBatchSize = batchSize;
                 builders.Add(commandBuilder);// SqlCommandBuilder 释放的同时生成的命令也会同样释放
                 adapters.Add(adapter);
             }
@@ -95,6 +96,7 @@ namespace KaneBlake.Extensions.Data
             {
                 for (int i = 0; i < adapters.Count; i++)
                 {
+                    adapters[i].SelectCommand.Transaction = tran;
                     adapters[i].InsertCommand.Transaction = tran;
                     adapters[i].DeleteCommand.Transaction = tran;
                     adapters[i].UpdateCommand.Transaction = tran;

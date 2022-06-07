@@ -1,0 +1,14 @@
+<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets','$(MSBuildThisFileDirectory)../'))" />
+
+  <Target Name="CopyPackageArtifacts" AfterTargets="Pack">
+    <ItemGroup>
+      <PackageArtifactsToCopy Include="$(PackageOutputPath)\$(PackageId).$(PackageVersion).*nupkg"/>
+    </ItemGroup>
+    <Copy
+      SourceFiles="@(PackageArtifactsToCopy)"
+      DestinationFolder="$(MSBuildThisFileDirectory)\artifacts"/>
+  </Target>
+
+
+</Project>

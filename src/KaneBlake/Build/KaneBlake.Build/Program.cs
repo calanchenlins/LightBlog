@@ -6,6 +6,7 @@ namespace KaneBlake.Build
 {
     class Program
     {
+        //https://github.com/dotnet/command-line-api
         //dotnet-KaneBlake LocaleGenerate
         static async Task<int> Main(string[] args)
         {

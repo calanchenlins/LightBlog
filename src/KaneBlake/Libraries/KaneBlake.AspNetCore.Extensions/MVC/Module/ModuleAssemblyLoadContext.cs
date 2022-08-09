@@ -1,4 +1,4 @@
-﻿using KaneBlake.AspNetCore.Extensions.MVC.Module.ApplicationParts;
+﻿using K.AspNetCore.Extensions.MVC.Module.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Runtime.Loader;
 using System.Text;
 
-namespace KaneBlake.AspNetCore.Extensions.MVC.Module
+namespace K.AspNetCore.Extensions.MVC.Module
 {
     public class ModuleAssemblyLoadContext : AssemblyLoadContext, IDisposable
     {

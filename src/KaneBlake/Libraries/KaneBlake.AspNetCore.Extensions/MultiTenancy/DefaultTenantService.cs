@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KaneBlake.AspNetCore.Extensions.MultiTenancy
+namespace K.AspNetCore.Extensions.MultiTenancy
 {
     public class DefaultTenantService<T> : ITenantService<T> where T : class
     {

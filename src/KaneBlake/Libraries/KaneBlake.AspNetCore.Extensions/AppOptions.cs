@@ -1,10 +1,10 @@
-﻿using KaneBlake.AspNetCore.Extensions.MultiTenancy;
-using KaneBlake.AspNetCore.Extensions.Services.Module;
+﻿using K.AspNetCore.Extensions.MultiTenancy;
+using K.AspNetCore.Extensions.Services.Module;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace KaneBlake.AspNetCore.Extensions
+namespace K.AspNetCore.Extensions
 {
     public class AppOptions
     {

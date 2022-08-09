@@ -6,7 +6,7 @@ using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 
-namespace KaneBlake.AspNetCore.Extensions.ConnectedServices
+namespace K.AspNetCore.Extensions.ConnectedServices
 {
     /// <summary>
     /// https://medium.com/trueengineering/realization-of-the-connections-pool-with-wcf-for-net-core-with-usage-of-httpclientfactory-c2cb2676423e

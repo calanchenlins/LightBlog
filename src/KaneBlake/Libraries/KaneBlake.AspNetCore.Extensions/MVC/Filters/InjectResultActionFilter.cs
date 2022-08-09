@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KaneBlake.AspNetCore.Extensions.MVC.Filters
+namespace K.AspNetCore.Extensions.MVC.Filters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public class InjectResultActionFilter : Attribute, IAsyncActionFilter, IOrderedFilter

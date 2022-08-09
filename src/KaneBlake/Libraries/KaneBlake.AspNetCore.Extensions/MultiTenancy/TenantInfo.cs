@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
-namespace KaneBlake.AspNetCore.Extensions.MultiTenancy
+namespace K.AspNetCore.Extensions.MultiTenancy
 {
     /// <summary>
     /// This class includes information of a tenant. 

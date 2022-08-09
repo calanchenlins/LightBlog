@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using IdentityServer4.EntityFramework.DbContexts;
-using KaneBlake.AspNetCore.Extensions.Hosting;
+using K.AspNetCore.Extensions.Hosting;
 using KaneBlake.STS.Identity.Infrastruct;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
-using KaneBlake.AspNetCore.Extensions;
+using K.AspNetCore.Extensions;
 
 namespace KaneBlake.STS.Identity
 {

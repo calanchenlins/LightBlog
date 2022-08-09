@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KaneBlake.AspNetCore.Extensions.Middleware
+namespace K.AspNetCore.Extensions.Middleware
 {
     public class ExceptionHandlerCustomMiddleware
     {

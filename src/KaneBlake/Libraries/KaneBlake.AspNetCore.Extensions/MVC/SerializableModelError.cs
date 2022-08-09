@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace KaneBlake.AspNetCore.Extensions.MVC
+namespace K.AspNetCore.Extensions.MVC
 {
     /// <summary>
     /// Defines a serializable container for storing ModelState information.

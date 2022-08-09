@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace KaneBlake.AspNetCore.Extensions.MVC.Filters
+namespace K.AspNetCore.Extensions.MVC.Filters
 {
     public class SecurityHeadersAttribute : ActionFilterAttribute
     {

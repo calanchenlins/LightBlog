@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace KaneBlake.AspNetCore.Extensions.MVC.Module.ApplicationParts
+namespace K.AspNetCore.Extensions.MVC.Module.ApplicationParts
 {
     /// <summary>
     /// An <see cref="CompiledRazorModuleAssemblyPart"/> for compiled Razor assemblies.

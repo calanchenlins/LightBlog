@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.ServiceModel;
 
-namespace KaneBlake.AspNetCore.Extensions.ConnectedServices
+namespace K.AspNetCore.Extensions.ConnectedServices
 {
     public class WcfClientManager<T, TChannel> : IWcfClient<T, TChannel>
         where T : ClientBase<TChannel>, TChannel

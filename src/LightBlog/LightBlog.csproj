@@ -23,7 +23,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\KaneBlake\Libraries\KaneBlake.AspNetCore.Extensions\KaneBlake.AspNetCore.Extensions.csproj" />
+    <ProjectReference Include="..\KaneBlake\Libraries\KaneBlake.AspNetCore.Extensions\K.AspNetCore.Extensions.csproj" />
     <ProjectReference Include="..\KaneBlake\Libraries\KaneBlake.Infrastruct\KaneBlake.Infrastruct.csproj" />
   </ItemGroup>
 

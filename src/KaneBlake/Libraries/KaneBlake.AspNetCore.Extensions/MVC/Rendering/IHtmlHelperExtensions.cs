@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using WebOptimizer;
 
-namespace KaneBlake.AspNetCore.Extensions.MVC.Rendering
+namespace K.AspNetCore.Extensions.MVC.Rendering
 {
     public static class IHtmlHelperExtensions
     {

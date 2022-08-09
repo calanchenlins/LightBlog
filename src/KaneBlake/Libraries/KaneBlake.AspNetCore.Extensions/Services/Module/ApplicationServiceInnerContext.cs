@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace KaneBlake.AspNetCore.Extensions.Services.Module
+namespace K.AspNetCore.Extensions.Services.Module
 {
     internal class ApplicationServiceInnerContext : IApplicationServiceContext
     {

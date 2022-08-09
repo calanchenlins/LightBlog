@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using K.Basis.Common.Cryptography;
 
-namespace KaneBlake.AspNetCore.Extensions.MVC.Filters
+namespace K.AspNetCore.Extensions.MVC.Filters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public class EncryptFormResourceFilterAttribute : Attribute, IAsyncResourceFilter

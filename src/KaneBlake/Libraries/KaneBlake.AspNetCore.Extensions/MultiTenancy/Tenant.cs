@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace KaneBlake.AspNetCore.Extensions.MultiTenancy
+namespace K.AspNetCore.Extensions.MultiTenancy
 {
     /// <summary>
     /// tenant entity that map to table in database

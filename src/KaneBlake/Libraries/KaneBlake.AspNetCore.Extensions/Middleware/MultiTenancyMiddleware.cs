@@ -1,4 +1,4 @@
-﻿using KaneBlake.AspNetCore.Extensions.MultiTenancy;
+﻿using K.AspNetCore.Extensions.MultiTenancy;
 using K.Basis.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace KaneBlake.AspNetCore.Extensions.Middleware
+namespace K.AspNetCore.Extensions.Middleware
 {
     public interface ICurrentTenant<T> where T: class
     {

@@ -3,7 +3,7 @@
 
 
 using IdentityServer4.Services;
-using KaneBlake.AspNetCore.Extensions.MVC.Filters;
+using K.AspNetCore.Extensions.MVC.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;

@@ -1,4 +1,4 @@
-﻿using KaneBlake.AspNetCore.Extensions.Services.Module;
+﻿using K.AspNetCore.Extensions.Services.Module;
 using K.Basis.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace KaneBlake.AspNetCore.Extensions.MVC.Controllers
+namespace K.AspNetCore.Extensions.MVC.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

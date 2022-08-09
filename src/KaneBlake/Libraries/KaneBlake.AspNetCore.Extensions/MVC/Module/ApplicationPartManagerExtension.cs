@@ -16,7 +16,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
 
 
-namespace KaneBlake.AspNetCore.Extensions.MVC.Module
+namespace K.AspNetCore.Extensions.MVC.Module
 {
     public static class ApplicationPartManagerExtension
     {

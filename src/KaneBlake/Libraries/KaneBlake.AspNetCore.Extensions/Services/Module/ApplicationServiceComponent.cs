@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Collections.Concurrent;
 using K.Extensions.DependencyInjection;
 
-namespace KaneBlake.AspNetCore.Extensions.Services.Module
+namespace K.AspNetCore.Extensions.Services.Module
 {
     /// <summary>
     /// Defines an interface that represents a application service component to handle <see cref="IApplicationServiceContext"/>.

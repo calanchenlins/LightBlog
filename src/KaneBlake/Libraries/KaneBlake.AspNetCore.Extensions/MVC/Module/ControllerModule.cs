@@ -1,4 +1,4 @@
-﻿using KaneBlake.AspNetCore.Extensions.MVC.Module.ApplicationParts;
+﻿using K.AspNetCore.Extensions.MVC.Module.ApplicationParts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -15,7 +15,7 @@ using System.Runtime.Loader;
 using System.Text;
 using System.Threading;
 
-namespace KaneBlake.AspNetCore.Extensions.MVC.Module
+namespace K.AspNetCore.Extensions.MVC.Module
 {
     /// <summary>
     /// Implements <see cref="IChangeToken"/>

@@ -5,7 +5,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KaneBlake.AspNetCore.Extensions.ConnectedServices
+namespace K.AspNetCore.Extensions.ConnectedServices
 {
     public class WcfClientFactory : IWcfClientFactory
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace KaneBlake.AspNetCore.Extensions.MVC.Module
+namespace K.AspNetCore.Extensions.MVC.Module
 {
     public static class ModuleInfo
     {

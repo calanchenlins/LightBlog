@@ -26,11 +26,11 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using K.Basis.Services;
 using System.Runtime.CompilerServices;
-using KaneBlake.AspNetCore.Extensions.MVC;
+using K.AspNetCore.Extensions.MVC;
 using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Localization;
-using KaneBlake.AspNetCore.Extensions.MVC.Filters;
+using K.AspNetCore.Extensions.MVC.Filters;
 
 namespace KaneBlake.STS.Identity.Controllers.Account
 {

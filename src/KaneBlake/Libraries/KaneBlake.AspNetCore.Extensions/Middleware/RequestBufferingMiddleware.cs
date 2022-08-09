@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using K.Extensions.Pipelines;
 
-namespace KaneBlake.AspNetCore.Extensions.Middleware
+namespace K.AspNetCore.Extensions.Middleware
 {
     public class RequestBufferingMiddleware
     {

@@ -15,7 +15,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KaneBlake.AspNetCore.Extensions.Services
+namespace K.AspNetCore.Extensions.Services
 {
     public interface IViewRenderService
     {

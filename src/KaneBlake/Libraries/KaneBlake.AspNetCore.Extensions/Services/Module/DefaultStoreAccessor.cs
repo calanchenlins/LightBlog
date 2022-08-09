@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Text;
 using System.Text.Json;
 
-namespace KaneBlake.AspNetCore.Extensions.Services.Module
+namespace K.AspNetCore.Extensions.Services.Module
 {
     [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true, Inherited = false)]
     public class AutoImplementationItemAttribute : Attribute

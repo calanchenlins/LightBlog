@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KaneBlake.AspNetCore.Extensions.MultiTenancy
+namespace K.AspNetCore.Extensions.MultiTenancy
 {
     /// <summary>
     /// Determines the tenant information for a request via values in the query string.

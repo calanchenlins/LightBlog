@@ -15,7 +15,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc;
 using K.Extensions.Pipelines;
 
-namespace KaneBlake.AspNetCore.Extensions.Services.Module
+namespace K.AspNetCore.Extensions.Services.Module
 {
     /// <summary>
     /// Represents an applicationService client.

@@ -13,8 +13,8 @@ using Hangfire.Dashboard;
 using Hangfire.Dashboard.Resources;
 using IdentityModel.Client;
 using IdentityServer4.Configuration;
-using KaneBlake.AspNetCore.Extensions.Middleware;
-using KaneBlake.AspNetCore.Extensions.MVC;
+using K.AspNetCore.Extensions.Middleware;
+using K.AspNetCore.Extensions.MVC;
 using K.Basis.Domain.Repositories;
 using K.Basis.Common.Cryptography;
 using KaneBlake.STS.Identity.Common;
@@ -51,11 +51,11 @@ using K.Basis.Common.Serialization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
-using KaneBlake.AspNetCore.Extensions.MVC.Filters;
+using K.AspNetCore.Extensions.MVC.Filters;
 using System.Security.Cryptography.X509Certificates;
 using DNTCaptcha.Core;
-using KaneBlake.AspNetCore.Extensions.MultiTenancy;
-using KaneBlake.AspNetCore.Extensions;
+using K.AspNetCore.Extensions.MultiTenancy;
+using K.AspNetCore.Extensions;
 
 namespace KaneBlake.STS.Identity
 {

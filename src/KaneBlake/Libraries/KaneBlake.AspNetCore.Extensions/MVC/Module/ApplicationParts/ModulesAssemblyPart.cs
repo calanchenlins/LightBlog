@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace KaneBlake.AspNetCore.Extensions.MVC.Module.ApplicationParts
+namespace K.AspNetCore.Extensions.MVC.Module.ApplicationParts
 {
     /// <summary>
     /// An <see cref="ModuleAssemblyPart"/> backed by an <see cref="System.Reflection.Assembly"/> From Stream.

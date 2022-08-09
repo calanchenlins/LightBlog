@@ -1,8 +1,8 @@
-﻿using KaneBlake.AspNetCore.Extensions.ConnectedServices;
-using KaneBlake.AspNetCore.Extensions.Hosting;
-using KaneBlake.AspNetCore.Extensions.MultiTenancy;
-using KaneBlake.AspNetCore.Extensions.MVC.ViewFeatures;
-using KaneBlake.AspNetCore.Extensions.Services.Module;
+﻿using K.AspNetCore.Extensions.ConnectedServices;
+using K.AspNetCore.Extensions.Hosting;
+using K.AspNetCore.Extensions.MultiTenancy;
+using K.AspNetCore.Extensions.MVC.ViewFeatures;
+using K.AspNetCore.Extensions.Services.Module;
 using K.Extensions.DependencyInjection;
 using K.Extensions.Diagnostics;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Infrastructure;
@@ -16,7 +16,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace KaneBlake.AspNetCore.Extensions.DependencyInjection
+namespace K.AspNetCore.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {

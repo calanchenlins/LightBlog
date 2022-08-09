@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace KaneBlake.AspNetCore.Extensions.MultiTenancy
+namespace K.AspNetCore.Extensions.MultiTenancy
 {
     /// <summary>
     /// Specifies options for the <see cref="Middleware.MultiTenancyMiddleware{T}"/>.

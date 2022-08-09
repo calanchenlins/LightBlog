@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace KaneBlake.AspNetCore.Extensions.Services.Module
+namespace K.AspNetCore.Extensions.Services.Module
 {
     /// <summary>
     /// Defines an interface that represents a application service context.

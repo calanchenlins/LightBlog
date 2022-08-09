@@ -9,7 +9,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace KaneBlake.AspNetCore.Extensions.Services.Module
+namespace K.AspNetCore.Extensions.Services.Module
 {
     /// <summary>
     /// Implements policy for resolving <see cref="ApplicationServiceCacheEntry"/> from <see cref="ApplicationServiceOptions"/>.

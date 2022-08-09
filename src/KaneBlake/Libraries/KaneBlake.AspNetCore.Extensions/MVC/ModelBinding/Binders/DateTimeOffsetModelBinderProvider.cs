@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
-namespace KaneBlake.AspNetCore.Extensions.MVC.ModelBinding.Binders
+namespace K.AspNetCore.Extensions.MVC.ModelBinding.Binders
 {
     /// <summary>
     /// An <see cref="IModelBinderProvider"/> for binding <see cref="DateTimeOffset" /> and nullable <see cref="DateTime"/> models.

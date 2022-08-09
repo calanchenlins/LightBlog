@@ -1,5 +1,5 @@
 ﻿using IdentityServer4;
-using KaneBlake.AspNetCore.Extensions.MultiTenancy;
+using K.AspNetCore.Extensions.MultiTenancy;
 using K.Basis.Domain.Repositories;
 using KaneBlake.STS.Identity.Infrastruct.Entities;
 using Microsoft.AspNetCore.Authentication;

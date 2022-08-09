@@ -10,9 +10,9 @@ using LightBlog.Infrastruct.Context;
 using LightBlog.Data;
 using Autofac.Extensions.DependencyInjection;
 using K.Basis.Common.Extensions;
-using KaneBlake.AspNetCore.Extensions.Hosting;
+using K.AspNetCore.Extensions.Hosting;
 using Serilog;
-using KaneBlake.AspNetCore.Extensions;
+using K.AspNetCore.Extensions;
 
 namespace LightBlog
 {

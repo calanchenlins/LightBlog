@@ -1,4 +1,4 @@
-﻿using KaneBlake.AspNetCore.Extensions.MVC.ViewFeatures;
+﻿using K.AspNetCore.Extensions.MVC.ViewFeatures;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Infrastructure;
 using Microsoft.Data.SqlClient;
@@ -17,7 +17,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace KaneBlake.AspNetCore.Extensions.Hosting
+namespace K.AspNetCore.Extensions.Hosting
 {
     public static class WebHostExtensions
     {

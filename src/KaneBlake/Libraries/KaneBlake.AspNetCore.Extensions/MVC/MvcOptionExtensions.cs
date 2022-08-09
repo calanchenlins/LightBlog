@@ -1,5 +1,5 @@
-﻿using KaneBlake.AspNetCore.Extensions.MVC.Filters;
-using KaneBlake.AspNetCore.Extensions.MVC.ModelBinding.Binders;
+﻿using K.AspNetCore.Extensions.MVC.Filters;
+using K.AspNetCore.Extensions.MVC.ModelBinding.Binders;
 using K.Basis.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KaneBlake.AspNetCore.Extensions.MVC
+namespace K.AspNetCore.Extensions.MVC
 {
     public static class MvcOptionExtensions
     {

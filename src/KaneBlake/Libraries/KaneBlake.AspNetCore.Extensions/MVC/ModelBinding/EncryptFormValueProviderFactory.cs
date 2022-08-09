@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using K.Basis.Common.Cryptography;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace KaneBlake.AspNetCore.Extensions.MVC.ModelBinding
+namespace K.AspNetCore.Extensions.MVC.ModelBinding
 {
 
     public class EncryptFormValueProviderFactory : IValueProviderFactory

@@ -11,9 +11,9 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using KaneBlake.AspNetCore.Extensions.MVC.Module.ApplicationParts;
+using K.AspNetCore.Extensions.MVC.Module.ApplicationParts;
 
-namespace KaneBlake.AspNetCore.Extensions.MVC.Module
+namespace K.AspNetCore.Extensions.MVC.Module
 {
     public static class MvcRazorLoggerExtensions
     {

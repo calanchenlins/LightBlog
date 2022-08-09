@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace KaneBlake.Infrastruct.EntityFrameworkCore
+namespace K.Infrastruct.EntityFrameworkCore
 {
     /// <summary>
     /// 领域聚合根上下文对象

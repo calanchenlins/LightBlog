@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KaneBlake.Infrastruct
+namespace K.Infrastruct
 {
     public class Class1
     {

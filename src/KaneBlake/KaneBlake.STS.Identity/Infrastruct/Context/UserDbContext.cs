@@ -1,5 +1,5 @@
 ﻿using K.Basis.Domain.Entities;
-using KaneBlake.Infrastruct.EntityFrameworkCore;
+using K.Infrastruct.EntityFrameworkCore;
 using KaneBlake.STS.Identity.Infrastruct.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

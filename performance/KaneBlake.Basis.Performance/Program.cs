@@ -1,5 +1,5 @@
 ﻿using BenchmarkDotNet.Running;
-using KaneBlake.Basis.Performance.Benchmarks;
+using K.Basis.Performance.Benchmarks;
 using System;
 
 namespace KaneBlake.Basis.Performance

@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace KaneBlake.Basis.Common.Serialization
+namespace K.Basis.Common.Serialization
 {
     /// <summary>
     /// Converts an value of DateTimeOffset to or from JSON.

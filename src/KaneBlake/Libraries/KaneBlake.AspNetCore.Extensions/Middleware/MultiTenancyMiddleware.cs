@@ -1,5 +1,5 @@
 ﻿using KaneBlake.AspNetCore.Extensions.MultiTenancy;
-using KaneBlake.Basis.Domain.Entities;
+using K.Basis.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

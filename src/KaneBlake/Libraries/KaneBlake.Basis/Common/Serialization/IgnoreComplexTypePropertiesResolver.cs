@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace KaneBlake.Basis.Common.Serialization
+namespace K.Basis.Common.Serialization
 {
     public class IgnoreComplexTypePropertiesResolver : DefaultContractResolver
     {

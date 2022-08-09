@@ -1,7 +1,7 @@
-﻿@model SignUpViewModel
-@using Microsoft.Extensions.Localization
-@inject IHtmlLocalizer<KaneBlake.STS.Identity.SignUpViewModel> HL
-@inject IStringLocalizer<KaneBlake.STS.Identity.SignUpViewModel> SL
+﻿@using Microsoft.Extensions.Localization
+@model SignUpViewModel
+@inject IHtmlLocalizer<SignUpViewModel> HL
+@inject IStringLocalizer<SignUpViewModel> SL
 @{
     ViewData["Title"] = "SignUp";
     var ReturnUrl = ViewData["ReturnUrl"].ToString();

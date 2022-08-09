@@ -1,4 +1,4 @@
-﻿using KaneBlake.Basis.Services;
+﻿using K.Basis.Services;
 using LightBlog.Common.AOP.CommonCache;
 using LightBlog.Infrastruct.Entities;
 using LightBlog.Models;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LightBlog.Services
+namespace LightBlog.Services.Post
 {
     public interface IPostService : IAuthService<AuthenticatedUser>
     {

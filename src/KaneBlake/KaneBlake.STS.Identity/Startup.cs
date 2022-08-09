@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Net;
 using System.Net.Mime;
 using System.Reflection;
 using System.Threading.Tasks;
-using KaneBlake.Basis.Services;
+using K.Basis.Services;
 using Hangfire;
 using Hangfire.Dashboard;
 using Hangfire.Dashboard.Resources;
@@ -15,8 +15,8 @@ using IdentityModel.Client;
 using IdentityServer4.Configuration;
 using KaneBlake.AspNetCore.Extensions.Middleware;
 using KaneBlake.AspNetCore.Extensions.MVC;
-using KaneBlake.Basis.Domain.Repositories;
-using KaneBlake.Basis.Common.Cryptography;
+using K.Basis.Domain.Repositories;
+using K.Basis.Common.Cryptography;
 using KaneBlake.STS.Identity.Common;
 using KaneBlake.STS.Identity.Common.IdentityServer4Config;
 using KaneBlake.STS.Identity.HangfireCustomDashboard;
@@ -47,7 +47,7 @@ using Polly;
 using Serilog;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using KaneBlake.Basis.Common.Serialization;
+using K.Basis.Common.Serialization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
@@ -128,7 +128,7 @@ namespace KaneBlake.STS.Identity
 
             services.AddDbContext<UserDbContext>((sp,options) =>
             {
-                // ±Õ°ü or ·´Ä£Ê½
+                // é—­åŒ… or åæ¨¡å¼
                 //sp.GetRequiredService<UserDbContext>();
                 var identityConnStr = AppOptions.ResolveConnectionString<string>("Identity");
                 options.UseSqlServer(identityConnStr,
@@ -198,9 +198,9 @@ namespace KaneBlake.STS.Identity
             }
             else
             {
-                // errorHandlingPath:¸Ä±äÇëÇóÂ·¾¶ºó,ºóĞøÖĞ¼ä¼şÔÙ´Î´¦ÀíÇëÇó
+                // errorHandlingPath:æ”¹å˜è¯·æ±‚è·¯å¾„å,åç»­ä¸­é—´ä»¶å†æ¬¡å¤„ç†è¯·æ±‚
                 //app.UseExceptionHandler("/error_handle");
-                // use RequestDelegate to handle exception:ĞèÒªÊÖ¶¯´Ó IServiceProvider ÖĞ½âÎöÒÀÀµµÄ·şÎñ
+                // use RequestDelegate to handle exception:éœ€è¦æ‰‹åŠ¨ä» IServiceProvider ä¸­è§£æä¾èµ–çš„æœåŠ¡
                 //app.UseExceptionHandler(new ExceptionHandlerOptions()
                 //{
                 //    ExceptionHandler = async context => await context.Response.WriteAsync("Unhandled exception occurred!")
@@ -222,9 +222,9 @@ namespace KaneBlake.STS.Identity
 
             app.UseCookiePolicy();
 
-            // ÆôÓÃIdentityServer·şÎñ¶ËÖĞ¼ä¼ş
-            // ²¢Ã»ÓĞÊ¹ÓÃ.NET CoreµÄSessionÖĞ¼ä¼ş
-            // ½öÉú³ÉÁ½¸öCookie
+            // å¯ç”¨IdentityServeræœåŠ¡ç«¯ä¸­é—´ä»¶
+            // å¹¶æ²¡æœ‰ä½¿ç”¨.NET Coreçš„Sessionä¸­é—´ä»¶
+            // ä»…ç”Ÿæˆä¸¤ä¸ªCookie
             // "key": "idsrv"
             // "key": "idsrv.session"
             app.UseIdentityServer();
@@ -261,10 +261,10 @@ namespace KaneBlake.STS.Identity
 
 
         /// <summary>
-        /// ÅäÖÃ IdentityServer ·şÎñ¶Ë
-        /// nuget°ü: IdentityServer4 IdentityServer4.EntityFramework
-        /// 1.ÊµÏÖÓÃ»§ÑéÖ¤µÇÂ½
-        /// 2.ÓÃ»§ÑéÖ¤³É¹¦ºóÍ¨¹ıÉèÖÃÔö¼ÓAPI·ÃÎÊÈ¨ÏŞ
+        /// é…ç½® IdentityServer æœåŠ¡ç«¯
+        /// nugetåŒ…: IdentityServer4 IdentityServer4.EntityFramework
+        /// 1.å®ç°ç”¨æˆ·éªŒè¯ç™»é™†
+        /// 2.ç”¨æˆ·éªŒè¯æˆåŠŸåé€šè¿‡è®¾ç½®å¢åŠ APIè®¿é—®æƒé™
         /// </summary>
         /// <param name="services"></param>
         private void ConfigureIdentityServer(IServiceCollection services)
@@ -281,28 +281,28 @@ namespace KaneBlake.STS.Identity
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             services.AddIdentityServer(options =>
             {
-                // ÅäÖÃÓÃ»§µÇÂ¼µÄ½»»¥Ò³Ãæ,Ä¬ÈÏÎª /Account/Login
+                // é…ç½®ç”¨æˆ·ç™»å½•çš„äº¤äº’é¡µé¢,é»˜è®¤ä¸º /Account/Login
                 options.UserInteraction = new UserInteractionOptions { LoginUrl = AppInfo.LoginUrl };
-                // ÉèÖÃÇëÇó token ³É¹¦ºó, Ğ´Èë token µÄ Issuer,ÉèÖÃÎª"null"ºó²»ÑéÖ¤ Issuer. ¿ÉÔÚ IdSrv ·şÎñÖÕ½áµã '/.well-known/openid-configuration' ²é¿´ Issuer
-                // ÉèÖÃÎª null¡¢¿Õ×Ö·û´®»òÕß²»ÉèÖÃÊ±: IssuerUri ±»Ä¬ÈÏÎªÎªÏîÄ¿¼àÌıµØÖ·
+                // è®¾ç½®è¯·æ±‚ token æˆåŠŸå, å†™å…¥ token çš„ Issuer,è®¾ç½®ä¸º"null"åä¸éªŒè¯ Issuer. å¯åœ¨ IdSrv æœåŠ¡ç»ˆç»“ç‚¹ '/.well-known/openid-configuration' æŸ¥çœ‹ Issuer
+                // è®¾ç½®ä¸º nullã€ç©ºå­—ç¬¦ä¸²æˆ–è€…ä¸è®¾ç½®æ—¶: IssuerUri è¢«é»˜è®¤ä¸ºä¸ºé¡¹ç›®ç›‘å¬åœ°å€
                 options.IssuerUri = "null";
                 options.Authentication.CookieLifetime = TimeSpan.FromHours(0.5);
-                // ÓÃ»§ÃûÃÜÂë ÑéÖ¤³É¹¦Ö®ºó£¬½«Æ¾Ö¤Ğ´Èëcookie
-                // ÔÚcookieÓĞĞ§ÆÚÄÚ²»ĞèÒªÖØĞÂµÇÂ¼, Ö±½ÓÍ¨¹ıÆ¾Ö¤»ñÈ¡code ???
+                // ç”¨æˆ·åå¯†ç  éªŒè¯æˆåŠŸä¹‹åï¼Œå°†å‡­è¯å†™å…¥cookie
+                // åœ¨cookieæœ‰æ•ˆæœŸå†…ä¸éœ€è¦é‡æ–°ç™»å½•, ç›´æ¥é€šè¿‡å‡­è¯è·å–code ???
             })
-                .AddSigningCredential(AppInfo.Instance.Certificate)// ÅäÖÃ token ¼ÓÃÜµÄÖ¤Êé
-                .AddConfigurationStore(options =>// ³Ö¾Ã»¯×ÊÔ´¡¢¿Í»§¶Ë
+                .AddSigningCredential(AppInfo.Instance.Certificate)// é…ç½® token åŠ å¯†çš„è¯ä¹¦
+                .AddConfigurationStore(options =>// æŒä¹…åŒ–èµ„æºã€å®¢æˆ·ç«¯
                 {
                     options.ConfigureDbContext = builder => 
                         builder.UseSqlServer(AppOptions.ResolveConnectionString<string>("Identity"),
                             sqlServerOptionsAction: sqlOptions =>
                             {
-                                // ÅäÖÃConfigurationDbContextÔÚÔËĞĞÊ±Ç¨ÒÆ°ó¶¨µÄAssembly
+                                // é…ç½®ConfigurationDbContextåœ¨è¿è¡Œæ—¶è¿ç§»ç»‘å®šçš„Assembly
                                 sqlOptions.MigrationsAssembly(migrationsAssembly);
                                 sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
                             });
                 })
-                .AddOperationalStore(options =>// ³Ö¾Ã»¯ ÊÚÈ¨Âë¡¢Ë¢ĞÂÁîÅÆ¡¢ÓÃ»§ÊÚÈ¨ĞÅÏ¢consents
+                .AddOperationalStore(options =>// æŒä¹…åŒ– æˆæƒç ã€åˆ·æ–°ä»¤ç‰Œã€ç”¨æˆ·æˆæƒä¿¡æ¯consents
                 {
                     options.ConfigureDbContext = builder => 
                         builder.UseSqlServer(AppOptions.ResolveConnectionString<string>("Identity"),
@@ -311,7 +311,7 @@ namespace KaneBlake.STS.Identity
                                 sqlOptions.MigrationsAssembly(migrationsAssembly);
                                 sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
                             });
-                    options.EnableTokenCleanup = true;// ÅäÖÃ×Ô¶¯Çå³ıÁîÅÆ
+                    options.EnableTokenCleanup = true;// é…ç½®è‡ªåŠ¨æ¸…é™¤ä»¤ç‰Œ
                 })
                 .AddProfileService<MyProfileService>()
                 .AddResourceOwnerValidator<MyResourceOwnerPasswordValidator>();

@@ -1,11 +1,11 @@
-﻿using KaneBlake.Basis.Domain.Entities;
-using KaneBlake.Basis.Domain.Uow;
+﻿using K.Basis.Domain.Entities;
+using K.Basis.Domain.Uow;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace KaneBlake.Basis.Domain.Repositories
+namespace K.Basis.Domain.Repositories
 {
 
 

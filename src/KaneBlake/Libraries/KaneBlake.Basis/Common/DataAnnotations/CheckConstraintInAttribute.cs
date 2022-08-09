@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
-namespace KaneBlake.Basis.Common.DataAnnotations
+namespace K.Basis.Common.DataAnnotations
 {
     /// <summary>
     /// CheckConstraint validation attribute

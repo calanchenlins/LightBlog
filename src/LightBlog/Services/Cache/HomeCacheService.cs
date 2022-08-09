@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using AutoMapper;
-using KaneBlake.Basis.Domain.Repositories;
+using K.Basis.Domain.Repositories;
 using LightBlog.Infrastruct.Entities;
 using LightBlog.Models;
 using System;

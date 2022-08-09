@@ -2,7 +2,7 @@
 
 @{
     var version = FileVersionInfo.GetVersionInfo(typeof(IdentityServer4.Hosting.IdentityServerMiddleware).Assembly.Location).ProductVersion.Split('+').First();
-    version = FileVersionInfo.GetVersionInfo(typeof(KaneBlake.STS.Identity.AccountController).Assembly.Location).ProductVersion.Split('+').First();
+    version = FileVersionInfo.GetVersionInfo(typeof(KaneBlake.STS.Identity.Controllers.Account.AccountController).Assembly.Location).ProductVersion.Split('+').First();
 }
 
 <div class="welcome-page">

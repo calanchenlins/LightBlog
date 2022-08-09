@@ -1,4 +1,4 @@
-﻿using KaneBlake.Basis.Domain.Repositories;
+﻿using K.Basis.Domain.Repositories;
 using LightBlog.Infrastruct.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;

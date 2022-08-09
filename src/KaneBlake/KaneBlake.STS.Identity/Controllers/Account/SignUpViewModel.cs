@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace KaneBlake.STS.Identity
+namespace KaneBlake.STS.Identity.Controllers.Account
 {
     public class SignUpViewModel: SignUpInputModel
     {

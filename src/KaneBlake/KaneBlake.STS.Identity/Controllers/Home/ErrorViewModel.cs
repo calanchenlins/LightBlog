@@ -4,7 +4,7 @@
 
 using IdentityServer4.Models;
 
-namespace KaneBlake.STS.Identity
+namespace KaneBlake.STS.Identity.Controllers.Home
 {
     public class ErrorViewModel
     {

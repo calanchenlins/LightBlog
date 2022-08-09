@@ -1,5 +1,5 @@
 ﻿using KaneBlake.AspNetCore.Extensions.Services.Module;
-using KaneBlake.Basis.Services;
+using K.Basis.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

@@ -51,7 +51,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaneBlake.AspNetCore.Extensions", "src\KaneBlake\Libraries\KaneBlake.AspNetCore.Extensions\KaneBlake.AspNetCore.Extensions.csproj", "{9BAAAC7D-F2CE-4A61-B85A-D6B0F0082106}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaneBlake.Basis", "src\KaneBlake\Libraries\KaneBlake.Basis\KaneBlake.Basis.csproj", "{1753E3D6-8531-48A6-A24F-E01523C64C0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "K.Basis", "src\KaneBlake\Libraries\KaneBlake.Basis\K.Basis.csproj", "{1753E3D6-8531-48A6-A24F-E01523C64C0E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaneBlake.Extensions", "src\KaneBlake\Libraries\KaneBlake.Extensions\KaneBlake.Extensions.csproj", "{C168D4AB-EF3E-43D0-AFF1-860B3DCFFD3A}"
 EndProject

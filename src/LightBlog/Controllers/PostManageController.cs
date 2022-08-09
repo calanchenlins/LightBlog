@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using KaneBlake.Basis.Services;
+using K.Basis.Services;
 using LightBlog.Infrastruct.Entities;
-using LightBlog.Services;
+using LightBlog.Services.Post;
 using LightBlog.Services.InDto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

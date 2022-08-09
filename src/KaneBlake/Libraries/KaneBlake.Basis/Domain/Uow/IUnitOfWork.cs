@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace KaneBlake.Basis.Domain.Uow
+namespace K.Basis.Domain.Uow
 {
     /// <summary>
     /// 工作单元接口

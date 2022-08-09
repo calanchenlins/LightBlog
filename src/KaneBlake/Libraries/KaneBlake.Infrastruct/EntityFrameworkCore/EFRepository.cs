@@ -1,5 +1,5 @@
-﻿using KaneBlake.Basis.Domain.Entities;
-using KaneBlake.Basis.Domain.Repositories;
+﻿using K.Basis.Domain.Entities;
+using K.Basis.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

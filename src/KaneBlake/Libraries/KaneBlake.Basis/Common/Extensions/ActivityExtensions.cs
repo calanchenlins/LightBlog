@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KaneBlake.Basis.Common.Extensions
+namespace K.Basis.Common.Extensions
 {
     public static class ActivityExtensions
     {

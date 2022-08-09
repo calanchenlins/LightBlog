@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
-namespace KaneBlake.Basis.Common
+namespace K.Basis.Common
 {
     /// <summary>
     /// 基于 Lazy<T/> 的单例模式实现

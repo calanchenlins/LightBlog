@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using LightBlog.Infrastruct.Context;
 using LightBlog.Data;
 using Autofac.Extensions.DependencyInjection;
-using KaneBlake.Basis.Common.Extensions;
+using K.Basis.Common.Extensions;
 using KaneBlake.AspNetCore.Extensions.Hosting;
 using Serilog;
 using KaneBlake.AspNetCore.Extensions;

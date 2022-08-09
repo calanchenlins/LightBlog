@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using LightBlog.Infrastruct.Entities;
-using LightBlog.Services;
+using LightBlog.Services.Post;
 using LightBlog.Services.InDto;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;

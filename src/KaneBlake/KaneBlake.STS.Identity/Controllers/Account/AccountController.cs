@@ -1,4 +1,4 @@
-// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -11,7 +11,7 @@ using IdentityServer4.Services;
 using IdentityServer4.Stores;
 using KaneBlake.STS.Identity.Infrastruct.Entities;
 using KaneBlake.STS.Identity.Services;
-using KaneBlake.Basis.Common.Cryptography;
+using K.Basis.Common.Cryptography;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -24,7 +24,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using KaneBlake.Basis.Services;
+using K.Basis.Services;
 using System.Runtime.CompilerServices;
 using KaneBlake.AspNetCore.Extensions.MVC;
 using Microsoft.Extensions.Localization;
@@ -32,7 +32,7 @@ using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Localization;
 using KaneBlake.AspNetCore.Extensions.MVC.Filters;
 
-namespace KaneBlake.STS.Identity
+namespace KaneBlake.STS.Identity.Controllers.Account
 {
     /// <summary>
     /// This sample controller implements a typical login/logout/provision workflow for local and external accounts.

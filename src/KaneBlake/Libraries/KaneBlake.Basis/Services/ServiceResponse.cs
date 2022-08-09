@@ -4,7 +4,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace KaneBlake.Basis.Services
+namespace K.Basis.Services
 {
     /// <summary>
     /// Service、WebApi 层响应格式

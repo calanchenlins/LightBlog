@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace KaneBlake.Basis.Common.Threading
+namespace K.Basis.Common.Threading
 {
     /// <summary>
     /// A LockProvider based upon the SemaphoreSlim class to selectively lock objects, resources or statement blocks 

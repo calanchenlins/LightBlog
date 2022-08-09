@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace KaneBlake.STS.Identity
+namespace KaneBlake.STS.Identity.Controllers.Account
 {
     /// <summary>
     /// <see href="https://github.com/Jimmey-Jiang/Common.Utility/blob/master/src/Utility%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%A4%A7%E5%85%A8_CN/%E5%90%84%E7%A7%8D%E9%AA%8C%E8%AF%81%E5%B8%AE%E5%8A%A9%E7%B1%BB/ValidatorHelper.cs"/>

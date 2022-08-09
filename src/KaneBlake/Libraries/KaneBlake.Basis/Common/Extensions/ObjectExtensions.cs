@@ -1,4 +1,4 @@
-﻿using KaneBlake.Basis.Common.Serialization;
+﻿using K.Basis.Common.Serialization;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Text;
 
-namespace KaneBlake.Basis.Common.Extensions
+namespace K.Basis.Common.Extensions
 {
     public static class ObjectExtensions
     {

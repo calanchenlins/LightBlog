@@ -5,7 +5,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace KaneBlake.Basis.Common.Serialization
+namespace K.Basis.Common.Serialization
 {
     /// <summary>
     /// Extension Methods based on <see cref="System.Text.Json"/>

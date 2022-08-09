@@ -1,6 +1,6 @@
 ﻿using IdentityServer4;
 using KaneBlake.AspNetCore.Extensions.MultiTenancy;
-using KaneBlake.Basis.Domain.Repositories;
+using K.Basis.Domain.Repositories;
 using KaneBlake.STS.Identity.Infrastruct.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using KaneBlake.STS.Identity.Controllers.Account;
 
 namespace KaneBlake.STS.Identity.Services
 {

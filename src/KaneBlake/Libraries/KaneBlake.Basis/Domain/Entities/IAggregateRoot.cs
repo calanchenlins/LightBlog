@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace KaneBlake.Basis.Domain.Entities
+namespace K.Basis.Domain.Entities
 {
     /// <summary>
     /// 聚合根接口

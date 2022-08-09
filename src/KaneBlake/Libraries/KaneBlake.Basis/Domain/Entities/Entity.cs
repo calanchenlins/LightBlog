@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace KaneBlake.Basis.Domain.Entities
+namespace K.Basis.Domain.Entities
 {
     /// <summary>
     /// 实体抽象类

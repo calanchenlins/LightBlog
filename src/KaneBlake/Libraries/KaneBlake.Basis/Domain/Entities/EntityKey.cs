@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KaneBlake.Basis.Domain.Entities
+namespace K.Basis.Domain.Entities
 {
     /// <summary>
     /// 重写实体 ==运算符、Equals、GetHashCode()、ToString()方法

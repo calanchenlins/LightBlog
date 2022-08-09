@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LightBlog.Services
+namespace LightBlog.Services.User
 {
     public class AuthenticatedUser
     {

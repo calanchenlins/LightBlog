@@ -1,4 +1,4 @@
-﻿using KaneBlake.Basis.Services;
+﻿using K.Basis.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;

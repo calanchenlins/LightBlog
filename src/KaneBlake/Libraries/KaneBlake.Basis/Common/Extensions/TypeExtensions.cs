@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace KaneBlake.Basis.Common.Extensions
+namespace K.Basis.Common.Extensions
 {
     public static class TypeExtensions
     {

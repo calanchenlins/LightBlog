@@ -1,6 +1,6 @@
 ﻿using KaneBlake.AspNetCore.Extensions.MVC.Filters;
 using KaneBlake.AspNetCore.Extensions.MVC.ModelBinding.Binders;
-using KaneBlake.Basis.Services;
+using K.Basis.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.DependencyInjection;

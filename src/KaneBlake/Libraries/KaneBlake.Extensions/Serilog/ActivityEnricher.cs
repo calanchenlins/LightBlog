@@ -1,4 +1,4 @@
-﻿using KaneBlake.Basis.Common.Extensions;
+﻿using K.Basis.Common.Extensions;
 using Serilog.Core;
 using Serilog.Events;
 using System;

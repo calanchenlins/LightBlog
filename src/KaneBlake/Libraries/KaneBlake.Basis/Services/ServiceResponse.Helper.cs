@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace KaneBlake.Basis.Services
+namespace K.Basis.Services
 {
     /// <summary>
     /// ServiceResponse 静态方法, 用于生成 ServiceResponse 实例

@@ -1,4 +1,4 @@
-﻿using KaneBlake.Basis.Common.Hangfire;
+﻿using K.Basis.Common.Hangfire;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;

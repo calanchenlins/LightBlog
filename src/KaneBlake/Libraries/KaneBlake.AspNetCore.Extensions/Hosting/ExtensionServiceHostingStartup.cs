@@ -10,7 +10,7 @@ using KaneBlake.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using KaneBlake.AspNetCore.Extensions.MVC;
-using KaneBlake.Basis.Common.Serialization;
+using K.Basis.Common.Serialization;
 
 [assembly: HostingStartup(typeof(ExtensionServiceHostingStartup))]
 namespace KaneBlake.AspNetCore.Extensions.Hosting

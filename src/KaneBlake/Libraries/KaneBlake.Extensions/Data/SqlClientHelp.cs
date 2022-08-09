@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
-[assembly: JobTemplate(typeof(KaneBlake.Extensions.Data.SqlClientHelp))]
-namespace KaneBlake.Extensions.Data
+[assembly: JobTemplate(typeof(K.Extensions.Data.SqlClientHelp))]
+namespace K.Extensions.Data
 {
     public class SqlClientHelp
     {

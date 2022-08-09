@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KaneBlake.Extensions.DependencyInjection
+namespace K.Extensions.DependencyInjection
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true, Inherited = true)]
     public class AutoInjectionAttribute : Attribute

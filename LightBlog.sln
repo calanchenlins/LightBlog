@@ -53,7 +53,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaneBlake.AspNetCore.Extens
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "K.Basis", "src\KaneBlake\Libraries\KaneBlake.Basis\K.Basis.csproj", "{1753E3D6-8531-48A6-A24F-E01523C64C0E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaneBlake.Extensions", "src\KaneBlake\Libraries\KaneBlake.Extensions\KaneBlake.Extensions.csproj", "{C168D4AB-EF3E-43D0-AFF1-860B3DCFFD3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "K.Extensions", "src\KaneBlake\Libraries\KaneBlake.Extensions\K.Extensions.csproj", "{C168D4AB-EF3E-43D0-AFF1-860B3DCFFD3A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaneBlake.Infrastruct", "src\KaneBlake\Libraries\KaneBlake.Infrastruct\KaneBlake.Infrastruct.csproj", "{C2108498-F008-4C8A-918E-BADE66C55B48}"
 EndProject

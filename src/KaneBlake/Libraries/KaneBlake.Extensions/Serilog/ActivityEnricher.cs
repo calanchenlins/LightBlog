@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KaneBlake.Extensions.Serilog
+namespace K.Extensions.Serilog
 {
     /// <summary>
     /// Enriches log events with <see cref="Activity.Current"/>

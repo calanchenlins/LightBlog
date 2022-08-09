@@ -11,7 +11,7 @@
 
 
   <ItemGroup>
-    <PackageReference Include="KaneBlake.CodeAnalysis" Version="1.0.0" PrivateAssets="buildTransitive"/>
+    <PackageReference Include="KaneBlake.CodeAnalysis" Version="1.0.0" PrivateAssets="buildTransitive" />
     <PackageReference Include="MessagePack" Version="2.3.85" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
     <PackageReference Include="Polly" Version="7.2.2" />
@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\KaneBlake.Extensions\KaneBlake.Extensions.csproj" />
+    <ProjectReference Include="..\KaneBlake.Extensions\K.Extensions.csproj" />
   </ItemGroup>
   
   

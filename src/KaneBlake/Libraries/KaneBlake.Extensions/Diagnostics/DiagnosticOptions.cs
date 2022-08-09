@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KaneBlake.Extensions.Diagnostics
+namespace K.Extensions.Diagnostics
 {
     public class DiagnosticOptions
     {

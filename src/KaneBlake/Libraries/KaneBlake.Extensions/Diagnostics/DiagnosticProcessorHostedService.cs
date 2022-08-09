@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace KaneBlake.Extensions.Diagnostics
+namespace K.Extensions.Diagnostics
 {
     public class DiagnosticProcessorHostedService : IHostedService
     {

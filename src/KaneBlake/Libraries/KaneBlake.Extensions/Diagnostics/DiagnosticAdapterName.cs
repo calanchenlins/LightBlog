@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace KaneBlake.Extensions.Diagnostics
+namespace K.Extensions.Diagnostics
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = true)]
     public class DiagnosticAdapterName : Attribute

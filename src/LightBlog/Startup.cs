@@ -31,7 +31,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using System.IdentityModel.Tokens.Jwt;
 using OpenTelemetry.Trace;
 using Microsoft.AspNetCore.Authentication;
-using KaneBlake.Extensions.Diagnostics.Abstractions;
+using K.Extensions.Diagnostics.Abstractions;
 using LightBlog.Services.User;
 using LightBlog.Services.Post;
 

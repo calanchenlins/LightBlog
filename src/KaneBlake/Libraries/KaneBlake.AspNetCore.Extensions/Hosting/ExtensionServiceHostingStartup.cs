@@ -6,7 +6,7 @@ using KaneBlake.AspNetCore.Extensions.Hosting;
 using System.Linq;
 using System.Reflection;
 using KaneBlake.AspNetCore.Extensions.DependencyInjection;
-using KaneBlake.Extensions.DependencyInjection;
+using K.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using KaneBlake.AspNetCore.Extensions.MVC;

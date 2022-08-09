@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace KaneBlake.Extensions.Profiling
+namespace K.Extensions.Profiling
 {
     /// <summary>
     /// Sets up logging options for <see cref="MiniProfilerBaseOptions"/>.

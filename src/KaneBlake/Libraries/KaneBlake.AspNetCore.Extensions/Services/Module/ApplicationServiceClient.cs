@@ -13,7 +13,7 @@ using System.Reflection;
 using System.ComponentModel;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc;
-using KaneBlake.Extensions.Pipelines;
+using K.Extensions.Pipelines;
 
 namespace KaneBlake.AspNetCore.Extensions.Services.Module
 {

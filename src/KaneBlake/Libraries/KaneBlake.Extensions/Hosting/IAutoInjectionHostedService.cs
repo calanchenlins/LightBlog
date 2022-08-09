@@ -1,4 +1,4 @@
-﻿using KaneBlake.Extensions.DependencyInjection;
+﻿using K.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KaneBlake.Extensions.Hosting
+namespace K.Extensions.Hosting
 {
     /// <summary>
     /// 

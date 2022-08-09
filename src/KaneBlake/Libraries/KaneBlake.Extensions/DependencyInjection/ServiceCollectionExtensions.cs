@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace KaneBlake.Extensions.DependencyInjection
+namespace K.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {

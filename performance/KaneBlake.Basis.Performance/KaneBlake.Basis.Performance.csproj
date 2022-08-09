@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\KaneBlake\Libraries\KaneBlake.Extensions\KaneBlake.Extensions.csproj" />
+    <ProjectReference Include="..\..\src\KaneBlake\Libraries\KaneBlake.Extensions\K.Extensions.csproj" />
   </ItemGroup>
 
 </Project>

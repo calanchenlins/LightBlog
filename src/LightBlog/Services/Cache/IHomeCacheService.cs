@@ -5,7 +5,7 @@ namespace LightBlog.Services.Cache
 {
     public interface IHomeCacheService
     {
-        void AddOrUpdate(Post post);
+        void AddOrUpdate(LightBlog.Infrastruct.Entities.Post post);
 
         void Delete(int id);
 

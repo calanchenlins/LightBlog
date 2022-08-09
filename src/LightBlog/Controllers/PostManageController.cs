@@ -8,6 +8,7 @@ using LightBlog.Services.Post;
 using LightBlog.Services.InDto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using LightBlog.Services.User;
 
 namespace LightBlog.Controllers
 {

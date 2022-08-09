@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using AutoMapper;
 using K.Basis.Domain.Repositories;
-using LightBlog.Infrastruct.Entities;
 using LightBlog.Models;
 using System;
 using System.Collections.Concurrent;
@@ -36,7 +35,7 @@ namespace LightBlog.Services.Cache
 
             using (var scope = _autofac.BeginLifetimeScope())
             {
-                var postRepository = scope.Resolve<IRepository<Post, int>>();
+                var postRepository = scope.Resolve<IRepository<LightBlog.Infrastruct.Entities.Post, int>>();
 
                 var tmp = postRepository.Get().OrderByDescending(p => p.Id).Take(DefaultCapacity * 2).ToList();
 
@@ -78,7 +77,7 @@ namespace LightBlog.Services.Cache
             return postsView;
         }
 
-        public void AddOrUpdate(Post post)
+        public void AddOrUpdate(LightBlog.Infrastruct.Entities.Post post)
         {
             if (_cache.Count >= DefaultCapacity)
             {

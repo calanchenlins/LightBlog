@@ -22,11 +22,11 @@ namespace LightBlog.Services.Cache
 
         private const int DefaultCapacity = 1000;
 
-        private readonly IRepository<Post, int> _postRepository;
+        private readonly IRepository<LightBlog.Infrastruct.Entities.Post, int> _postRepository;
 
         private int _lastIndex = 0;
 
-        public HomeCacheServiceV2(IMapper mapper, IRepository<Post, int> repository)
+        public HomeCacheServiceV2(IMapper mapper, IRepository<LightBlog.Infrastruct.Entities.Post, int> repository)
         {
             _cache = new ConcurrentDictionary<int, PostEntryViewModel>(Environment.ProcessorCount, DefaultCapacity);
 
@@ -72,7 +72,7 @@ namespace LightBlog.Services.Cache
             return postsView;
         }
 
-        public void AddOrUpdate(Post post)
+        public void AddOrUpdate(LightBlog.Infrastruct.Entities.Post post)
         {
             if (_cache.Count >= DefaultCapacity)
             {

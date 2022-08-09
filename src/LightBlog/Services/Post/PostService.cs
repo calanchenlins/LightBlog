@@ -16,6 +16,8 @@ using LightBlog.Services.InDto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using static LightBlog.Models.PostsViewModel;
+using LightBlog.Services.User;
+using LightBlog.Services.Post;
 
 namespace LightBlog.Services
 {
@@ -24,7 +26,7 @@ namespace LightBlog.Services
     {
         private readonly IMapper _mapper;
 
-        private readonly IRepository<Post, int> _postRepository;
+        private readonly IRepository<LightBlog.Infrastruct.Entities.Post, int> _postRepository;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -34,7 +36,7 @@ namespace LightBlog.Services
         private static readonly DiagnosticListener s_diagnosticListener =
     new DiagnosticListener(LightBlogDiagnosticListenerExtensions.DiagnosticListenerName);
 
-        public PostService(IRepository<Post, int> postRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+        public PostService(IRepository<LightBlog.Infrastruct.Entities.Post, int> postRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _postRepository = postRepository ?? throw new ArgumentNullException(nameof(postRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -80,7 +82,7 @@ namespace LightBlog.Services
             var user = GetAuthenticatedUser();
             if (user.IsAuthenticated)
             {
-                var post = _mapper.Map<Post>(input);
+                var post = _mapper.Map<LightBlog.Infrastruct.Entities.Post>(input);
                 post.SetAuthor(user.UserId, user.UserName);
                 _postRepository.Add(post);
                 _postRepository.Complete();

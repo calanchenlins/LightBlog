@@ -1,5 +1,6 @@
 ﻿using K.Basis.Domain.Repositories;
 using LightBlog.Infrastruct.Entities;
+using LightBlog.Services.User;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
@@ -12,13 +13,13 @@ using System.Threading.Tasks;
 
 namespace LightBlog.Services
 {
-    public class UserService : IUserService<User>
+    public class UserService : IUserService<LightBlog.Infrastruct.Entities.User>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        private readonly IRepository<User, int> _userRepository;
+        private readonly IRepository<LightBlog.Infrastruct.Entities.User, int> _userRepository;
 
-        public UserService(IHttpContextAccessor httpContextAccessor, IRepository<User, int> userRepository)
+        public UserService(IHttpContextAccessor httpContextAccessor, IRepository<LightBlog.Infrastruct.Entities.User, int> userRepository)
         {
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
@@ -51,7 +52,7 @@ namespace LightBlog.Services
             }
         }
 
-        public Task<User> FindByUsername(string username)
+        public Task<LightBlog.Infrastruct.Entities.User> FindByUsername(string username)
         {
             return Task.Run(() =>
             {
@@ -64,7 +65,7 @@ namespace LightBlog.Services
             return _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
         }
 
-        public Task SignInAsync(User user)
+        public Task SignInAsync(LightBlog.Infrastruct.Entities.User user)
         {
             var authProperties = new AuthenticationProperties
             {
@@ -94,13 +95,13 @@ namespace LightBlog.Services
                 CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
-        public async Task<User> SignUp(string userName, string password)
+        public async Task<LightBlog.Infrastruct.Entities.User> SignUp(string userName, string password)
         {
             var existUser = await FindByUsername(userName.Trim());
             return await Task.Run(() => {
                 if (existUser is null)
                 {
-                    var user = new User(userName, password);
+                    var user = new LightBlog.Infrastruct.Entities.User(userName, password);
                     _userRepository.Add(user);
                     _userRepository.Complete();
                     return user;
@@ -112,7 +113,7 @@ namespace LightBlog.Services
             });
         }
 
-        public async Task<bool> ValidateCredentials(User user, string password)
+        public async Task<bool> ValidateCredentials(LightBlog.Infrastruct.Entities.User user, string password)
         {
             var userIndb = await FindByUsername(user.Name);
 

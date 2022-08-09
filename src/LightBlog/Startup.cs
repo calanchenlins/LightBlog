@@ -32,6 +32,8 @@ using System.IdentityModel.Tokens.Jwt;
 using OpenTelemetry.Trace;
 using Microsoft.AspNetCore.Authentication;
 using KaneBlake.Extensions.Diagnostics.Abstractions;
+using LightBlog.Services.User;
+using LightBlog.Services.Post;
 
 namespace LightBlog
 {

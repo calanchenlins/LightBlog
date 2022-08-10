@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaneBlake.Build", "src\Kane
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaneBlake.VSTool", "src\KaneBlake\Build\KaneBlake.VSTool\KaneBlake.VSTool.csproj", "{51FBD235-4FED-4D9B-8CB5-63E1408E5C81}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaneBlake.CodeAnalysis", "src\KaneBlake\Build\KaneBlake.CodeAnalysis\KaneBlake.CodeAnalysis.csproj", "{C8494132-C485-4C33-8B7A-578DA714B240}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "K.CodeAnalysis", "src\KaneBlake\Build\KaneBlake.CodeAnalysis\K.CodeAnalysis.csproj", "{C8494132-C485-4C33-8B7A-578DA714B240}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{A79BA968-4F08-46AA-93C9-3877E791AA10}"
 	ProjectSection(SolutionItems) = preProject

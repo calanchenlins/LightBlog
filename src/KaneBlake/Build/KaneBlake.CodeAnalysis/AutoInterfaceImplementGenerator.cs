@@ -10,7 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace KaneBlake.CodeAnalysis
+namespace K.CodeAnalysis
 {
     /// <summary>
     /// Auto Interface Implementation

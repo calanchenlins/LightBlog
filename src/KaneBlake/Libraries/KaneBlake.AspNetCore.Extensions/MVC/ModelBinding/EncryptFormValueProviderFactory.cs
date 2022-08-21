@@ -8,7 +8,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using K.Basis.Common.Cryptography;
+using K.Extensions;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace K.AspNetCore.Extensions.MVC.ModelBinding

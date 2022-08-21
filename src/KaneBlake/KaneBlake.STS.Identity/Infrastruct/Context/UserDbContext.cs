@@ -1,4 +1,4 @@
-﻿using K.Basis.Domain.Entities;
+﻿using K.Domain.Entities;
 using K.Infrastruct.EntityFrameworkCore;
 using KaneBlake.STS.Identity.Infrastruct.Entities;
 using Microsoft.EntityFrameworkCore;

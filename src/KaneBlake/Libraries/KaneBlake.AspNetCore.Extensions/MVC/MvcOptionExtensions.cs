@@ -1,6 +1,6 @@
 ﻿using K.AspNetCore.Extensions.MVC.Filters;
 using K.AspNetCore.Extensions.MVC.ModelBinding.Binders;
-using K.Basis.Services;
+using K.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.DependencyInjection;

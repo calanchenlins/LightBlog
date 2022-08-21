@@ -1,5 +1,5 @@
-﻿using K.Basis.Domain.Entities;
-using K.Basis.Domain.Repositories;
+﻿using K.Domain.Entities;
+using K.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

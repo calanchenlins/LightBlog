@@ -1,4 +1,4 @@
-﻿using K.Basis.Common.Cryptography;
+﻿using K.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Net.Http.Headers;

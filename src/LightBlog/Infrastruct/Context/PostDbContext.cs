@@ -1,4 +1,4 @@
-﻿using K.Basis.Domain.Entities;
+﻿using K.Core.K.Domain.Entities;
 using K.Infrastruct.EntityFrameworkCore;
 using LightBlog.Infrastruct.Entities;
 using Microsoft.EntityFrameworkCore;

@@ -6,11 +6,12 @@ using K.AspNetCore.Extensions.Hosting;
 using System.Linq;
 using System.Reflection;
 using K.AspNetCore.Extensions.DependencyInjection;
-using K.Extensions.DependencyInjection;
+using K.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using K.AspNetCore.Extensions.MVC;
-using K.Basis.Common.Serialization;
+using K.Serialization;
+using K.Extensions;
 
 [assembly: HostingStartup(typeof(ExtensionServiceHostingStartup))]
 namespace K.AspNetCore.Extensions.Hosting

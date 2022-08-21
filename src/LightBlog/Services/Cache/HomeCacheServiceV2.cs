@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using AutoMapper;
-using K.Basis.Domain.Repositories;
+using K.Core.K.Domain.Repositories;
 using LightBlog.Infrastruct.Entities;
 using LightBlog.Models;
 using System;

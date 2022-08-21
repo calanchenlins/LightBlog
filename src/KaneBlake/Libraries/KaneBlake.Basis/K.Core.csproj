@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace/>
+
+    <!-- Embed PDB in the DLL -->
+    <!-- <DebugType>embedded</DebugType> -->
+    <!-- Embed all source files in the PDB -->
+    <!-- <EmbedAllSources>true</EmbedAllSources> -->
+    <!-- Include symbol files (*.pdb) in the built .nupkg -->
+    <!--<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>-->
+
+
+    
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\WorkStation\Code\GitHubCode\LightBlog\src\KaneBlake\Basis\KaneBlake.Basis.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="System\Security\Cryptography\X509Certificates\" />
+  </ItemGroup>
+  
+</Project>

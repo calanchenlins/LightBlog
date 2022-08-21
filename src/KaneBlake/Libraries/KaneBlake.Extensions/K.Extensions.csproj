@@ -2,11 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace />
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
 	<ItemGroup>
+        <!--<PackageReference Include="SimpleBase" Version="3.1.0" />-->
 		<PackageReference Include="Microsoft.Extensions.DiagnosticAdapter" Version="3.1.22" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
@@ -19,6 +21,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\KaneBlake.Basis\K.Basis.csproj" />
+	  <ProjectReference Include="..\KaneBlake.Basis\K.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="K\Pipelines\" />
 	</ItemGroup>
 </Project>

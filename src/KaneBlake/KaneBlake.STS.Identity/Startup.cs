@@ -7,7 +7,7 @@ using System.Net;
 using System.Net.Mime;
 using System.Reflection;
 using System.Threading.Tasks;
-using K.Basis.Services;
+using K.Services;
 using Hangfire;
 using Hangfire.Dashboard;
 using Hangfire.Dashboard.Resources;
@@ -15,8 +15,7 @@ using IdentityModel.Client;
 using IdentityServer4.Configuration;
 using K.AspNetCore.Extensions.Middleware;
 using K.AspNetCore.Extensions.MVC;
-using K.Basis.Domain.Repositories;
-using K.Basis.Common.Cryptography;
+using K.Domain.Repositories;
 using KaneBlake.STS.Identity.Common;
 using KaneBlake.STS.Identity.Common.IdentityServer4Config;
 using KaneBlake.STS.Identity.HangfireCustomDashboard;
@@ -47,7 +46,7 @@ using Polly;
 using Serilog;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using K.Basis.Common.Serialization;
+using K.Serialization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
@@ -56,6 +55,7 @@ using System.Security.Cryptography.X509Certificates;
 using DNTCaptcha.Core;
 using K.AspNetCore.Extensions.MultiTenancy;
 using K.AspNetCore.Extensions;
+using K.Extensions;
 
 namespace KaneBlake.STS.Identity
 {

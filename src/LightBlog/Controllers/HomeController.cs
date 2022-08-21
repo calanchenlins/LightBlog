@@ -10,7 +10,7 @@ using System.Net;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Distributed;
 using LightBlog.Services.Cache;
-using K.Basis.Services;
+using K.Core.K.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Data.SqlClient;

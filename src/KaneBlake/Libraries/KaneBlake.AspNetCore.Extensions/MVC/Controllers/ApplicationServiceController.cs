@@ -1,5 +1,5 @@
 ﻿using K.AspNetCore.Extensions.Services.Module;
-using K.Basis.Services;
+using K.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

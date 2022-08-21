@@ -1,4 +1,4 @@
-﻿using K.Basis.Services;
+﻿using K.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
@@ -13,7 +13,6 @@ using System.Reflection;
 using System.ComponentModel;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc;
-using K.Extensions.Pipelines;
 
 namespace K.AspNetCore.Extensions.Services.Module
 {

@@ -297,7 +297,7 @@ namespace KaneBlake.VSTool
             {
                 var document = documents[documentIndex];
                 var project = document.Project;
-                var projectNamespace = string.IsNullOrEmpty(project.DefaultNamespace) ? project.Name : project.DefaultNamespace;
+                var projectNamespace = string.IsNullOrEmpty(project.DefaultNamespace) ? string.Empty : project.DefaultNamespace;//project.Name.Replace(" ", "_")
                 var projectDir = Path.GetDirectoryName(project.FilePath);
 
                 if (document.TryGetSyntaxRoot(out var syntaxRoot) && syntaxRoot is CompilationUnitSyntax compilationUnitSyntax)
@@ -307,7 +307,7 @@ namespace KaneBlake.VSTool
                     var documentDir = Path.GetDirectoryName(document.FilePath);
                     for (var i = 0; i < memberDeclarationSyntaxNodes.Length; i++)
                     {
-                        if (!(memberDeclarationSyntaxNodes[i] is NamespaceDeclarationSyntax namespaceDeclarationSyntaxNode))
+                        if (!(memberDeclarationSyntaxNodes[i] is NamespaceDeclarationSyntax namespaceDeclarationSyntaxNode))//BaseNamespaceDeclarationSyntax
                         {
                             continue;
                         }

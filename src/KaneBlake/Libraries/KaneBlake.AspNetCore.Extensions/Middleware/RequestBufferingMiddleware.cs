@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using K.Extensions.Pipelines;
+using K.Extensions;
 
 namespace K.AspNetCore.Extensions.Middleware
 {

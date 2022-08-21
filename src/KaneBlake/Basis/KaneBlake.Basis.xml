@@ -1,9 +1,42 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>K.Basis</name>
+        <name>K.Core</name>
     </assembly>
     <members>
+        <member name="T:K.Basis.Common.DataAnnotations.CheckConstraintInAttribute">
+            <summary>
+            CheckConstraint validation attribute
+            </summary>
+        </member>
+        <member name="M:K.Basis.Common.DataAnnotations.CheckConstraintInAttribute.#ctor(System.Object[])">
+            <summary>
+            初始化 <see cref="T:K.Basis.Common.DataAnnotations.CheckConstraintInAttribute"/> 类的实例.
+            </summary>
+            <param name="validValues"></param>
+        </member>
+        <member name="M:K.Basis.Common.DataAnnotations.CheckConstraintInAttribute.FormatErrorMessage(System.String)">
+            <summary>
+            格式化字段验证失败时的错误消息
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:K.Basis.Common.DataAnnotations.CheckConstraintInAttribute.IsValid(System.Object)">
+            <summary>
+            使用 Equals 方法判断字段是否合法, 非基础类型需要重写 Equals 方法
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:K.Basis.Common.Extensions.TypeExtensions.GetInterfaceProperties(System.Type,System.Reflection.BindingFlags)">
+            <summary>
+            获取接口属性
+            </summary>
+            <param name="type"></param>
+            <param name="bindingFlags"></param>
+            <returns></returns>
+        </member>
         <member name="T:K.Basis.Common.Cryptography.CertificateExtensions">
             <summary>
             Extensions to RSA Certificate
@@ -120,37 +153,16 @@
             <param name="data"></param>
             <returns></returns>
         </member>
-        <member name="T:K.Basis.Common.DataAnnotations.CheckConstraintInAttribute">
+        <member name="T:K.Basis.Common.Serialization.JsonExtensions">
             <summary>
-            CheckConstraint validation attribute
+            Extension Methods based on <see cref="N:System.Text.Json"/>
             </summary>
         </member>
-        <member name="M:K.Basis.Common.DataAnnotations.CheckConstraintInAttribute.#ctor(System.Object[])">
+        <member name="M:K.Basis.Common.Serialization.JsonExtensions.Configure(System.Text.Json.JsonSerializerOptions)">
             <summary>
-            初始化 <see cref="T:K.Basis.Common.DataAnnotations.CheckConstraintInAttribute"/> 类的实例.
+            Configure <see cref="T:System.Text.Json.JsonSerializerOptions"/> With default Vaule
             </summary>
-            <param name="validValues"></param>
-        </member>
-        <member name="M:K.Basis.Common.DataAnnotations.CheckConstraintInAttribute.FormatErrorMessage(System.String)">
-            <summary>
-            格式化字段验证失败时的错误消息
-            </summary>
-            <param name="name"></param>
-            <returns></returns>
-        </member>
-        <member name="M:K.Basis.Common.DataAnnotations.CheckConstraintInAttribute.IsValid(System.Object)">
-            <summary>
-            使用 Equals 方法判断字段是否合法, 非基础类型需要重写 Equals 方法
-            </summary>
-            <param name="value"></param>
-            <returns></returns>
-        </member>
-        <member name="M:K.Basis.Common.Extensions.TypeExtensions.GetInterfaceProperties(System.Type,System.Reflection.BindingFlags)">
-            <summary>
-            获取接口属性
-            </summary>
-            <param name="type"></param>
-            <param name="bindingFlags"></param>
+            <param name="options"></param>
             <returns></returns>
         </member>
         <member name="T:K.Basis.Common.Serialization.DateTimeJsonConverter">
@@ -201,18 +213,6 @@
             <param name="value"></param>
             <param name="options"></param>
         </member>
-        <member name="T:K.Basis.Common.Serialization.JsonExtensions">
-            <summary>
-            Extension Methods based on <see cref="N:System.Text.Json"/>
-            </summary>
-        </member>
-        <member name="M:K.Basis.Common.Serialization.JsonExtensions.Configure(System.Text.Json.JsonSerializerOptions)">
-            <summary>
-            Configure <see cref="T:System.Text.Json.JsonSerializerOptions"/> With default Vaule
-            </summary>
-            <param name="options"></param>
-            <returns></returns>
-        </member>
         <member name="T:K.Basis.Common.Serialization.StringTrimJsonConverter">
             <summary>
             Converts an value of string to or from JSON.
@@ -234,6 +234,16 @@
             <param name="writer"></param>
             <param name="value"></param>
             <param name="options"></param>
+        </member>
+        <member name="T:K.Basis.Common.Globalization.Convention">
+            <summary>
+            数据格式约定
+            </summary>
+        </member>
+        <member name="F:K.Basis.Common.Globalization.Convention.SupportedDateTimeStyles">
+            <summary>
+            时间
+            </summary>
         </member>
         <member name="T:K.Basis.Common.Singleton`1">
             <summary>

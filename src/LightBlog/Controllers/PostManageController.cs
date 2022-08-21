@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using K.Basis.Services;
+using K.Core.K.Services;
 using LightBlog.Infrastruct.Entities;
 using LightBlog.Services.Post;
 using LightBlog.Services.InDto;

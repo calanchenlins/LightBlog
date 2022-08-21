@@ -1,4 +1,4 @@
-﻿using K.Basis.Services;
+﻿using K.Core.K.Services;
 using LightBlog.Common.AOP.CommonCache;
 using LightBlog.Infrastruct.Entities;
 using LightBlog.Models;

@@ -8,11 +8,15 @@ namespace K.Extensions
     {
         public static bool TrimEquals(this string left, string right)
         {
-            if (left.Length == (right?.Length ?? -1))
+            if (right == null)
             {
-                return left.Equals(right, StringComparison.OrdinalIgnoreCase);
+                return false;
             }
-            return left.Trim().Equals(right?.Trim(), StringComparison.OrdinalIgnoreCase);
+            if (left.Length == right.Length)
+            {
+                return left.Equals(right, StringComparison.Ordinal);
+            }
+            return left.TrimEnd().Equals(right.TrimEnd(), StringComparison.Ordinal);
         }
     }
 }

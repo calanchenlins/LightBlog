@@ -10,7 +10,7 @@ namespace K.Serialization
     /// <summary>
     /// Converts an value of string to or from JSON.
     /// </summary>
-    public class StringTrimJsonConverter : JsonConverter<string>
+    public class StringTrimEndJsonConverter : JsonConverter<string>
     {
         /// <summary>
         /// Reads and converts the JSON to type string.
@@ -21,7 +21,7 @@ namespace K.Serialization
         /// <returns></returns>
         public override string Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return reader.GetString();
+            return reader.GetString()?.TrimEnd();
         }
 
         /// <summary>

@@ -14,10 +14,5 @@ namespace K.Domain.Entities
     {
         [Required]
         public virtual TPrimaryKey Id { get; set; }
-
-        //public TDestination Map<TDestination>() 
-        //{
-        //    System.Text.Json.JsonSerializer.Serialize(this);
-        //}
     }
 }

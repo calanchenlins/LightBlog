@@ -28,12 +28,8 @@ namespace K.Extensions
             options.PropertyNameCaseInsensitive = true;
 
             options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
-            options.Converters.Add(new StringTrimJsonConverter());
-            // 2020-09-19T10:46:27.000+00:00  反序列化 => 本地时间    序列化   =>   本地时间(系统时区)   2020-09-19T18:46:27+08:00
-            // 2020-09-19T10:46:27.000Z       反序列化 => UTC时间    |序列化  |=>  |UTC时间             2020-09-19T10:46:27Z
-            // 2020-09-19T10:46:27.000        反序列化 => 时区未确定  序列化   =>   时区未确定           2020-09-19T10:46:27.000
+            options.Converters.Add(new StringTrimEndJsonConverter());
             options.Converters.Add(new DateTimeJsonConverter());
-            options.Converters.Add(new DateTimeOffsetJsonConverter());
 
             if (options.Encoder is null)
             {

@@ -128,7 +128,7 @@ namespace KaneBlake.VSTool
                 return;
             }
 
-            var selectedProjectName = selectedProject.Name;
+            var selectedProjectName = selectedProject.FileName;
 
             // Locate LanguageService Version
             // https://github.com/dotnet/roslyn/blob/master/docs/wiki/NuGet-packages.md
@@ -141,7 +141,7 @@ namespace KaneBlake.VSTool
             // Code Refactoring In Project
             if (menuCommand.CommandID.ID == PkgCmdIDList.cmdidVstFileEncoding)
             {
-                projects = projects.Where(p => p.Name.Equals(selectedProjectName));
+                projects = projects.Where(p => p.FilePath?.Equals(selectedProjectName) ?? false);
             }
             else if (menuCommand.CommandID.ID == PkgCmdIDList.cmdidVstFileEncodingAll)
             {

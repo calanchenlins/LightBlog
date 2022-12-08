@@ -23,6 +23,7 @@ namespace K.AspNetCore.Extensions.Middleware
         {
             context.Request.EnableBuffering();
 
+#if DEBUG
             try
             {
                 // https://github.com/dotnet/aspnetcore/issues/24562
@@ -47,6 +48,7 @@ namespace K.AspNetCore.Extensions.Middleware
                 // we have to sets the position of HttpContext.Request.Body before reads HttpContext.Request.Body, 
                 context.Request.Body.Position = 0;
             }
+#endif
 
             // Call the next delegate/middleware in the pipeline
             await _next(context);

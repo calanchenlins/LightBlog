@@ -7,4 +7,4 @@ COPY . .
 # 声明运行时容器提供服务端口, 需要通过 -p 设置绑定
 EXPOSE 80
 EXPOSE 443
-ENTRYPOINT ["dotnet", "LightBlog.dll"]
+ENTRYPOINT ["dotnet", "LightBlog.dll"] 
